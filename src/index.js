@@ -1,17 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.css';
 import App from './App';
 import store from './store';
 import { Provider } from 'react-redux';
+import { IconContext } from "react-icons";
 import * as serviceWorker from './serviceWorker';
 
-import './fontawesome';
+import "./styles/index.scss";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+    	<IconContext.Provider value={{ style: { verticalAlign: 'middle' } }}>
+      		<App />
+      	</IconContext.Provider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

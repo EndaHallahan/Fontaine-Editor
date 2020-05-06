@@ -1,21 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 let documents = {
-	0: {
+	"d53e22d3-b743-414d-beab-8ea40c56adef": {
 		ops: [
      		{ insert: 'Gandalf ', attributes: { bold: true } },
     		{ insert: 'the ' },
      		{ insert: 'White', attributes: { color: '#aaa' } }
    		]
 	},
-	1: {
+	"156989b0-ffff-4ff1-9228-23f0f5c414d8": {
 		ops: [
      		{ insert: 'Gandalf ', attributes: { bold: true } },
     		{ insert: 'the ' },
      		{ insert: 'Grey', attributes: { color: '#aaa' } }
    		]
 	},
-	2: {
+	"f5bfb84b-7f56-4028-9bac-53f3e9b5af9b": {
 		ops: [
      		{ insert: 'Gandalf ', attributes: { bold: true } },
     		{ insert: 'the Dead' },
@@ -26,13 +26,13 @@ let documents = {
 let documentIndex = {
 	projectTitle: "Test",
 	documents: [
-		{type: "folder", isDirectory: true, title: "Test Folder", children: [
-			{type: "file", title: "File 0", id: 0, children: []},
-			{type: "file", title: "File 1", id: 1}
+		{type: "folder", isDirectory: true, title: "Test Folder", id: "339b5bc4-6869-4f6b-802d-4179d1deab71", children: [
+			{type: "file", title: "File 0", id: "d53e22d3-b743-414d-beab-8ea40c56adef"},
+			{type: "file", title: "File 1", id: "156989b0-ffff-4ff1-9228-23f0f5c414d8"}
 		]},
-		{type: "file", title: "File 2", id: 2}
+		{type: "file", title: "File 2", id: "f5bfb84b-7f56-4028-9bac-53f3e9b5af9b"}
 	],
-	lastDocument: 2
+	lastDocument: "f5bfb84b-7f56-4028-9bac-53f3e9b5af9b"
 }
 
 function getDocument(id) {
@@ -70,6 +70,10 @@ const workspaceSlice = createSlice({
 			const {newDoc} = action.payload;
 			state.workingDoc = newDoc;
 		},
+		createNewDocument(state, action) {
+			const {id} = action.payload;
+			state.docCache[id] = {};
+		},
 		queueDocumentChanges(state, action) {
 			const {docId, changes} = action.payload;
 			if (!state.docChangeQueues[docId]) {
@@ -82,6 +86,10 @@ const workspaceSlice = createSlice({
 	}
 });
 
-export const { switchDocument, queueDocumentChanges, updateWorkingDoc } = workspaceSlice.actions;
+export const { 
+	switchDocument, 
+	createNewDocument,
+	queueDocumentChanges, 
+	updateWorkingDoc } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;

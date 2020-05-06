@@ -6,12 +6,11 @@ class App extends Component {
 	render() {
 		return (
 			<div className="App">
-				<header>
-					<h1>Fontaine</h1>
-				</header>
 				<main>
 					<Workspace />
 				</main>
+				<footer>
+				</footer>
 			</div>
 		);
 	}

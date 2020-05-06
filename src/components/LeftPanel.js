@@ -1,18 +1,30 @@
 import React, { Component } from 'react';
-import FolderTree from "./FolderTree"
+import { Resizable } from "re-resizable";
+import FolderTree from "./FolderTree";
 
 class LeftPanel extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			open: true
+			open: true,
+			width: this.props.width || 200
 		}
 	}
 	render() {
 		return(
-			<div id="left-panel">
+			<Resizable
+				size={{width: this.state.width, height: "100%"}}
+				minWidth={150}
+				onResizeStop={(e, direction, ref, d) => {
+				    this.setState({
+				    	...this.state,
+				     	width: this.state.width + d.width
+				    }); 
+				}}
+				id="left-panel"
+			>
 				<FolderTree />
-			</div>
+			</Resizable>
 		);
 		
 	}

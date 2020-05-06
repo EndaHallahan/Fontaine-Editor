@@ -55,6 +55,7 @@ class EditableTitleInput extends Component {
 	render() {
 		return(
 			<input
+				className="editable-title"
               	value={this.props.value}
               	onChange={this.props.onChange}
               	onBlur={this.props.exit}

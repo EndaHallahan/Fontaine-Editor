@@ -1,0 +1,104 @@
+#left-panel {
+	//display: grid;
+	//width: 200px;
+	border-right: 1px solid $dark-lowlight;
+	height: 100%;
+	resize: horizontal;
+
+	.file-tree {
+		height: 100%;
+		display: grid;
+		grid-template-rows: min-content auto;
+		background-color: $dark;
+		color: $dark-text;
+
+		*:focus {
+			outline: none;
+		}
+
+		.file-tree-head {
+			border-bottom: 1px solid $dark-lowlight;
+			padding: .2rem;
+			background-color: $dark;
+			margin-bottom: .3rem;
+			background-color: $darker;
+			min-height: 41px;
+			display: flex;
+			align-items: center;
+
+			button {
+				font-size: 1.3rem;
+				padding-bottom: 2px;
+
+				&:first-child {
+					padding: 0 4px 0 6px;
+				}
+
+				&:not(:last-child) {
+					border-right: 1px solid $dark-lowlight;
+				}
+
+				svg {
+					vertical-align: text-bottom !important;
+				}
+
+				&.new-folder {
+					svg {
+						vertical-align: -32% !important;
+					}
+				}
+			}
+		}
+		.rst__tree {
+			padding-right: .5rem;
+			/*overflow-x: scroll;
+			overflow-y: hidden;*/
+		}
+		.ReactVirtualized__Grid__innerScrollContainer {
+			height: 100% !important;
+			max-height: none !important;
+			overflow: auto !important;
+		}
+		.rstcustom__rowWrapper {
+			&:hover {
+				opacity: 1;
+				//width: 100%;
+			}
+		}
+		.rstcustom__row {
+			width: auto;
+			padding-left: 3px;
+			cursor: pointer;
+			border-radius: 3px;
+			padding-bottom: 1px;
+			&:hover {
+				color: $fontaine-blue;
+				background-color: $dark-select;
+			}
+
+			&.selected {
+				background-color: $fontaine-blue;
+				color: black;
+				font-style: italic;
+			}
+			.rstcustom__rowContents {
+				justify-content: flex-start;
+				.rstcustom__toolbarButton svg {
+					vertical-align: -10% !important;
+				}
+				.rstcustom__rowLabel {
+					padding-left: .2rem;
+
+					input.editable-title {
+						background-color: transparent;
+						border: none;
+						color: inherit;
+					}
+				}
+			}
+		}
+		
+
+		
+	}
+}
