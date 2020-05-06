@@ -23,7 +23,7 @@
 			margin-bottom: .3rem;
 			background-color: $darker;
 			min-height: 41px;
-			display: flex;
+			display: inline-flex;
 			align-items: center;
 
 			button {
@@ -47,6 +47,18 @@
 						vertical-align: -32% !important;
 					}
 				}
+
+				&.trash {
+					&:hover {
+						color: $warning-red;
+					}
+				}
+			}
+
+			.right {
+				flex-grow: 1;
+				text-align: right;
+				//margin-right: 1.5rem;
 			}
 		}
 		.rst__tree {
@@ -87,12 +99,27 @@
 					vertical-align: -10% !important;
 				}
 				.rstcustom__rowLabel {
-					padding-left: .2rem;
+					padding-right: 0;
+
+					& > span {
+						width: 100%;
+					}
 
 					input.editable-title {
 						background-color: transparent;
 						border: none;
 						color: inherit;
+					}
+					.editable-title {
+						font-size: .95rem;
+						color: inherit;
+						font-style: inherit;
+						width: 100%;
+						padding: 0;
+						span {
+							padding-right: 20px;
+							padding-left: 5px;
+						}
 					}
 				}
 			}

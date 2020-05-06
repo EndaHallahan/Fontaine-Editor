@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import KeyboardFocusableButton from "./KeyboardFocusableButton";
 
 class EditableTitle extends Component {
 	constructor(props) {
@@ -18,13 +19,12 @@ class EditableTitle extends Component {
 	render() {
 		if (!this.state.editing) {
 			return (
-				<span 
+				<KeyboardFocusableButton 
+					value={this.props.value}
 					className="editable-title"
 					onClick={event => this.props.onClick(event)}
 					onDoubleClick={this.toggleEditing}
-				>
-					{this.props.value}
-				</span>
+				/>
 			);
 		} else {
 			return(

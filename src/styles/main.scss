@@ -32,28 +32,10 @@ $footer-height: 1.5rem;
 		border-right: 1px solid $fontaine-blue;
 	}
 	button {
-		background-color: transparent;
-		border: none;
-		border-radius: 0;
-		cursor: pointer;
 		font-size: .9rem;
-		color: $dark-text;
 		margin: 0;
 		line-height: 1.6rem;
 		padding: 0 .5rem;
-
-		&[disabled] {
-			color: $dark-highlight;
-			cursor: default;
-
-			&:hover {
-				color: $dark-highlight;
-			}
-		}
-
-		&:hover {
-			color: $fontaine-blue;
-		}
 	}
 	.right {
 		flex-grow: 1;

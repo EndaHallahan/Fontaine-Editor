@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
-import SortableTree, { changeNodeAtPath, addNodeUnderParent, find } from 'react-sortable-tree';
+import SortableTree, { 
+	changeNodeAtPath, 
+	addNodeUnderParent, 
+	find, 
+	removeNodeAtPath
+} from 'react-sortable-tree';
 import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
 import { v4 as uuidv4 } from "uuid";
 
 import { 
+	FiBookOpen,
 	FiFile,
 	FiFilePlus, 
 	FiFolder,
 	FiFolderPlus, 
+	FiTrash2
 } from "react-icons/fi";
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -21,10 +28,12 @@ class FolderTreeChild extends Component {
 	    super(props);
 	    this.state = {
 	      	treeData: this.props.treeData,
-	      	currentlySelectedNode: null
+	      	currentlySelectedNode: null,
 	    };
 	    this.addNewNodeUnderCurrent = this.addNewNodeUnderCurrent.bind(this);
+	    this.moveNodeToTarget = this.moveNodeToTarget.bind(this);
 	    this.selectNode = this.selectNode.bind(this);
+	    this.trashSelectedNode = this.trashSelectedNode.bind(this);
 	    this.getNodeKey = this.getNodeKey.bind(this);
 	}
 	addNewNodeUnderCurrent(nodeType) {
@@ -32,16 +41,50 @@ class FolderTreeChild extends Component {
 		this.props.newDoc(id);
 		const newNode = {type: nodeType, title: "Untitled", id}
 		const path = this.state.currentlySelectedNode.path;
+		let treeData = addNodeUnderParent({
+			treeData: this.state.treeData,
+			newNode,
+			parentKey: path[path.length - 1],
+			getNodeKey: this.getNodeKey,
+			expandParent: true,
+			ignoreCollapsed: false
+		}).treeData;
+		const selRow = find({
+			getNodeKey: this.getNodeKey,
+			treeData,
+			searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
+		});
 		this.setState({
 			...this.state,
-			treeData: addNodeUnderParent({
-				treeData: this.state.treeData,
-				newNode,
-				parentKey: path[path.length - 1],
-				getNodeKey: this.getNodeKey,
-				expandParent: true
-			}).treeData
+			treeData,
+			currentlySelectedNode: selRow.matches[0]
 		});
+
+	}
+	moveNodeToTarget(node, destination, treeData) {
+		treeData = addNodeUnderParent({
+			treeData,
+			newNode: node.node,
+			parentKey: destination.path[destination.path.length - 1],
+			getNodeKey: this.getNodeKey,
+			ignoreCollapsed: true
+		}).treeData;
+		treeData = removeNodeAtPath({
+			treeData,
+			path: node.path,
+			getNodeKey: this.getNodeKey,
+			ignoreCollapsed: true
+		});
+		const selRow = find({
+			getNodeKey: this.getNodeKey,
+			treeData,
+			searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
+		});
+		this.setState({
+			...this.state,
+			treeData,
+			currentlySelectedNode: selRow.matches[0]
+		});	
 	}
 	selectNode(rowInfo) {
 		this.setState({
@@ -50,11 +93,22 @@ class FolderTreeChild extends Component {
 		});
 		this.props.getDoc(rowInfo);
 	}
+	trashSelectedNode() {
+		const trashNode = find({
+			getNodeKey: this.getNodeKey,
+			treeData: this.state.treeData,
+			searchMethod: (rowData) => {return(rowData.node.type === "trash")}
+		});
+		this.moveNodeToTarget(
+			this.state.currentlySelectedNode,
+			trashNode.matches[0],
+			this.state.treeData
+		);
+	}
 	getNodeKey({treeIndex}) {
 		return treeIndex;
 	}
 	componentDidMount() {
-		console.log(this.state.currentlySelectedNode)
 		if (this.props.curDoc !== null) {
 			const selRow = find({
 				getNodeKey: this.getNodeKey,
@@ -85,15 +139,38 @@ class FolderTreeChild extends Component {
 						className="new-folder"
 						disabled={this.state.currentlySelectedNode === null}
 					/>
+					<span className="right">
+						<KeyboardFocusableButton 
+							value={<FiTrash2 />}
+							onClick={() => this.trashSelectedNode()}
+							title="Move to Trash"
+							className="trash"
+							disabled={this.state.currentlySelectedNode === null}
+						/>
+					</span>
 				</div>
 				<div>
 				<SortableTree
 		          	treeData={this.state.treeData}
 		          	getNodeKey={this.getNodeKey}
 		          	onChange={
-		          		treeData => this.setState({ treeData })
+		          		treeData => {
+		          			const selRow = find({
+								getNodeKey: this.getNodeKey,
+								treeData,
+								searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
+							});
+							this.setState({
+								...this.state,
+								treeData,
+								currentlySelectedNode: selRow.matches[0]
+							});
+		          		}
 		          	}
 		          	theme={FileExplorerTheme}
+		          	canDrag={(rowInfo) => {
+		          		return(!rowInfo.node.permanent);
+		          	}}
 		          	generateNodeProps={rowInfo => ({
 		          		className: (
 		          			this.props.curDoc !== null 
@@ -117,17 +194,18 @@ class FolderTreeChild extends Component {
 			                  	}}
 		          			/>
 			            ),
-			            icons: rowInfo.node.type === "file"
-			                ? [
-			                    <div className="tree-file-icon">
-			                      	<FiFile />
-			                    </div>,
-			                  ]
-			                : [
-			                    <div className="tree-file-icon">
-			                      	<FiFolder />
-			                    </div>,
-			                  ]
+			            icons: [(
+			            	<div className="tree-file-icon" onClick={() => {this.selectNode(rowInfo)}}>
+			                  	{
+			                  		{
+			                  			'manuscript': <FiBookOpen />,
+							          	'file': <FiFile />,
+							          	'folder': <FiFolder />,
+							          	'trash': <FiTrash2 />,
+							        }[rowInfo.node.type]
+			                  	}
+			                </div>
+			            )]
 		            })}
 		        />
 		        </div>

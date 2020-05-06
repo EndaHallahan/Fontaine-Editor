@@ -21,6 +21,16 @@ class LeftPanel extends Component {
 				     	width: this.state.width + d.width
 				    }); 
 				}}
+				enable={{ 
+					top:false, 
+					right:true, 
+					bottom:false, 
+					left:false, 
+					topRight:false, 
+					bottomRight:false, 
+					bottomLeft:false, 
+					topLeft:false 
+				}}
 				id="left-panel"
 			>
 				<FolderTree />

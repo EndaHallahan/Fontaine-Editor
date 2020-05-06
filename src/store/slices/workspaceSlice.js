@@ -26,11 +26,14 @@ let documents = {
 let documentIndex = {
 	projectTitle: "Test",
 	documents: [
-		{type: "folder", isDirectory: true, title: "Test Folder", id: "339b5bc4-6869-4f6b-802d-4179d1deab71", children: [
-			{type: "file", title: "File 0", id: "d53e22d3-b743-414d-beab-8ea40c56adef"},
-			{type: "file", title: "File 1", id: "156989b0-ffff-4ff1-9228-23f0f5c414d8"}
+		{type: "manuscript", title: "Manuscript", permanent: true, expanded: true, children: [
+			{type: "folder", isDirectory: true, title: "Test Folder", id: "339b5bc4-6869-4f6b-802d-4179d1deab71", children: [
+				{type: "file", title: "File 0", id: "d53e22d3-b743-414d-beab-8ea40c56adef"},
+				{type: "file", title: "File 1", id: "156989b0-ffff-4ff1-9228-23f0f5c414d8"}
+			]},
+			{type: "file", title: "File 2", id: "f5bfb84b-7f56-4028-9bac-53f3e9b5af9b"},
 		]},
-		{type: "file", title: "File 2", id: "f5bfb84b-7f56-4028-9bac-53f3e9b5af9b"}
+		{type: "trash", title: "Trash", permanent: true}
 	],
 	lastDocument: "f5bfb84b-7f56-4028-9bac-53f3e9b5af9b"
 }
