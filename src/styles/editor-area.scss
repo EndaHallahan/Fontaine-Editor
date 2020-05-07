@@ -1,53 +1,91 @@
 #editor-area {
 	width: 100%;
+	display: grid;
+	grid-template-rows: min-content 1fr;
+	height: calc(100vh - #{$sum-top-height + $footer-height});
 
 	.quill {
-		height: calc(100vh - #{$sum-top-height + $footer-height});
-		display: grid;
-		grid-template-rows: min-content minmax(0px,1fr);
-		overflow-y:auto;
 		border: none;
-		background-color: var(--editor-container-colour);
-
-		.ql-toolbar {
-			color: var(--editor-toolbar-text-colour);
-			background-color: var(--editor-toolbar-background-colour);
-			border: none;
-			border-bottom: 1px solid $dark-lowlight;
-			min-height: 41px;
-
-			.ql-stroke {
-				stroke: var(--editor-toolbar-text-colour);
-			}
-			.ql-fill {
-			    fill: var(--editor-toolbar-text-colour);
-			    stroke: none;
-			}
-			.ql-picker {
-    			color: var(--editor-toolbar-text-colour);
-			}
-		}
-
-		.ql-container {
-			overflow-y: scroll;
-			background-color: var(--editor-container-colour);
-			border: none;
-			font-size: var(--editor-default-font-size);
-
-			.ql-editor {
-				color: var(--editor-text-colour);
-				background-color: var(--editor-background-colour);
-
-				box-shadow: 10px 10px 8px black;
-				width: 90%;
-				max-width: var(--editor-page-width);
-				padding: 2rem 3rem;
-				margin: .5rem auto 0 auto;
-				min-height: 100%;
-				height: auto;
-			}
-		}
+		outline: none;
 
 		
+	}
+}
+
+.editor-wrapper {
+	height: 100%;
+}
+
+
+.document-container {
+	background-color: red;
+}
+
+.ql-toolbar, #quill-toolbar {
+	color: var(--editor-toolbar-text-colour);
+	background-color: var(--editor-toolbar-background-colour);
+	border: none;
+	border-bottom: 1px solid $dark-lowlight;
+	min-height: 41px;
+
+	.ql-stroke {
+		stroke: var(--editor-toolbar-text-colour);
+	}
+	.ql-fill {
+	    fill: var(--editor-toolbar-text-colour);
+	    stroke: none;
+	}
+	.ql-picker {
+		color: var(--editor-toolbar-text-colour);
+	}
+}	
+
+
+.quill-editor-area {
+	//height: 100%;
+	width: 100%;
+	overflow-y: scroll;
+	background-color: var(--editor-container-colour);
+	border: none;
+}
+
+
+.quill-editor-placeholder {
+	min-height: 3rem;
+
+	color: var(--editor-text-colour);
+	background-color: var(--editor-background-colour);
+
+	box-shadow: 10px 10px 8px black;
+	width: 90%;
+	max-width: var(--editor-page-width);
+	padding: 2rem 3rem;
+	margin: .5rem auto 0 auto;
+	min-height: 100%;
+	height: auto;
+}
+
+.ql-container {
+	height: auto;
+	font-size: var(--editor-default-font-size);
+
+	&:only-child {
+		height: 100%;
+	}
+
+	.ql-editor {
+		color: var(--editor-text-colour);
+		background-color: var(--editor-background-colour);
+
+		box-shadow: 10px 10px 8px black;
+		width: 90%;
+		max-width: var(--editor-page-width);
+		padding: 2rem 3rem;
+		margin: .5rem auto 0 auto;
+		min-height: 10rem;
+		height: auto;
+		height: 100%;
+
+
 	}
 }

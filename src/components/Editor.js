@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import ReactQuill from 'react-quill';
+import React, { Component, Fragment } from 'react';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useSelector, useDispatch } from 'react-redux'
 
 import { queueDocumentChanges, updateWorkingDoc } from "../store/slices/workspaceSlice";
+import DocumentDivider from "../assets/quill/DocumentDivider";
+import MultiDocQuill from "./MultiDocQuill";
 
 const toolbarOptions = [
   	['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -25,22 +27,20 @@ const toolbarOptions = [
 	['clean']                                         // remove formatting button
 ];
 
+Quill.register('formats/document-divider', DocumentDivider);
+
 const Editor = (props) => {
 	const dispatch = useDispatch();
 	const queueDocChanges = (id, changes) => dispatch(queueDocumentChanges({docId: id, changes: changes}));
-	const updateDoc = (newDoc) => dispatch(updateWorkingDoc({newDoc: newDoc}));
+	const updateDoc = (id, newDoc) => dispatch(updateWorkingDoc({id, newDoc}));
 	return(
-		<ReactQuill 
-			theme="snow" 
-			value={props.doc} 	
-			onChange={(html, delta, source, editor) => {
-				updateDoc(editor.getContents().ops);
-				queueDocChanges(props.docId, delta.ops);
-			}}	
-			scrollingContainer=".ql-container"	
-			modules= {
-				{toolbar: toolbarOptions}
-			}
+		<MultiDocQuill 
+			doc = {props.doc}
+			docSet = {props.docSet}
+			docList = {props.docList}
+			docId = {props.docId}
+			updateDoc = {updateDoc}
+			queueDocChanges = {queueDocChanges}
 		/>
 	);
 }

@@ -9,6 +9,8 @@ import HeaderArea from "./HeaderArea";
 
 const Workspace = (props) => {
 	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
+	const curDocList = useSelector(state => state.workspaceReducer.curDocList);
+	const curDocCache = useSelector(state => state.workspaceReducer.workingDocs);
 	const docCache = useSelector(state => state.workspaceReducer.docCache);
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -22,12 +24,13 @@ const Workspace = (props) => {
 			</div>
 			<div id="work-area">
 				<LeftPanel />
-				<div id="editor-area">
+				
 					<Editor 
 						doc = {docCache[curDocId]}
+						docSet = {docCache}
+						docList = {curDocList}
 						docId = {curDocId}
 					/>
-				</div>
 				<div id="right-panel">
 
 				</div>
