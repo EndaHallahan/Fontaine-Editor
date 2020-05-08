@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital@0;1&display=swap');
+
+$fontaine-blue: lightblue;
+
+$light: white;
+$light-text: black;
+
+$dark: #444444;
+$dark-text: white;
+$dark-select: #333333;
+$dark-highlight: #666666;
+$dark-lowlight: #222222;
+$darker: #333333;
+
+$warning-red: #B33A3A;
+
+$font-family-sans: "Open Sans", sans-serif;
+
+:root {
+	--editor-toolbar-text-colour: black;
+	--editor-toolbar-background-colour: white;
+	--editor-container-colour: #555555;
+	--editor-text-colour: black;
+	--editor-background-colour: white;
+	--editor-page-width: 900px;
+	--editor-default-font-size: 16px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: #{$font-family-sans};
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-color: $darker;
+}
+
+button {
+		background-color: transparent;
+		border: none;
+		border-radius: 0;
+		cursor: pointer;
+		color: $dark-text;
+
+		&[disabled] {
+			color: $dark-highlight;
+			cursor: default;
+
+			&:hover {
+				color: $dark-highlight;
+			}
+		}
+
+		&:hover {
+			color: $fontaine-blue;
+		}
+	}
+
+@import "main";
+
+@import "keyboard-focusable-button";
