@@ -9,7 +9,7 @@ import { queueDocumentChanges, updateWorkingDoc } from "../store/slices/workspac
 class MultiDocQuill extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
+		this.state = { 
 			activeEditor: null
 		}
 		this.setActiveEditor = this.setActiveEditor.bind(this);
@@ -22,7 +22,7 @@ class MultiDocQuill extends Component {
 	}
 	render() {
 		return(
-			<div id="editor-area" onBlur={() => this.setActiveEditor(0)}>
+			<div id="editor-area" /*onBlur={() => this.setActiveEditor(0)}*/>
 				<CustomToolbar />
 				<div className="quill-editor-area">
 					{
@@ -66,14 +66,36 @@ const CustomToolbar = () => (
   </div>
 )
 
+function getCaretCharacterOffsetWithin(element) {
+    let offset = 0;
+    let length = 0;
+    let doc = element.ownerDocument || element.document;
+    let win = doc.defaultView || doc.parentWindow;
+    let sel = win.getSelection();
+    if (sel.rangeCount > 0) {
+        let range = win.getSelection().getRangeAt(0);
+        let preCaretRange = range.cloneRange();
+        let selectedRange = range.cloneRange();
+        preCaretRange.selectNodeContents(element);
+        preCaretRange.setEnd(range.startContainer, range.startOffset);
+        offset = preCaretRange.toString().length;
+        length = selectedRange.toString().length;
+    }
+    return {offset, length};
+}
+
 class ToggleableQuillArea extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			editing: false,
 			deltaContents: this.props.value ? this.props.value.ops : null,
+			selection: null
 		}
 		this.setContents = this.setContents.bind(this);
+		this.getSelectionWithinPlaceholder = this.getSelectionWithinPlaceholder.bind(this);
+		this.activate = this.activate.bind(this);
+		this.editorArea = React.createRef();
 	}
 	setContents(deltas) {
 		this.setState({
@@ -81,11 +103,38 @@ class ToggleableQuillArea extends Component {
 			deltaContents: deltas
 		});
 	}
+	getSelectionWithinPlaceholder() {
+		let ele = this.editorArea.current;
+		let offset = 0;
+	    let length = 0;
+	    let doc = ele.ownerDocument || ele.document;
+	    let win = doc.defaultView || doc.parentWindow;
+	    let sel = win.getSelection();
+	    if (sel.rangeCount > 0) {
+	        let range = win.getSelection().getRangeAt(0);
+	        let preCaretRange = range.cloneRange();
+	        let selectedRange = range.cloneRange();
+	        preCaretRange.selectNodeContents(ele);
+	        preCaretRange.setEnd(range.startContainer, range.startOffset);
+	        offset = preCaretRange.toString().length;
+	        length = selectedRange.toString().length;
+	    }
+	    return {offset, length};
+	}
+	activate() {
+		this.setState({
+			...this.state,
+			selection: this.getSelectionWithinPlaceholder()
+		}, () => this.props.setActive(this.props.docId))
+	}
 	render() {
 		if (!this.props.active) {
 			let html = null;
 			if (this.state.deltaContents) {
-				let converter = new deltaToHtml(this.state.deltaContents, {});
+				let converter = new deltaToHtml(this.state.deltaContents, {multiLineParagraph:true}); 
+				converter.afterRender((groupType, html) => {
+					return html.replace(/<br\/>/g, "&#8203<br/>");
+				})
 				html = converter.convert()
 			}
 			return (
@@ -93,14 +142,15 @@ class ToggleableQuillArea extends Component {
 					<div className="doc-title">{JSON.stringify(this.props.value)}</div>
 					<div
 						className="quill-editor-placeholder ql-editor"
-						onClick={() => this.props.setActive(this.props.docId)}
+						onClick={this.activate}
 						dangerouslySetInnerHTML={{__html: html}}
+						ref={this.editorArea}
 					/>
 				</div>
 			);
 		} else {
 			return(
-				<ReactQuill 
+				<ReactQuillEx 
 					theme="snow" 
 					defaultValue={this.state.deltaContents} 	
 					onChange={(html, delta, source, editor) => {	
@@ -108,12 +158,29 @@ class ToggleableQuillArea extends Component {
 						this.props.queueDocChanges(this.props.docId, source.ops);
 						this.setContents(editor.getContents().ops);
 					}}
-					modules= {
+					modules={
 						{toolbar: "#quill-toolbar"}
 					}
+					cursorStart={this.state.selection}
 				/>
 			);
 		}
+	}
+}
+
+class ReactQuillEx extends Component {
+	constructor(props) {
+		super(props);
+		this.editor = React.createRef();
+	}
+	componentDidMount() {
+		this.editor.current.focus();
+		if (this.props.cursorStart) {
+			this.editor.current.getEditor().setSelection(this.props.cursorStart.offset, this.props.cursorStart.length)		
+		}
+	}
+	render() {
+		return (<ReactQuill ref={this.editor} {...this.props}/>);
 	}
 }
 

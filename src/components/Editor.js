@@ -4,7 +4,6 @@ import 'react-quill/dist/quill.snow.css';
 import { useSelector, useDispatch } from 'react-redux'
 
 import { queueDocumentChanges, updateWorkingDoc } from "../store/slices/workspaceSlice";
-import DocumentDivider from "../assets/quill/DocumentDivider";
 import MultiDocQuill from "./MultiDocQuill";
 
 const toolbarOptions = [
@@ -26,8 +25,6 @@ const toolbarOptions = [
 
 	['clean']                                         // remove formatting button
 ];
-
-Quill.register('formats/document-divider', DocumentDivider);
 
 const Editor = (props) => {
 	const dispatch = useDispatch();
