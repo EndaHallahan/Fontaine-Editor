@@ -41,5 +41,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@mdi/js": "^5.1.45",
+    "@mdi/react": "^1.4.0"
   }
 }

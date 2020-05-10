@@ -6,6 +6,21 @@ import { QuillDeltaToHtmlConverter as deltaToHtml } from "quill-delta-to-html";
 
 import { queueDocumentChanges, updateWorkingDoc } from "../store/slices/workspaceSlice";
 
+import { 
+	MdFormatBold,
+	MdFormatItalic,
+	MdFormatUnderlined,
+	MdStrikethroughS,
+	MdFormatListBulleted,
+	MdFormatListNumbered
+} from "react-icons/md";
+
+import Icon from '@mdi/react';
+import { 
+	mdiFormatSuperscript,
+	mdiFormatSubscript 
+} from '@mdi/js';
+
 class MultiDocQuill extends Component {
 	constructor(props) {
 		super(props);
@@ -45,26 +60,88 @@ class MultiDocQuill extends Component {
 	}
 }
 
+const toolbarOptions = [
+  	['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+  	['blockquote', 'code-block'],
+
+	[{ 'header': 1 }, { 'header': 2 }],               // custom button values
+	[{ 'list': 'ordered'}, { 'list': 'bullet' }],
+	[{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+	[{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+	[{ 'direction': 'rtl' }],                         // text direction
+
+	[{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+	[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+	[{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+	[{ 'font': [] }],
+	[{ 'align': [] }],
+
+	['clean']                                         // remove formatting button
+];
+
 const CustomToolbar = () => (
-  <div id="quill-toolbar" className="ql-toolbar ql-snow">
-    <select className="ql-header" defaultValue={""} onChange={e => e.persist()}>
-      <option value="1"></option>
-      <option value="2"></option>
-      <option selected></option>
-    </select>
-    <button className="ql-bold"></button>
-    <button className="ql-italic"></button>
-    <select className="ql-color">
-      <option value="red"></option>
-      <option value="green"></option>
-      <option value="blue"></option>
-      <option value="orange"></option>
-      <option value="violet"></option>
-      <option value="#d0d1d2"></option>
-      <option selected></option>
-    </select>
+  <div id="quill-toolbar">
+   <span className="ql-formats">
+	    <select className="ql-header" defaultValue={""} onChange={e => e.persist()}>
+	      	<option value="1"></option>
+	      	<option value="2"></option>
+	      	<option selected></option>
+	    </select>
+	    <select className="ql-size">
+	    </select>
+    </span>
+    <span className="ql-formats">
+	    <button className="ql-bold"><MdFormatBold /></button>
+	    <button className="ql-italic"><MdFormatItalic /></button>
+	    <button className="ql-underline"><MdFormatUnderlined /></button>
+	    <button className="ql-strike"><MdStrikethroughS /></button> 
+    </span>
+    <span className="ql-formats">
+    	<button className="ql-script" value="sup"><Icon path={mdiFormatSuperscript}/></button>
+    	<button className="ql-script" value="sup"><Icon path={mdiFormatSubscript} /></button>
+    </span>
+    <span className="ql-formats">
+    	<button className="ql-list" value="ordered"><MdFormatListNumbered /></button>
+    	<button className="ql-list" value="bullet"><MdFormatListBulleted /></button>
+    </span>
+    <span className="ql-formats">
+    	<select className="ql-color"></select>
+    	<select className="ql-background"></select>
+    </span>
+    
   </div>
 )
+
+const colorIcon = `
+<svg viewBox="0 0 18 18"> 
+	<line class="ql-color-label ql-stroke ql-transparent" x1="3" x2="15" y1="15" y2="15" style="stroke: red;"></line> 
+	<svg y="-2.5" x="-3" width="24.000000000000004" height="24.000000000000004" xmlns="http://www.w3.org/2000/svg">
+		  <path class=".ql-stroke" d="m9.5,12.8l5,0l0.9,2.2l2.1,0l-4.75,-11l-1.5,0l-4.75,11l2.1,0l0.9,-2.2zm2.5,-6.82l1.87,5.02l-3.74,0l1.87,-5.02z"/>
+	</svg>
+</svg>`
+
+const backgroundIcon = `
+<svg viewBox="0 0 18 18"> 
+	<line class="ql-color-label ql-stroke ql-transparent" x1="3" x2="15" y1="15" y2="15" style="stroke: red;"></line>
+	<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+	    <path fill="currentColor" d="M19,11.5C19,11.5 17,13.67 17,15A2,2 0 0,0 19,17A2,2 0 0,0 21,15C21,13.67 19,11.5 19,11.5M5.21,10L10,5.21L14.79,10M16.56,8.94L7.62,0L6.21,1.41L8.59,3.79L3.44,8.94C2.85,9.5 2.85,10.47 3.44,11.06L8.94,16.56C9.23,16.85 9.62,17 10,17C10.38,17 10.77,16.85 11.06,16.56L16.56,11.06C17.15,10.47 17.15,9.5 16.56,8.94Z" />
+	</svg>
+</svg>
+
+`
+
+let icons = Quill.import('ui/icons');
+icons.bold = null;
+icons.italic = null;
+icons.underline = null;
+icons.strike = null;
+icons.color = colorIcon;
+icons.background = backgroundIcon;
+icons.list.ordered = null;
+icons.list.bullet = null;
+icons.list.checked = null;
+
 
 function getCaretCharacterOffsetWithin(element) {
     let offset = 0;

@@ -21,7 +21,7 @@
 	background-color: red;
 }
 
-.ql-toolbar, #quill-toolbar {
+#quill-toolbar {
 	color: var(--editor-toolbar-text-colour);
 	background-color: var(--editor-toolbar-background-colour);
 	border: none;
@@ -38,8 +38,30 @@
 	.ql-picker {
 		color: var(--editor-toolbar-text-colour);
 	}
-}	
 
+	svg {
+		color: var(--editor-toolbar-text-colour);
+		$dim: 1.3rem;
+		width: $dim;
+		height: $dim;
+	}
+
+	& > * {
+		display: none;
+	}
+
+	&.ql-toolbar {
+		> * {
+			display: initial;
+		}
+
+		.ql-formats {
+			display: inline-block;
+		}
+	}
+
+
+}
 
 .quill-editor-area {
 	//height: 100%;
