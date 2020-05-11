@@ -8,14 +8,13 @@ import SortableTree, {
 import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
 import { v4 as uuidv4 } from "uuid";
 
-import { 
-	FiBookOpen,
-	FiFile,
-	FiFilePlus, 
-	FiFolder,
-	FiFolderPlus, 
-	FiTrash2
-} from "react-icons/fi";
+import { Icon, InlineIcon } from '@iconify/react';
+import bookOpen from '@iconify/icons-feather/book-open';
+import file from '@iconify/icons-feather/file';
+import filePlus from '@iconify/icons-feather/file-plus';
+import folder from '@iconify/icons-feather/folder';
+import folderPlus from '@iconify/icons-feather/folder-plus';
+import trash2 from '@iconify/icons-feather/trash-2';
 
 import { useSelector, useDispatch } from 'react-redux'
 import { switchDocument, queueDocumentChanges, createNewDocument } from "../store/slices/workspaceSlice";
@@ -126,14 +125,14 @@ class FolderTreeChild extends Component {
 			<div className="file-tree">
 				<div className="file-tree-head">
 					<KeyboardFocusableButton 
-						value={<FiFilePlus />}
+						value={<Icon icon={filePlus} />}
 						onClick={() => this.addNewNodeUnderCurrent("file")}
 						title="New File"
 						className="new-file"
 						disabled={this.state.currentlySelectedNode === null}
 					/>
 					<KeyboardFocusableButton 
-						value={<FiFolderPlus />}
+						value={<Icon icon={folderPlus} />}
 						onClick={() => this.addNewNodeUnderCurrent("folder")}
 						title="New Folder"
 						className="new-folder"
@@ -141,7 +140,7 @@ class FolderTreeChild extends Component {
 					/>
 					<span className="right">
 						<KeyboardFocusableButton 
-							value={<FiTrash2 />}
+							value={<Icon icon={trash2} />}
 							onClick={() => this.trashSelectedNode()}
 							title="Move to Trash"
 							className="trash"
@@ -198,10 +197,10 @@ class FolderTreeChild extends Component {
 			            	<div className="tree-file-icon" onClick={() => {this.selectNode(rowInfo)}}>
 			                  	{
 			                  		{
-			                  			'manuscript': <FiBookOpen />,
-							          	'file': <FiFile />,
-							          	'folder': <FiFolder />,
-							          	'trash': <FiTrash2 />,
+			                  			'manuscript': <Icon icon={bookOpen} />,
+							          	'file': <Icon icon={file} />,
+							          	'folder': <Icon icon={folder} />,
+							          	'trash': <Icon icon={trash2} />,
 							        }[rowInfo.node.type]
 			                  	}
 			                </div>

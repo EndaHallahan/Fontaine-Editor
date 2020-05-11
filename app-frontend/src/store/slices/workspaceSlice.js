@@ -22,33 +22,6 @@ function getFullChildContents(docList, docCache) {
 	return fullContents;
 }
 
-/*function buildDocList(docId, treeData, docCache) {
-	let newDocList = [curDocId];
-
-	const selRow = find({
-		getNodeKey: ({treeIndex}) => {return treeIndex;},
-		treeData: treeData,
-		searchMethod: (rowData) => {return(rowData.node.id === curDocId)}
-	}).matches[0];
-
-	let newWorkingDocs = {};
-	if (selRow && selRow.node.children) {
-		walk({
-			treeData: selRow.node.children,
-			getNodeKey: ({treeIndex}) => {return treeIndex;},
-			callback: (row) => newDocList.push(row.node.id),
-			ignoreCollapsed: false
-		});
-	}
-	newWorkingDocs = getFullChildContents(newDocList, docCache);
-
-	newDocList.forEach(id => {
-		state.docCache[id] = newWorkingDocs[id];
-	});
-
-	return [newDocList, docCache]
-}*/
-
 function saveDocument(id, changes) {
 
 }
@@ -101,15 +74,12 @@ const workspaceSlice = createSlice({
 		switchDocument(state, action) {
 			const curDocId = action.payload.id;
 			state.curDocId = curDocId;
-
 			let newDocList = [curDocId];
-
 			const selRow = find({
 				getNodeKey: ({treeIndex}) => {return treeIndex;},
 				treeData: state.docTree,
 				searchMethod: (rowData) => {return(rowData.node.id === curDocId)}
 			}).matches[0];
-
 			let newWorkingDocs = {};
 			if (selRow && selRow.node.children) {
 				walk({
@@ -120,11 +90,9 @@ const workspaceSlice = createSlice({
 				});
 			}
 			newWorkingDocs = getFullChildContents(newDocList, state.docCache);
-
 			newDocList.forEach(id => {
 				state.docCache[id] = newWorkingDocs[id];
 			});
-
 			state.curDocList = newDocList;
 		},
 		updateWorkingDoc(state, action) {
@@ -137,13 +105,12 @@ const workspaceSlice = createSlice({
 		},
 		queueDocumentChanges(state, action) {
 			const {docId, changes} = action.payload;
-			if (!state.docChangeQueues[docId]) {
+			/*if (!state.docChangeQueues[docId]) {
 				state.docChangeQueues[docId] = changes;
 			} else {
 				state.docChangeQueues[docId] = state.docChangeQueues[docId].concat(changes);
-			}
+			}*/
 		},
-		
 	}
 });
 
