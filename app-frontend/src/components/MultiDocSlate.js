@@ -8,17 +8,23 @@ import { queueDocumentChanges, updateWorkingDoc } from "../store/slices/workspac
 import { Element, Leaf } from "../editor/renderElement";
 import Helpers from "../editor/helpers";
 
+import { Icon, InlineIcon } from '@iconify/react';
+import boldIcon from '@iconify/icons-foundation/bold';
+
+
 class MultiDocSlate extends Component {
 	constructor(props) {
 		super(props);
-		this.editors = {} // Mutable references! Keep out of state! 
+		this.editors = {}; // Mutable references! Keep out of state! 
 		this.state = {
 			activeEditor: null
 		}
 		this.setActiveEditor = this.setActiveEditor.bind(this);
 		this.createHoistedEditor = this.createHoistedEditor.bind(this);
+		this.activeEditorRef = React.createRef();
 	}
 	setActiveEditor(id) {
+		console.log("setting active!")
 		this.setState({
 			...this.state,
 			activeEditor: id
@@ -32,6 +38,7 @@ class MultiDocSlate extends Component {
 			<div id="editor-area">
 				<EditorToolbar 
 					editor={this.editors[this.state.activeEditor]}
+					editorEle={this.activeEditorRef.current ? this.activeEditorRef.current.firstChild: null}
 				/>
 				<div className="quill-editor-area">
 					{
@@ -39,6 +46,7 @@ class MultiDocSlate extends Component {
 							return(
 								<SlateInstance
 									//editor = {editors[id]}
+									ref={id === this.state.activeEditor ? this.activeEditorRef : null}
 									createHoistedEditor = {this.createHoistedEditor}
 									key = {id}
 									docId = {id}
@@ -57,6 +65,20 @@ class MultiDocSlate extends Component {
 	}
 }
 
+const MarkButton = (props) => {
+  return (
+    <button
+      	//active={isMarkActive(editor, format)}
+      	onClick={event => {
+        	Helpers.toggleMark(props.editor, props.format);
+        	props.editorEle.focus();
+      	}}
+    >
+      	{props.children}
+    </button>
+  );
+}
+
 const EditorToolbar = (props) => {
 	const editor = props.editor;
 	return (
@@ -64,17 +86,19 @@ const EditorToolbar = (props) => {
 			<fieldset
 				disabled={props.editor === undefined}
 			>
-				<button
-					onClick={(e)=>{
-						Helpers.toggleBoldMark(editor);
-					}}
-				>Bold</button>
+				<MarkButton 
+					format="bold" 
+					editor={editor} 
+					editorEle={props.editorEle}
+				>
+					<Icon icon={boldIcon} />
+				</MarkButton>
 			</fieldset>
 		</div>
 	);
 }
 
-const SlateInstance = (props) => {
+const SlateInstance = React.forwardRef((props, ref) => {
 	const editor = useMemo(() => withReact(createEditor()), []);
 	props.createHoistedEditor(props.docId, editor);
 	const defaultContents = [{
@@ -89,7 +113,7 @@ const SlateInstance = (props) => {
   	const renderElement = useCallback(props => <Element {...props} />, [])
   	const renderLeaf = useCallback(props => <Leaf {...props} />, [])
   	return (
-  		<div 
+  		<div ref={ref}
   			onFocus={() => props.setActive(props.docId)}
     	>
 	    	<Slate 
@@ -98,13 +122,15 @@ const SlateInstance = (props) => {
 	    		onChange={updateDocument}
 	    	>
 	      		<Editable 
+	      			
 	      			renderElement={renderElement}
         			renderLeaf={renderLeaf}
+        			spellCheck
 	      		/>
 	    	</Slate>
     	</div>
   	)
-}
+})
 
 
 export default MultiDocSlate;
