@@ -1,95 +1,45 @@
-import React, { Component, Fragment, useEffect, useMemo, useState } from 'react';
+import React, { Component, Fragment, useEffect, useMemo, useState, useCallback } from 'react';
 import { createEditor } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { queueDocumentChanges, updateWorkingDoc } from "../store/slices/workspaceSlice";
 
-const MultiDocSlate = (props) => {
-	let editors = {};
-	props.docList.forEach(id => {
-		editors[id] = withReact(createEditor());
-	});
-	const [activeEditor, setActiveEditor] = useState(null);
-	return (
-		<div id="editor-area" >
-			<div className="quill-editor-area">
-				{
-					props.docList.map(id => {
-						return(
-							<SlateInstance
-								editor = {editors[id]}
-								key = {id}
-								docId = {id}
-								updateDoc = {props.updateDoc}
-								queueDocChanges = {props.queueDocChanges}
-								value={props.docSet[id]}
-								active={id === activeEditor}
-								setActive={setActiveEditor}
-							/>
-						);
-					})
-				}
-			</div>
-		</div>
-	);
-}
+import { Element, Leaf } from "../editor/renderElement";
+import Helpers from "../editor/helpers";
 
-/*class MultiDocSlate extends Component {
+class MultiDocSlate extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { 
-			activeEditor: null,
-			editors: this.setEditors()
+		this.editors = {} // Mutable references! Keep out of state! 
+		this.state = {
+			activeEditor: null
 		}
-
 		this.setActiveEditor = this.setActiveEditor.bind(this);
-		this.addEditor = this.addEditor.bind(this);
-		this.setEditors = this.setEditors.bind(this);
+		this.createHoistedEditor = this.createHoistedEditor.bind(this);
 	}
 	setActiveEditor(id) {
 		this.setState({
 			...this.state,
 			activeEditor: id
-		})
-	}
-	addEditor(id, editor) {
-		this.setState({
-			...this.state,
-			editors: {
-				...this.state.editors,
-				[id]: editor
-			}
-		})
-	}
-	setEditors() {
-		let editors = {};
-		this.props.docList.forEach(id => {
-			editors[id] = withReact(createEditor());
 		});
-		return editors;
 	}
-	componentDidUpdate(prevProps) {
-		console.log("Updated!")
-		this.setEditors();
+	createHoistedEditor(id, editor) {
+		this.editors[id] = editor;
 	}
 	render() {
-		return(
-			<div id="editor-area" >
+		return (
+			<div id="editor-area">
+				<EditorToolbar 
+					editor={this.editors[this.state.activeEditor]}
+				/>
 				<div className="quill-editor-area">
 					{
 						this.props.docList.map(id => {
-							console.log(
-								"matchup: id: " 
-								+ id 
-								+ ", editor: " 
-								+ this.state.editors[id]
-								+ " editors: "
-								+ JSON.stringify(this.state.editors)
-							)
 							return(
 								<SlateInstance
-									editor = {this.state.editors[id]}
+									//editor = {editors[id]}
+									createHoistedEditor = {this.createHoistedEditor}
 									key = {id}
 									docId = {id}
 									updateDoc = {this.props.updateDoc}
@@ -99,42 +49,60 @@ const MultiDocSlate = (props) => {
 									setActive={this.setActiveEditor}
 								/>
 							);
-						}
-						)
+						})
 					}
 				</div>
 			</div>
 		);
-		
-	}
-}*/
-
-class EditorToolbar extends Component {
-
-	render() {
-		return(null)
 	}
 }
 
+const EditorToolbar = (props) => {
+	const editor = props.editor;
+	return (
+		<div class="editor-toolbar">
+			<fieldset
+				disabled={props.editor === undefined}
+			>
+				<button
+					onClick={(e)=>{
+						Helpers.toggleBoldMark(editor);
+					}}
+				>Bold</button>
+			</fieldset>
+		</div>
+	);
+}
+
 const SlateInstance = (props) => {
-	const editor = useMemo(() => props.editor, []);
+	const editor = useMemo(() => withReact(createEditor()), []);
+	props.createHoistedEditor(props.docId, editor);
 	const defaultContents = [{
 	  	type: 'paragraph',
 	  	children: [{ text: '' }],
 	}];
-  	const [value, setValue] = useState(props.value ? props.value.ops : defaultContents);
+  	const [value, setValue] = useState(props.value && props.value.ops ? props.value.ops : defaultContents);
   	const updateDocument = (value) => {
   		setValue(value);
   		props.updateDoc(props.docId, value);
   	}
+  	const renderElement = useCallback(props => <Element {...props} />, [])
+  	const renderLeaf = useCallback(props => <Leaf {...props} />, [])
   	return (
-    	<Slate 
-    		editor={editor} 
-    		value={value} 
-    		onChange={updateDocument}
+  		<div 
+  			onFocus={() => props.setActive(props.docId)}
     	>
-      		<Editable />
-    	</Slate>
+	    	<Slate 
+	    		editor={editor} 
+	    		value={value} 
+	    		onChange={updateDocument}
+	    	>
+	      		<Editable 
+	      			renderElement={renderElement}
+        			renderLeaf={renderLeaf}
+	      		/>
+	    	</Slate>
+    	</div>
   	)
 }
 
