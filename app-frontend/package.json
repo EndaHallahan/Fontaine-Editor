@@ -48,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@iconify/icons-mdi": "^1.0.103",
     "@mdi/js": "^5.1.45",
     "@mdi/react": "^1.4.0"
   }

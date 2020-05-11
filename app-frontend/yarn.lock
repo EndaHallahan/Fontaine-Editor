@@ -1080,6 +1080,11 @@
   resolved "https://registry.yarnpkg.com/@iconify/icons-foundation/-/icons-foundation-1.0.5.tgz#ef48f0045c29f23111da6cc8de7a0c30cce8e11b"
   integrity sha512-WjsWh2CfQzl3C01cY+DTf1mRYqmS3GCecyzxhcbwZitXsfJQHagHFF6e3msQXDhuwjEo9xs37AjS5HP+/aqSgQ==
 
+"@iconify/icons-mdi@^1.0.103":
+  version "1.0.103"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-mdi/-/icons-mdi-1.0.103.tgz#1017d16781e282ada2abf6679131a8ce7f7e7a12"
+  integrity sha512-GYTCkN0HKzZJAPGJwRbgZofHwyeJf7huTF/ZnnaZWCJPed/oA37hR10tkFVTmFIoBuHcL5jQXPyoE6mPj9pw7A==
+
 "@iconify/react@^1.1.3":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@iconify/react/-/react-1.1.3.tgz#ebe4d3e5f5dea23cd6a9634acd7a0a25c7414a59"

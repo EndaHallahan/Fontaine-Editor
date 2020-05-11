@@ -4,13 +4,8 @@ import { Slate, Editable, withReact } from 'slate-react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { queueDocumentChanges, updateWorkingDoc } from "../store/slices/workspaceSlice";
-
 import { Element, Leaf } from "../editor/renderElement";
-import Helpers from "../editor/helpers";
-
-import { Icon, InlineIcon } from '@iconify/react';
-import boldIcon from '@iconify/icons-foundation/bold';
-
+import EditorToolbar from "./EditorToolbar";
 
 class MultiDocSlate extends Component {
 	constructor(props) {
@@ -24,7 +19,6 @@ class MultiDocSlate extends Component {
 		this.activeEditorRef = React.createRef();
 	}
 	setActiveEditor(id) {
-		console.log("setting active!")
 		this.setState({
 			...this.state,
 			activeEditor: id
@@ -40,7 +34,7 @@ class MultiDocSlate extends Component {
 					editor={this.editors[this.state.activeEditor]}
 					editorEle={this.activeEditorRef.current ? this.activeEditorRef.current.firstChild: null}
 				/>
-				<div className="quill-editor-area">
+				<div className="editor-body">
 					{
 						this.props.docList.map(id => {
 							return(
@@ -65,39 +59,6 @@ class MultiDocSlate extends Component {
 	}
 }
 
-const MarkButton = (props) => {
-  return (
-    <button
-      	//active={isMarkActive(editor, format)}
-      	onClick={event => {
-        	Helpers.toggleMark(props.editor, props.format);
-        	props.editorEle.focus();
-      	}}
-    >
-      	{props.children}
-    </button>
-  );
-}
-
-const EditorToolbar = (props) => {
-	const editor = props.editor;
-	return (
-		<div class="editor-toolbar">
-			<fieldset
-				disabled={props.editor === undefined}
-			>
-				<MarkButton 
-					format="bold" 
-					editor={editor} 
-					editorEle={props.editorEle}
-				>
-					<Icon icon={boldIcon} />
-				</MarkButton>
-			</fieldset>
-		</div>
-	);
-}
-
 const SlateInstance = React.forwardRef((props, ref) => {
 	const editor = useMemo(() => withReact(createEditor()), []);
 	props.createHoistedEditor(props.docId, editor);
@@ -113,7 +74,9 @@ const SlateInstance = React.forwardRef((props, ref) => {
   	const renderElement = useCallback(props => <Element {...props} />, [])
   	const renderLeaf = useCallback(props => <Leaf {...props} />, [])
   	return (
-  		<div ref={ref}
+  		<div 
+  			className="slate-wrapper" 
+  			ref={ref}
   			onFocus={() => props.setActive(props.docId)}
     	>
 	    	<Slate 

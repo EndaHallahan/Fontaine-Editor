@@ -36,6 +36,10 @@ const Leaf = ({ attributes, children, leaf }) => {
 		children = <u>{children}</u>
 	}
 
+	if (leaf.strikethrough) {
+		children = <del>{children}</del>
+	}
+
 	return <span {...attributes}>{children}</span>
 }
 

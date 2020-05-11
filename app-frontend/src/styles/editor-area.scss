@@ -4,22 +4,93 @@
 	grid-template-rows: min-content 1fr;
 	height: calc(100vh - #{$sum-top-height + $footer-height});
 
-	.quill {
+	width: 100%;
+	
+	background-color: var(--editor-container-colour);
+	border: none;
+
+	.editor-toolbar {
+		background-color: $light;
+		color: $light-text;
+		border-bottom: 1px solid $dark-lowlight;
+		min-height: 41px;
+		display: inline-flex;
+		flex-direction: row;
+		align-items: center;
+		padding: 0 .5rem;
+
+		button {
+			$dim: 24px;
+			height: $dim;
+			width: $dim;
+			color: inherit;
+			border: 1px solid $light;
+			border-radius: 2px;
+			padding: 0;
+			box-sizing: content-box;
+			margin-left: 2px;
+
+			&.active {
+				background-color: $light-highlight;
+				border: 1px solid $light-higherlight;
+			}
+
+			&:hover {
+				background-color: $light-highlight;
+			}
+
+			svg {
+				width: $dim;
+				height: $dim;
+			}
+		}
+
+		.divider {
+			height: 1.4rem;
+			margin: 0 .3rem;
+			width: 1px;
+			background-color: $light-higherlight;
+		}
+	}
+
+	.editor-body {
+		overflow-y: scroll;
+
+		.slate-wrapper {
+			min-height: 3rem;
+
+			color: var(--editor-text-colour);
+			background-color: var(--editor-background-colour);
+
+			box-shadow: 10px 10px 8px black;
+			width: 90%;
+			max-width: var(--editor-page-width);
+			
+			margin: .5rem auto 0 auto;
+			height: auto;
+
+			height: auto;
+			font-size: var(--editor-default-font-size);
+
+			&:only-child {
+				min-height: 100%;
+			}
+
+			& > div {
+				padding: 2rem 3rem;
+			}
+		}
+	}
+}
+
+
+/*.quill {
 		border: none;
 		outline: none;
 
 		
-	}
-}
-
-.editor-wrapper {
-	height: 100%;
-}
-
-
-.document-container {
-	background-color: red;
-}
+	}*/
+/*
 
 #quill-toolbar {
 	color: var(--editor-toolbar-text-colour);
@@ -110,4 +181,4 @@
 
 
 	}
-}
+}*/
