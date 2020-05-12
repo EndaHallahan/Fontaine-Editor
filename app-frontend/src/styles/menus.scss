@@ -6,10 +6,10 @@
 
 .dropdown-menu-wrapper {
 	padding: .2rem .4rem;
-	
 
 	.dropdown-menu-item {
 		cursor: pointer;
+		border-radius: 3px;
 		
 		&.highlighted {
 			background-color: $fontaine-blue;
