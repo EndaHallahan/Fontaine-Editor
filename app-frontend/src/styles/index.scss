@@ -1,9 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital@0;1&display=swap');
 
-$fontaine-blue: lightblue;
-
-$light: white;
-$light-text: black;
+$fontaine-blue: #ADD8E6;
 
 $dark: #444444;
 $dark-text: white;
@@ -17,7 +14,7 @@ $light-text: #666;
 $light-highlight: #eee;
 $light-higherlight: #ccc;
 
-$warning-red: red;//#B33A3A;
+$warning-red: red;
 
 $font-family-sans: "Open Sans", sans-serif;
 
@@ -71,3 +68,29 @@ button {
 
 @import "keyboard-focusable-button";
 @import "vertical-tabular-menu";
+@import "colour-picker";
+
+
+
+.editor-preview {
+	height: 15rem;
+	color: var(--editor-text-colour);
+	background-color: var(--editor-background-colour);
+	font-size: var(--editor-default-font-size);
+	overflow-y: auto;
+	padding: 0 .5rem;
+}
+
+.options-list {
+	padding: .5rem;
+	height: 100%;
+
+	& > div {
+		display: grid;
+		grid-template-columns: 1fr 5rem;
+
+		 > *:last-child {
+		 	justify-self: end;
+		}
+	}
+}

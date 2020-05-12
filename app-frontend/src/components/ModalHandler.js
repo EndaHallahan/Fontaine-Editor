@@ -12,9 +12,7 @@ const ModalHandler = (props) => {
 	const dispatch = useDispatch();
 	const modalType = useSelector(state => state.modalReducer.curModal);
 	const modalProps = useSelector(state => state.modalReducer.curModalProps);
-	const closeCurrentModal = () => {
-		dispatch(closeModal());
-	}
+	const closeCurrentModal = () => {dispatch(closeModal());}
 
     let renderedModal = null;
 

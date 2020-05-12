@@ -24,6 +24,8 @@
     display: grid;
     grid-template-rows: 2rem 1fr;
 
+    overflow: visible;
+
     .modal-header {
     	background-color: $darker;
     	font-size: .9rem;
@@ -58,7 +60,7 @@
     	max-height: 20rem;
     }
     &.medium {
-    	max-width: 50rem;
+    	max-width: 40rem;
     	max-height: 30rem;
     }
 }

@@ -1,5 +1,5 @@
 import React, { Component, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 
 import { switchDocument } from "../store/slices/workspaceSlice";
 
