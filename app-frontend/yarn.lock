@@ -2066,7 +2066,7 @@ array-equal@^1.0.0:
   resolved "https://registry.yarnpkg.com/array-equal/-/array-equal-1.0.0.tgz#8c2a5ef2472fd9ea742b04c77a75093ba2757c93"
   integrity sha1-jCpe8kcv2ep0KwTHenUJO6J1fJM=
 
-array-find-index@^1.0.1:
+array-find-index@1.0.2, array-find-index@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/array-find-index/-/array-find-index-1.0.2.tgz#df010aa1287e164bbda6f9723b0a96a1ec4187a1"
   integrity sha1-3wEKoSh+Fku9pvlyOwqWoexBh6E=
@@ -3148,6 +3148,15 @@ constants-browserify@^1.0.0:
   resolved "https://registry.yarnpkg.com/constants-browserify/-/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
   integrity sha1-wguW2MYXdIqvHBYCF2DNJ/y4y3U=
 
+contain-by-screen@^1.0.4:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/contain-by-screen/-/contain-by-screen-1.3.0.tgz#990fe49d01088b24dca4e237cfb03d52ecf83af6"
+  integrity sha512-s7xejuwIARvBM8cDSFft4xclXFhmnzao/b0dDXL1i5C0GWi4BGyxaYQBtUJI/EZrVCtD8sM8nLeSaJYJlj/1gw==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    envify "^4.1.0"
+    lodash "^4.6.1"
+
 contains-path@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/contains-path/-/contains-path-0.1.0.tgz#fe8cf184ff6670b6baef01a9d4861a5cbec4120a"
@@ -4022,6 +4031,14 @@ entities@^2.0.0:
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.0.0.tgz#68d6084cab1b079767540d80e56a39b423e4abf4"
   integrity sha512-D9f7V0JSRwIxlRI2mjMqufDrRDnx8p+eEOz7aUM9SuvF8gsBzra0/6tbjl1m8eQHrZlYj6PxqE00hZ1SAIKPLw==
 
+envify@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/envify/-/envify-4.1.0.tgz#f39ad3db9d6801b4e6b478b61028d3f0b6819f7e"
+  integrity sha512-IKRVVoAYr4pIx4yIWNsz9mOsboxlNXiu7TNBnem/K/uTHdkyzXWDzHCK7UTolqBbgaBz0tQHsD3YNls0uIIjiw==
+  dependencies:
+    esprima "^4.0.0"
+    through "~2.3.4"
+
 errno@^0.1.3, errno@~0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/errno/-/errno-0.1.7.tgz#4684d71779ad39af177e3f007996f7c67c852618"
@@ -4330,6 +4347,11 @@ etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
+
+event-listener-with-options@^1.0.2:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/event-listener-with-options/-/event-listener-with-options-1.1.0.tgz#ba12b38c15f0d6426bed297d163eeb3322fb79b1"
+  integrity sha512-5CBIXSXRgo3Sf5/jW4BujZgDLkLvg93Vx3JefQs0UKOQoyKnp1pg6VoKYm4eQxi6KW3B3ghvN+gWSvIGT5tXbg==
 
 eventemitter3@^4.0.0:
   version "4.0.0"
@@ -6562,6 +6584,23 @@ jsx-ast-utils@^2.2.1, jsx-ast-utils@^2.2.3:
     array-includes "^3.0.3"
     object.assign "^4.1.0"
 
+kefir-bus@^2.2.0:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/kefir-bus/-/kefir-bus-2.3.1.tgz#c41473196331bd5d0b4ca13baade319224ddc7a0"
+  integrity sha512-wLCQfEw8PddSNeyjDCH2WNgNg3Rb/c+OaG5WEPfEwod+LQfGX4isHcHRWsYNLmdFEw3/KyA+9qDSy+VC4NsifA==
+
+kefir-stopper@^2.1.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/kefir-stopper/-/kefir-stopper-2.2.0.tgz#2003af1175cdec9b91a152b96c90a5b5daf5740e"
+  integrity sha512-hznNQGCFBEHU5sSkQefXZzVccBQ0Z3ZFsdAgd9EVt+bC7ogD1Ns1us+pR1frHfjKxN8fgqgKXUxDR8/gf5W6zw==
+
+kefir@^3.5.1:
+  version "3.8.6"
+  resolved "https://registry.yarnpkg.com/kefir/-/kefir-3.8.6.tgz#046f0dabd870ff7cbfe039995c9bca2c1e68ac36"
+  integrity sha512-H/8ZTjmEEme2YL388rgy5fFlz2NM4ZImNI2rJrTsR8og454kpY3lPVv53W9lfevNELfNeYD33gMdIKHL25z7WA==
+  dependencies:
+    symbol-observable "1.0.4"
+
 killable@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/killable/-/killable-1.0.1.tgz#4c8ce441187a061c7474fb87ca08e2a638194892"
@@ -6793,7 +6832,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.2.1, lodash@~4.17.12:
+"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.6.1, lodash@~4.17.12:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
@@ -9075,6 +9114,19 @@ react-error-overlay@^6.0.7:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
   integrity sha512-TAv1KJFh3RhqxNvhzxj6LeT5NWklP6rDr2a0jaTfsZ5wSZWHOGeqQyejUp3xxLfPt2UpyJEcVQB/zyPcmonNFA==
 
+react-float-anchor@^3.2.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/react-float-anchor/-/react-float-anchor-3.4.0.tgz#0fe5f835f34461a332ab70ae0d041b1f63fa6d40"
+  integrity sha512-nB0QHoyeqFIBIUfgHMHhJmQk2WUMCmCasofMWigruuJesPtUiKeu1I5DCu5C5FvvrnnW4CXUzSbur9ajBbW+iA==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    contain-by-screen "^1.0.4"
+    event-listener-with-options "^1.0.2"
+    kefir "^3.5.1"
+    kefir-bus "^2.2.0"
+    lodash "^4.6.1"
+    prop-types "^15.6.0"
+
 react-is@^16.12.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.9.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -9084,6 +9136,19 @@ react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-menu-list@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/react-menu-list/-/react-menu-list-6.1.0.tgz#40d7859ea7b0060fa8367b5bf4dcb6377b443cb7"
+  integrity sha512-DS7KVPkzwTSqytoiVcSbmXdOZTaXzq6qBmjdkxbSrc6bK+w3OmSzsdPD+OEpILZcR4Rh9bZ1acOGkknmd5DUzQ==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    array-find-index "1.0.2"
+    kefir "^3.5.1"
+    kefir-bus "^2.2.0"
+    kefir-stopper "^2.1.0"
+    prop-types "^15.6.0"
+    react-float-anchor "^3.2.0"
 
 react-redux@^7.1.3:
   version "7.2.0"
@@ -10549,6 +10614,11 @@ svgo@^1.0.0, svgo@^1.2.2:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
+symbol-observable@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.0.4.tgz#29bf615d4aa7121bdd898b22d4b3f9bc4e2aa03d"
+  integrity sha1-Kb9hXUqnEhvdiYsi1LP5vE4qoD0=
+
 symbol-observable@^1.0.3, symbol-observable@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
@@ -10650,7 +10720,7 @@ through2@^2.0.0:
     readable-stream "~2.3.6"
     xtend "~4.0.1"
 
-through@^2.3.6:
+through@^2.3.6, through@~2.3.4:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=

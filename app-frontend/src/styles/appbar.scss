@@ -1,0 +1,79 @@
+#appbar {
+	padding: 0 .5rem;
+	height: $header-height;
+	color: $dark-text;
+	display: inline-flex;
+	z-index: 100;
+	position: relative;
+	h1 {
+		margin: 0;
+		padding-right: 1rem;
+		margin-right: .5rem;
+		font-size: 1rem;
+		display: inline;
+		border-right: 1px solid $fontaine-blue;
+	}
+	.keyboard-focusable-button {
+		font-size: .9rem;
+		margin: 0;
+		line-height: 1.6rem;
+
+		& > span {
+			padding: 0 .5rem;
+		}
+	}
+	.right {
+		flex-grow: 1;
+		text-align: right;
+		margin-right: 1.5rem;
+	}
+
+	.dropdown-menu-button {
+		&.opened {
+			color: $fontaine-blue;
+			border-bottom: 1px solid $fontaine-blue;
+		}
+	}
+}
+
+.appbar-dropdown {
+	min-width: 15rem;
+	background-color: $dark;
+	color: $dark-text;
+	border: 1px solid $dark-lowlight;
+	padding: .4rem .4rem;
+	font-size: .9rem;
+
+	hr {
+		$col: $dark-highlight;
+		background-color: $col;
+		border: 1px solid $col;
+		height: 1px;
+		width: 99%;
+	}
+
+	.dropdown-menu-item {
+		display: grid;
+		grid-template-columns: 27px 1fr 1fr;
+		padding: 2px 3px;
+
+		.icon {
+			$dim: 1rem;
+			svg {
+				vertical-align: top;
+				margin-top: 1.7px;
+				height: $dim;
+				width: $dim;
+			}
+		}
+		
+		&.highlighted {
+			background-color: $fontaine-blue;
+		}
+	}
+}
+
+
+
+
+

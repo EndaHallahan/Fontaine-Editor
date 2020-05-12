@@ -16,34 +16,6 @@ $toolbar-height: 2.5rem;
 $sum-top-height: $header-height + $toolbar-height;
 $footer-height: 1.5rem;
 
-#header-area {
-	padding: 0 .5rem;
-	height: $header-height;
-	color: $dark-text;
-	display: inline-flex;
-	z-index: 100;
-	position: relative;
-	h1 {
-		margin: 0;
-		padding-right: 1rem;
-		margin-right: .5rem;
-		font-size: 1rem;
-		display: inline;
-		border-right: 1px solid $fontaine-blue;
-	}
-	button {
-		font-size: .9rem;
-		margin: 0;
-		line-height: 1.6rem;
-		padding: 0 .5rem;
-	}
-	.right {
-		flex-grow: 1;
-		text-align: right;
-		margin-right: 1.5rem;
-	}
-}
-
 footer {
 	height: 1.5rem;
 	color: $dark-text;
@@ -51,12 +23,16 @@ footer {
 	border-top: 1px solid $dark-lowlight;
 }
 
+@import "appbar";
+
 main {
 	height: 100%;
 	#workspace {
 		height: 100%;
 		display: grid;
 		grid-template-rows: min-content minmax(0,1fr) min-content;
+
+
 
 		#app-toolbar {
 			height: $toolbar-height;

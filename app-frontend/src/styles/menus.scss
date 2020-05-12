@@ -1,0 +1,18 @@
+.dropdown-menu-button {
+	&.opened {
+
+	}
+}
+
+.dropdown-menu-wrapper {
+	padding: .2rem .4rem;
+	
+
+	.dropdown-menu-item {
+		cursor: pointer;
+		
+		&.highlighted {
+			background-color: $fontaine-blue;
+		}
+	}
+}

@@ -17,7 +17,7 @@ $light-text: #666;
 $light-highlight: #eee;
 $light-higherlight: #ccc;
 
-$warning-red: #B33A3A;
+$warning-red: red;//#B33A3A;
 
 $font-family-sans: "Open Sans", sans-serif;
 
@@ -63,6 +63,8 @@ button {
 			color: $fontaine-blue;
 		}
 	}
+
+@import "menus";
 
 @import "main";
 

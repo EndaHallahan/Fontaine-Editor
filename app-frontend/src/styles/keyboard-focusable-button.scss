@@ -1,4 +1,6 @@
 button.keyboard-focusable-button {
+	padding: 0;
+	
 	&:focus, & > span:focus {
 		outline: none;
 	}
