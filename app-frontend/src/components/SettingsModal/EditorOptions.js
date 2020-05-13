@@ -1,34 +1,11 @@
 import React, { Component } from 'react';
-import KeyboardFocusableButton from "./KeyboardFocusableButton";
 import Modal from 'react-modal';
 
-import { Icon, InlineIcon } from '@iconify/react';
-import xCircle from '@iconify/icons-feather/x-circle';
-
 import { useSelector, useDispatch } from 'react-redux';
-import { setSetting, setSettings, resetDefaults } from "../store/slices/settingsSlice";
+import { setSetting, setSettings, resetDefaults } from "../../store/slices/settingsSlice";
 
-import VerticalTabularMenu from "./VerticalTabularMenu";
-import ColourPicker from "./ColourPicker";
-
-Modal.setAppElement('#root');
-
-const SettingsModal = (props) => {
-	const dispatch = useDispatch();
-	const currentSettings = useSelector(state => state.settingsReducer.settings);
-	const updateSetting = (setting, newValue) => {dispatch(setSetting({setting, newValue}));}
-	const updateSettings = (settingsObj) => {dispatch(setSettings({settingsObj}));}
-	const resetToDefaults = (settingsObj) => {dispatch(resetDefaults());}
-	return (
-		<SettingsModalChild
-			currentSettings={currentSettings}
-			updateSetting={updateSetting}
-			updateSettings={updateSettings}
-			resetToDefaults={resetToDefaults}
-			onRequestClose={props.onRequestClose}
-		/>
-	);
-}
+import ColourPicker from "../ColourPicker"; 
+import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
 class EditorOptions extends Component {
 	constructor(props) {
@@ -189,65 +166,4 @@ class EditorOptions extends Component {
 	}
 }
 
-class SettingsModalChild extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-
-		}
-	}
-	render() {
-		return(
-			<CustomModal
-				modalClass="medium tall"
-				onRequestClose={this.props.onRequestClose}
-	          	onAfterOpen={this.props.afterOpenModal}
-	          	contentLabel="Settings Popup"
-	          	title="Settings and Customization"
-	        >
-	       		<VerticalTabularMenu
-	       			startTab={1}
-	       			windows={[
-	       				{tabName:"General", render: () => 
-	       					<div>
-	       						General Tab 
-	       					</div>
-	       				},
-	       				{tabName:"Editor", render: () => 
-	       					<EditorOptions 
-	       						{...this.props}
-	       					/>
-	       				},
-	       			]}
-	       		/>
-	        </CustomModal>
-		);
-	}
-}
-
-const CustomModal = (props) => {
-	return(
-		<Modal
-			isOpen={true}
-          	className={"modal " + props.modalClass || null}
-          	overlayClassName="modal-overlay"
-          	{...props}
-        >
-        	<div class="modal-header">
-        		{props.title}
-        		<span className="close-button" >
-	        		<KeyboardFocusableButton 
-		       			onClick={props.onRequestClose}
-		       		>
-		       			<Icon icon={xCircle} />
-	       			</KeyboardFocusableButton>
-	       		</span>
-        	</div>
-        	<div class="modal-body">
-       			{props.children}
-       		</div>
-        </Modal>
-	);
-}
-
-export default SettingsModal;
+export default EditorOptions;
