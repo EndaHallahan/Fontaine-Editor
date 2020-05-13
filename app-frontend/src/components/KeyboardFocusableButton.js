@@ -7,7 +7,7 @@ const KeyboardFocusableButton = (props) => {
 			{...props} 
 			className={"keyboard-focusable-button " + (props.className ? props.className : "")}
 		>
-			<span tabIndex="-1">{props.value || props.children}</span>
+			<div tabIndex="-1">{props.value || props.children}</div>
 		</button>
 	);
 }

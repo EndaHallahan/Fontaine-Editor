@@ -14,7 +14,7 @@ $light-text: #666;
 $light-highlight: #eee;
 $light-higherlight: #ccc;
 
-$warning-red: red;
+$warning-red: #EE0000;
 
 $font-family-sans: "Open Sans", sans-serif;
 
@@ -24,6 +24,7 @@ $font-family-sans: "Open Sans", sans-serif;
 	--editor-container-colour: #555555;
 	--editor-text-colour: black;
 	--editor-background-colour: white;
+	--editor-drop-shadow: 10px 10px 8px black;
 	--editor-page-width: 900px;
 	--editor-default-font-size: 16px;
 }
@@ -41,25 +42,69 @@ body {
 }
 
 button {
-		background-color: transparent;
-		border: none;
-		border-radius: 0;
-		cursor: pointer;
-		color: $dark-text;
+	background-color: transparent;
+	border: none;
+	border-radius: 0;
+	cursor: pointer;
+	color: $dark-text;
 
-		&[disabled] {
-			color: $dark-highlight;
-			cursor: default;
-
-			&:hover {
-				color: $dark-highlight;
-			}
-		}
+	&[disabled] {
+		color: $dark-highlight;
+		cursor: default;
 
 		&:hover {
-			color: $fontaine-blue;
+			color: $dark-highlight;
 		}
 	}
+
+	&:hover {
+		color: $fontaine-blue;
+	}
+
+	&.warning {
+
+		&:hover {
+			color: $warning-red;
+			border-color: $warning-red;
+		}
+	}
+}
+
+button.border {
+	border: none;
+	border-radius: 0;
+	cursor: pointer;
+	color: $dark-text;
+	padding: .3rem;
+	border-radius: 3px;
+	border: 1px solid $dark-text;
+	font-size: .9rem;
+
+	&[disabled] {
+		cursor: default;
+		opacity: .5;
+
+		&:hover {
+			color: $dark-text;
+			background-color: inherit;
+			border-color: $dark-text;
+		}
+	}
+
+	&:hover {
+		//background-color: $fontaine-blue;
+		color: $fontaine-blue;
+		border: 1px solid $fontaine-blue;
+	}
+
+	&.warning {
+
+		&:hover {
+			color: $warning-red;
+			border-color: $warning-red;
+		}
+	}
+}
 
 @import "menus";
 @import "modal";
@@ -71,19 +116,32 @@ button {
 @import "colour-picker";
 
 
+.vtl-window {
+	height: 100%;
+}
 
 .editor-preview {
 	height: 15rem;
-	color: var(--editor-text-colour);
-	background-color: var(--editor-background-colour);
-	font-size: var(--editor-default-font-size);
 	overflow-y: auto;
-	padding: 0 .5rem;
+	background-color: var(--editor-container-colour);
+	
+
+	& > div {
+		color: var(--editor-text-colour);
+		background-color: var(--editor-background-colour);
+		box-shadow: var(--editor-drop-shadow);
+		font-size: var(--editor-default-font-size);
+		width: 80%;
+		margin: 0 auto;
+		padding: 0 .5rem;
+	}
 }
 
 .options-list {
 	padding: .5rem;
 	height: 100%;
+	position: relative;
+	font-size: .9rem;
 
 	& > div {
 		display: grid;
@@ -93,4 +151,29 @@ button {
 		 	justify-self: end;
 		}
 	}
+
+	
+}
+
+.confirm-wrapper {
+		padding: .3rem;
+		padding-right: .5rem;
+		border: none;
+		display: inline-flex;
+		width: 100%;
+		button {
+			margin-left: .5rem;
+		}
+
+		.right {
+			flex-grow: 1;
+    		text-align: right;
+		}
+	}
+
+.editor-settings-tab {
+	height: 100%;
+	display: grid;
+	grid-template-rows: 15rem 1fr 2.5rem;
+	padding-bottom: .5rem;
 }

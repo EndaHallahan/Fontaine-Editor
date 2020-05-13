@@ -6,7 +6,7 @@ class ColourPicker extends Component {
 		super(props);
 		this.state = {
 			open: false,
-			selectedColour: this.props.color || "#ffffff"
+			selectedColour: this.props.colour || "#ffffff"
 		}
 		this.handleClick = this.handleClick.bind(this);
 		this.handleChange = this.handleChange.bind(this);
@@ -24,6 +24,14 @@ class ColourPicker extends Component {
     		selectedColour: colour.hex
     	})
   	}
+  	componentWillReceiveProps(nextProps) {
+		if(this.props != nextProps) {
+			this.setState({
+				...this.state,
+			  	selectedColour: nextProps.colour || "#ffffff"
+			});
+		}
+	}
 	render() {
 		return (
 			<div className="colour-picker">
@@ -36,6 +44,7 @@ class ColourPicker extends Component {
           				<div className="picker-cover" onClick={ this.handleClick }/>
           				<SketchPicker 
           					onChangeComplete={this.handleChange}
+          					color={this.props.colour}
           					{...this.props}
           				/>
         			</div> : null 

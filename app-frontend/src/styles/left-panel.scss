@@ -29,11 +29,11 @@
 			button.keyboard-focusable-button {
 				font-size: 1.3rem;
 				
-				& > span {
+				& > div {
 					padding-bottom: 2px;
 				}
  
-				&:first-child > span {
+				&:first-child > div {
 					padding: 0 4px 0 6px;
 				}
 
@@ -119,7 +119,7 @@
 						font-style: inherit;
 						width: 100%;
 						padding: 0;
-						span {
+						div {
 							padding-right: 20px;
 							padding-left: 5px;
 						}

@@ -58,7 +58,7 @@
 			min-height: 3rem;
 			color: var(--editor-text-colour);
 			background-color: var(--editor-background-colour);
-			box-shadow: 10px 10px 8px black;
+			box-shadow: var(--editor-drop-shadow);
 			width: 90%;
 			max-width: var(--editor-page-width);
 			margin: .5rem auto 0 auto;

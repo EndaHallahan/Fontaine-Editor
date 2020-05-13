@@ -16,6 +16,7 @@ const settingsSlice = createSlice({
 			_.merge(state.settings, settingsObj);
 		},
 		resetDefaults(state, action) {
+			console.log("Resetting!")
 			state.settings = {};
 		}
 	}
