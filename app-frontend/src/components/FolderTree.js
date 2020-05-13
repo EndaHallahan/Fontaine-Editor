@@ -17,7 +17,12 @@ import folderPlus from '@iconify/icons-feather/folder-plus';
 import trash2 from '@iconify/icons-feather/trash-2';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { switchDocument, queueDocumentChanges, createNewDocument } from "../store/slices/workspaceSlice";
+import { 
+	switchDocument, 
+	queueDocumentChanges, 
+	createNewDocument, 
+	updateDocTree 
+	} from "../store/slices/workspaceSlice";
 
 import EditableTitle from "./EditableTitle";
 import KeyboardFocusableButton from "./KeyboardFocusableButton";
@@ -54,16 +59,19 @@ class FolderTreeChild extends Component {
 			expandParent: true,
 			ignoreCollapsed: true
 		}).treeData;
-		const selRow = find({
-			getNodeKey: this.getNodeKey,
-			treeData,
-			searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
-		});
 		this.setState({
 			...this.state,
-			treeData,
-			currentlySelectedNode: selRow.matches[0]
-		});
+			treeData
+		}, () => {
+			this.props.onTreeChange(treeData)
+			const selRow = find({
+				getNodeKey: this.getNodeKey,
+				treeData,
+				searchMethod: (rowData) => {return(rowData.node.id === id)}
+			});
+			console.log(selRow)
+			this.selectNode(selRow.matches[0])
+		})
 
 	}
 	moveNodeToTarget(node, destination, inTreeData) {
@@ -105,6 +113,9 @@ class FolderTreeChild extends Component {
 		this.props.getDoc(rowInfo);
 	}
 	trashSelectedNode() {
+		if (this.state.currentlySelectedNode.node.permanent) {
+			return;
+		}
 		const trashNode = find({
 			getNodeKey: this.getNodeKey,
 			treeData: this.state.treeData,
@@ -176,6 +187,7 @@ class FolderTreeChild extends Component {
 								treeData,
 								currentlySelectedNode: selRow.matches[0]
 							});
+							this.props.onTreeChange(treeData);
 		          		}
 		          	}
 		          	theme={FileExplorerTheme}
@@ -237,8 +249,9 @@ const FolderTree = (props) => {
 	const newDoc = (id) => {
 		dispatch(createNewDocument({id}));
 	}
-	const updateTree = () => {
-
+	const updateTree = (treeData) => {
+		console.log("dispatching!")
+		dispatch(updateDocTree({tree: treeData}));
 	}
 
 	/*const dispatch = useDispatch();

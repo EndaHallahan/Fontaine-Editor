@@ -161,8 +161,13 @@ button.border {
 		border: none;
 		display: inline-flex;
 		width: 100%;
+		align-self: end;
 		button {
 			margin-left: .5rem;
+			height: 2.5rem;
+			& > div {
+				height: 2.5rem
+			}
 		}
 
 		.right {
@@ -174,6 +179,6 @@ button.border {
 .editor-settings-tab {
 	height: 100%;
 	display: grid;
-	grid-template-rows: 15rem 1fr 2.5rem;
+	grid-template-rows: 15rem 1fr 1fr;
 	padding-bottom: .5rem;
 }

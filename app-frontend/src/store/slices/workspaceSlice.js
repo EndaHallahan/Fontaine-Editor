@@ -111,6 +111,10 @@ const workspaceSlice = createSlice({
 				state.docChangeQueues[docId] = state.docChangeQueues[docId].concat(changes);
 			}*/
 		},
+		updateDocTree(state, action) {
+			const {tree} = action.payload;
+			state.docTree = tree;
+		}
 	}
 });
 
@@ -119,6 +123,7 @@ export const {
 	createNewDocument,
 	queueDocumentChanges, 
 	updateWorkingDoc,
+	updateDocTree,
  } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;
