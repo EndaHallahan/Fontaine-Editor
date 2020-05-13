@@ -69,18 +69,10 @@ class FolderTreeChild extends Component {
 				treeData,
 				searchMethod: (rowData) => {return(rowData.node.id === id)}
 			});
-			console.log(selRow)
 			this.selectNode(selRow.matches[0])
 		})
-
 	}
-	moveNodeToTarget(node, destination, inTreeData) {
-		let {treeData} = find({
-			getNodeKey: this.getNodeKey,
-			treeData: inTreeData,
-			expandAllMatchPaths: true,
-			searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
-		});
+	moveNodeToTarget(node, destination, treeData) {
 		treeData = addNodeUnderParent({
 			treeData,
 			newNode: node.node,
@@ -103,7 +95,7 @@ class FolderTreeChild extends Component {
 			...this.state,
 			treeData,
 			currentlySelectedNode: selRow.matches[0]
-		});	
+		}, this.selectNode(selRow.matches[0]));	
 	}
 	selectNode(rowInfo) {
 		this.setState({
@@ -253,10 +245,6 @@ const FolderTree = (props) => {
 		console.log("dispatching!")
 		dispatch(updateDocTree({tree: treeData}));
 	}
-
-	/*const dispatch = useDispatch();
-	const queueDocChanges = (id, changes) => dispatch(queueDocumentChanges({docId: id, changes: changes}));
-	const updateDoc = (newDoc) => dispatch(updateWorkingDoc({newDoc: newDoc}));*/
 	return(
 		<FolderTreeChild
 			treeData={docTree}
