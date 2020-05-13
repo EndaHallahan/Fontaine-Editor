@@ -89,11 +89,12 @@ class FolderTreeChild extends Component {
 		const selRow = find({
 			getNodeKey: this.getNodeKey,
 			treeData,
+			expandAllMatchPaths: true,
 			searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
 		});
 		this.setState({
 			...this.state,
-			treeData,
+			treeData: selRow.treeData,
 			currentlySelectedNode: selRow.matches[0]
 		}, this.selectNode(selRow.matches[0]));	
 	}
