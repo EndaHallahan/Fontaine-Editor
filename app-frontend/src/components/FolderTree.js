@@ -40,13 +40,19 @@ class FolderTreeChild extends Component {
 		this.props.newDoc(id);
 		const newNode = {type: nodeType, title: "Untitled", id}
 		const path = this.state.currentlySelectedNode.path;
-		let treeData = addNodeUnderParent({
+		let {treeData} = find({
+			getNodeKey: this.getNodeKey,
 			treeData: this.state.treeData,
+			expandAllMatchPaths: true,
+			searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
+		});
+		treeData = addNodeUnderParent({
+			treeData: treeData,
 			newNode,
 			parentKey: path[path.length - 1],
 			getNodeKey: this.getNodeKey,
 			expandParent: true,
-			ignoreCollapsed: false
+			ignoreCollapsed: true
 		}).treeData;
 		const selRow = find({
 			getNodeKey: this.getNodeKey,
@@ -60,7 +66,13 @@ class FolderTreeChild extends Component {
 		});
 
 	}
-	moveNodeToTarget(node, destination, treeData) {
+	moveNodeToTarget(node, destination, inTreeData) {
+		let {treeData} = find({
+			getNodeKey: this.getNodeKey,
+			treeData: inTreeData,
+			expandAllMatchPaths: true,
+			searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
+		});
 		treeData = addNodeUnderParent({
 			treeData,
 			newNode: node.node,
