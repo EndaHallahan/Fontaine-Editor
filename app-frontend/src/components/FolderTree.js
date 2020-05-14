@@ -40,7 +40,7 @@ class FolderTreeChild extends Component {
 	    this.trashSelectedNode = this.trashSelectedNode.bind(this);
 	    this.getNodeKey = this.getNodeKey.bind(this);
 	}
-	addNewNodeUnderCurrent(nodeType) {
+	addNewNodeUnderCurrent(nodeType, e) {
 		const id = uuidv4();
 		this.props.newDoc(id);
 		const newNode = {type: nodeType, title: "Untitled", id}
@@ -66,9 +66,9 @@ class FolderTreeChild extends Component {
 			treeData,
 			searchMethod: (rowData) => {return(rowData.node.id === id)}
 		});
-		this.selectNode(selRow.matches[0])
-
-		
+		if (e.ctrlKey) {
+			this.selectNode(selRow.matches[0]);
+		}
 	}
 	moveNodeToTarget(node, destination, treeData) {
 		treeData = addNodeUnderParent({
@@ -149,15 +149,15 @@ class FolderTreeChild extends Component {
 				<div className="file-tree-head">
 					<KeyboardFocusableButton 
 						value={<Icon icon={filePlus} />}
-						onClick={() => this.addNewNodeUnderCurrent("file")}
-						title="New File"
+						onClick={(e) => this.addNewNodeUnderCurrent("file", e)}
+						title="New File (Ctrl+Click to jump)"
 						className="new-file"
 						disabled={this.state.currentlySelectedNode === null}
 					/>
 					<KeyboardFocusableButton 
 						value={<Icon icon={folderPlus} />}
-						onClick={() => this.addNewNodeUnderCurrent("folder")}
-						title="New Folder"
+						onClick={(e) => this.addNewNodeUnderCurrent("folder", e)}
+						title="New Folder (Ctrl+Click to jump)"
 						className="new-folder"
 						disabled={this.state.currentlySelectedNode === null}
 					/>
