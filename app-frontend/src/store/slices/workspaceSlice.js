@@ -31,6 +31,7 @@ function createInitialState(docIndex) {
 	let curDocId = docIndex.lastDocument || null;
 	let docCache = {};
 	let curDocList = [];
+	let curDocRow = {};
 	if (curDocId !== null) {
 		let newDocList = [curDocId];
 
@@ -39,6 +40,8 @@ function createInitialState(docIndex) {
 			treeData: docTree,
 			searchMethod: (rowData) => {return(rowData.node.id === curDocId)}
 		}).matches[0];
+
+		curDocRow = selRow;
 
 		let newWorkingDocs = {};
 		if (selRow && selRow.node.children) {
@@ -61,9 +64,10 @@ function createInitialState(docIndex) {
 	return {
 		docTree,
 		curDocId,
+		curDocRow,
 		curDocList,
 		docCache,
-		docChangeQueues: {}
+		docChangeQueues: {},
 	};
 }
 
@@ -80,6 +84,7 @@ const workspaceSlice = createSlice({
 				treeData: state.docTree,
 				searchMethod: (rowData) => {return(rowData.node.id === curDocId)}
 			}).matches[0];
+			state.curDocRow = selRow;
 			let newWorkingDocs = {};
 			if (selRow && selRow.node.children) {
 				walk({

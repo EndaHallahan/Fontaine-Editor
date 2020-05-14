@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from "lodash";
 import SortableTree, { 
 	changeNodeAtPath, 
 	addNodeUnderParent, 
@@ -22,7 +23,7 @@ import {
 	queueDocumentChanges, 
 	createNewDocument, 
 	updateDocTree 
-	} from "../store/slices/workspaceSlice";
+} from "../store/slices/workspaceSlice";
 
 import EditableTitle from "./EditableTitle";
 import KeyboardFocusableButton from "./KeyboardFocusableButton";
@@ -31,7 +32,6 @@ class FolderTreeChild extends Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
-	      	treeData: this.props.treeData,
 	      	currentlySelectedNode: null,
 	    };
 	    this.addNewNodeUnderCurrent = this.addNewNodeUnderCurrent.bind(this);
@@ -47,7 +47,7 @@ class FolderTreeChild extends Component {
 		const path = this.state.currentlySelectedNode.path;
 		let {treeData} = find({
 			getNodeKey: this.getNodeKey,
-			treeData: this.state.treeData,
+			treeData: this.props.treeData,
 			expandAllMatchPaths: true,
 			searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
 		});
@@ -59,18 +59,16 @@ class FolderTreeChild extends Component {
 			expandParent: true,
 			ignoreCollapsed: true
 		}).treeData;
-		this.setState({
-			...this.state,
-			treeData
-		}, () => {
-			this.props.onTreeChange(treeData)
-			const selRow = find({
-				getNodeKey: this.getNodeKey,
-				treeData,
-				searchMethod: (rowData) => {return(rowData.node.id === id)}
-			});
-			this.selectNode(selRow.matches[0])
-		})
+
+		this.props.onTreeChange(treeData)
+		const selRow = find({
+			getNodeKey: this.getNodeKey,
+			treeData,
+			searchMethod: (rowData) => {return(rowData.node.id === id)}
+		});
+		this.selectNode(selRow.matches[0])
+
+		
 	}
 	moveNodeToTarget(node, destination, treeData) {
 		treeData = addNodeUnderParent({
@@ -92,11 +90,12 @@ class FolderTreeChild extends Component {
 			expandAllMatchPaths: true,
 			searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
 		});
+		this.selectNode(selRow.matches[0]);
+			this.props.onTreeChange(selRow.treeData)
 		this.setState({
 			...this.state,
-			treeData: selRow.treeData,
 			currentlySelectedNode: selRow.matches[0]
-		}, this.selectNode(selRow.matches[0]));	
+		});	
 	}
 	selectNode(rowInfo) {
 		this.setState({
@@ -111,13 +110,13 @@ class FolderTreeChild extends Component {
 		}
 		const trashNode = find({
 			getNodeKey: this.getNodeKey,
-			treeData: this.state.treeData,
+			treeData: this.props.treeData,
 			searchMethod: (rowData) => {return(rowData.node.type === "trash")}
 		});
 		this.moveNodeToTarget(
 			this.state.currentlySelectedNode,
 			trashNode.matches[0],
-			this.state.treeData
+			this.props.treeData
 		);
 	}
 	getNodeKey({treeIndex}) {
@@ -127,7 +126,7 @@ class FolderTreeChild extends Component {
 		if (this.props.curDoc !== null) {
 			const selRow = find({
 				getNodeKey: this.getNodeKey,
-				treeData: this.state.treeData,
+				treeData: this.props.treeData,
 				searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
 			});
 			this.setState({
@@ -136,6 +135,14 @@ class FolderTreeChild extends Component {
 			});
 		}
   	}
+  	UNSAFE_componentWillReceiveProps(nextProps) {
+		if (!_.isEqual(nextProps.treeData, this.props.treeData)) {
+			this.setState({
+				...this.state,
+				treeData: nextProps.treeData
+			})
+		}
+	}
 	render() {
 		return(
 			<div className="file-tree">
@@ -165,65 +172,63 @@ class FolderTreeChild extends Component {
 					</span>
 				</div>
 				<div>
-				<SortableTree
-		          	treeData={this.state.treeData}
-		          	getNodeKey={this.getNodeKey}
-		          	onChange={
-		          		treeData => {
-		          			const selRow = find({
-								getNodeKey: this.getNodeKey,
-								treeData,
-								searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
-							});
-							this.setState({
-								...this.state,
-								treeData,
-								currentlySelectedNode: selRow.matches[0]
-							});
-							this.props.onTreeChange(treeData);
-		          		}
-		          	}
-		          	theme={FileExplorerTheme}
-		          	canDrag={(rowInfo) => {
-		          		return(!rowInfo.node.permanent);
-		          	}}
-		          	generateNodeProps={rowInfo => ({
-		          		className: (
-		          			this.props.curDoc !== null 
-		          			&& rowInfo.node.id === this.props.curDoc
-		          			? "selected" : null
-		          		),
-		          		title: (
-		          			<EditableTitle
-		          				value={rowInfo.node.title}
-		          				onClick={() => {this.selectNode(rowInfo)}}
-			                  	onChange={event => {
-			                    	const title = event.target.value;
-			                    	this.setState(state => ({
-			                      		treeData: changeNodeAtPath({
-				                        	treeData: state.treeData,
+					<SortableTree
+			          	treeData={this.props.treeData}
+			          	getNodeKey={this.getNodeKey}
+			          	onChange={
+			          		treeData => {
+			          			const selRow = find({
+									getNodeKey: this.getNodeKey,
+									treeData,
+									searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
+								});
+								this.setState({
+									...this.state,
+									currentlySelectedNode: selRow.matches[0]
+								});
+								this.props.onTreeChange(treeData);
+			          		}
+			          	}
+			          	theme={FileExplorerTheme}
+			          	canDrag={(rowInfo) => {
+			          		return(!rowInfo.node.permanent);
+			          	}}
+			          	generateNodeProps={rowInfo => ({
+			          		className: (
+			          			this.props.curDoc !== null 
+			          			&& rowInfo.node.id === this.props.curDoc
+			          			? "selected" : null
+			          		),
+			          		title: (
+			          			<EditableTitle
+			          				value={rowInfo.node.title}
+			          				onClick={() => {this.selectNode(rowInfo)}}
+				                  	onClose={text => {
+				                    	const title = text;
+				                    	const changedTree = changeNodeAtPath({
+				                        	treeData: this.props.treeData,
 				                        	path: rowInfo.path,
 				                        	getNodeKey: this.getNodeKey,
 				                        	newNode: { ...rowInfo.node, title },
-				                      	}),
-			                    	}));
-			                  	}}
-		          			/>
-			            ),
-			            icons: [(
-			            	<div className="tree-file-icon" onClick={() => {this.selectNode(rowInfo)}}>
-			                  	{
-			                  		{
-			                  			'manuscript': <Icon icon={bookOpen} />,
-							          	'file': <Icon icon={file} />,
-							          	'folder': <Icon icon={folder} />,
-							          	'trash': <Icon icon={trash2} />,
-							        }[rowInfo.node.type]
-			                  	}
-			                </div>
-			            )]
-		            })}
-		        />
+				                      	})
+				                      	this.props.onTreeChange(changedTree)
+				                  	}}
+			          			/>
+				            ),
+				            icons: [(
+				            	<div className="tree-file-icon" onClick={() => {this.selectNode(rowInfo)}}>
+				                  	{
+				                  		{
+				                  			'manuscript': <Icon icon={bookOpen} />,
+								          	'file': <Icon icon={file} />,
+								          	'folder': <Icon icon={folder} />,
+								          	'trash': <Icon icon={trash2} />,
+								        }[rowInfo.node.type]
+				                  	}
+				                </div>
+				            )]
+			            })}
+			        />
 		        </div>
 	        </div>
 		);
@@ -233,6 +238,7 @@ class FolderTreeChild extends Component {
 const FolderTree = (props) => {
 	const docTree = useSelector(state => state.workspaceReducer.docTree);
 	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
+	const lastTreeUpdate = useSelector(state => state.workspaceReducer.docTreeLastUpdater);
 	const dispatch = useDispatch();
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {
@@ -243,7 +249,6 @@ const FolderTree = (props) => {
 		dispatch(createNewDocument({id}));
 	}
 	const updateTree = (treeData) => {
-		console.log("dispatching!")
 		dispatch(updateDocTree({tree: treeData}));
 	}
 	return(

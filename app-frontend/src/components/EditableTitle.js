@@ -9,11 +9,22 @@ class EditableTitle extends Component {
 			contents: this.props.value
 		}
 		this.toggleEditing = this.toggleEditing.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 	}
 	toggleEditing() {
+		if (this.state.editing) {
+			this.props.onClose(this.state.contents)
+		}
 		this.setState({
 			...this.state,
 			editing: !this.state.editing
+		});
+	}
+	handleChange(e) {
+		const txt = e.target.value || "Untitled"		
+		this.setState({
+			...this.state,
+			contents: txt
 		});
 	}
 	render() {
@@ -30,7 +41,7 @@ class EditableTitle extends Component {
 			return(
 				<EditableTitleInput 
 					value={this.props.value}
-	              	onChange={event => this.props.onChange(event)}
+	              	onChange={this.handleChange}
 	              	exit={this.toggleEditing}
 				/>
 			);
@@ -56,7 +67,7 @@ class EditableTitleInput extends Component {
 		return(
 			<input
 				className="editable-title"
-              	value={this.props.value}
+              	defaultValue={this.props.value}
               	onChange={this.props.onChange}
               	onBlur={this.props.exit}
               	onKeyDown={this.handleKeyDown}

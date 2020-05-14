@@ -1,0 +1,33 @@
+#corkboard-area {
+	background-color: var(--editor-container-colour);
+	display: flex;
+	justify-content: center;
+
+	& > div {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 1rem;
+		align-items: flex-start;
+		align-content: flex-start;
+		justify-content: flex-start;
+	}
+
+	.index-card {
+		width: var(--corkboard-card-width);
+		height: calc(.67 * var(--corkboard-card-width));
+		background-color: white;
+		margin: .5rem;
+		padding: .3rem;
+		border-radius: 3px;
+
+		h3 {
+			margin: 0;
+			width: 100%;
+			border-bottom: 1px solid $index-card-red;
+		}
+
+		&[data-placeholder] {
+			opacity: .5;
+		}
+	}
+}

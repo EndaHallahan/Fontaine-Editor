@@ -16,6 +16,8 @@ $light-higherlight: #ccc;
 
 $warning-red: #EE0000;
 
+$index-card-red: #EE0000;
+
 $font-family-sans: "Open Sans", sans-serif;
 
 :root {
@@ -27,6 +29,9 @@ $font-family-sans: "Open Sans", sans-serif;
 	--editor-drop-shadow: 10px 10px 8px black;
 	--editor-page-width: 900px;
 	--editor-default-font-size: 16px;
+
+	--corkboard-container-colour: #555555;
+	--corkboard-card-width: 15rem;
 }
 
 * {

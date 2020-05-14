@@ -1,11 +1,18 @@
 import React, { Component, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import SortableTree, { 
+	changeNodeAtPath, 
+	addNodeUnderParent, 
+	find, 
+	removeNodeAtPath
+} from 'react-sortable-tree';
 
 import { switchDocument } from "../store/slices/workspaceSlice";
 
-import Editor from "./Editor";
+import EditorArea from "./EditorArea";
 import LeftPanel from "./LeftPanel";
 import AppBar from "./AppBar";
+import AppToolBar from "./AppToolBar";
 
 const Workspace = (props) => {
 	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
@@ -19,12 +26,10 @@ const Workspace = (props) => {
 	return(
 		<div id="workspace">
 			<AppBar />
-			<div id="app-toolbar">
-
-			</div>
+			<AppToolBar />
 			<div id="work-area">
 				<LeftPanel />
-				<Editor 
+				<EditorArea 
 					doc = {docCache[curDocId]}
 					docSet = {docCache}
 					docList = {curDocList}
