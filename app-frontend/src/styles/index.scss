@@ -111,6 +111,10 @@ button.border {
 	}
 }
 
+input {
+	font-family: #{$font-family-sans};
+}
+
 @import "menus";
 @import "modal";
 

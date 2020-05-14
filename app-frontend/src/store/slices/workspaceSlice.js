@@ -22,6 +22,15 @@ function getFullChildContents(docList, docCache) {
 	return fullContents;
 }
 
+function getDocRow(docTree, curDocId) {
+	const selRow = find({
+		getNodeKey: ({treeIndex}) => {return treeIndex;},
+		treeData: docTree,
+		searchMethod: (rowData) => {return(rowData.node.id === curDocId)}
+	}).matches[0];
+	return selRow;
+}
+
 function saveDocument(id, changes) {
 
 }
@@ -107,6 +116,7 @@ const workspaceSlice = createSlice({
 		createNewDocument(state, action) {
 			const {id} = action.payload;
 			state.docCache[id] = {};
+			state.curDocRow = getDocRow(state.docTree, state.curDocId);
 		},
 		queueDocumentChanges(state, action) {
 			const {docId, changes} = action.payload;
@@ -119,6 +129,7 @@ const workspaceSlice = createSlice({
 		updateDocTree(state, action) {
 			const {tree} = action.payload;
 			state.docTree = tree;
+			state.curDocRow = getDocRow(state.docTree, state.curDocId);
 		}
 	}
 });

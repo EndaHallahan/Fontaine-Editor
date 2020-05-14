@@ -5,7 +5,7 @@ class EditableTitle extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			editing: false,
+			editing: this.props.defaultOpen || false,
 			contents: this.props.value
 		}
 		this.toggleEditing = this.toggleEditing.bind(this);
@@ -33,7 +33,13 @@ class EditableTitle extends Component {
 				<KeyboardFocusableButton 
 					value={this.props.value}
 					className="editable-title"
-					onClick={event => this.props.onClick(event)}
+					onClick={event => {
+						if (this.props.onClick) {
+							this.props.onClick(event);
+						} else {
+							this.toggleEditing();
+						}
+					}}
 					onDoubleClick={this.toggleEditing}
 				/>
 			);

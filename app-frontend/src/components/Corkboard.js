@@ -13,12 +13,19 @@ import SortableTree, {
 	find,
 } from 'react-sortable-tree';
 
+import { Icon, InlineIcon } from '@iconify/react';
+import gridIcon from '@iconify/icons-feather/grid';
+
 import { 
 	switchDocument, 
 	queueDocumentChanges, 
 	createNewDocument, 
 	updateDocTree 
 } from "../store/slices/workspaceSlice";
+import { Input, TextArea } from "./StatefulInputs";
+
+
+import EditableTitle from "./EditableTitle";
 
 class IndexCard extends Component {
 	constructor(props) {
@@ -33,7 +40,23 @@ class IndexCard extends Component {
 				{...this.props}
 				className="index-card" 
 			>
-				<h3>{this.props.title}</h3>
+				<h3>
+					<Input
+						value={this.props.card.title}
+						onChange={e => {
+							const title = e.target.value;
+	                    	this.props.onCardChange({...this.props.card, title}, this.props.docIndex);
+						}}
+					/>
+				</h3>
+				<TextArea
+					placeholder="Make a note..."
+					onChange={e => {
+						const note = e.target.value;
+                    	this.props.onCardChange({...this.props.card, note}, this.props.docIndex);
+					}}
+				>{this.props.card.note}</TextArea>
+				<span title="Hold to drag"><Icon icon={gridIcon} /></span>
 			</div>
 		);
 	}
@@ -49,30 +72,50 @@ class CorkboardChild extends Component {
 			freeForm: false,
 		}
 		this.onReorder = this.onReorder.bind(this);
+		this.onCardChange = this.onCardChange.bind(this);
 	}
 	onReorder (event, previousIndex, nextIndex, fromId, toId) {
 		this.setState({
 			...this.state,
 			currentList: reorder(this.state.currentList, previousIndex, nextIndex)
-		}, () => this.props.onReorder(this.state.currentList));
+		}, () => {
+			let reorderedNode = {...this.props.curDocRow.node, expanded: true, children: [...this.state.currentList]}
+			this.props.replaceCurRow(reorderedNode)
+		});
+	}
+	onCardChange(newCard, index) {
+		let newList = Array.from(this.state.currentList);
+		newList[index] = newCard;
+		console.log("newCardList", newList)
+		this.setState({
+			...this.state,
+			currentList: newList
+		}, () => {
+			let modifiedNode = {...this.props.curDocRow.node, expanded: true, children: [...this.state.currentList]}
+			this.props.replaceCurRow(modifiedNode);
+		});
 	}
 	UNSAFE_componentWillReceiveProps(nextProps) {
+		console.log("newCurRow", nextProps.curDocRow)
 		if (!_.isEqual(nextProps.treeData, this.props.treeData)) {
+			console.log("Corkboard Tree Update!")
 			this.setState({
 				...this.state,
+				currentList: nextProps.curDocRow ? nextProps.curDocRow.node.children : this.props.curDocRow,
 				treeData: nextProps.treeData
 			})
 		}
 		if (!_.isEqual(nextProps.curDocRow, this.props.curDocRow)) {
+			console.log("Corkboard Row Update!")
 			this.setState({
 				...this.state,
-				curDocRow: nextProps.curDocRow,
 				currentList: nextProps.curDocRow.node.children,
 				treeData: nextProps.treeData
 			})
 		}
 	}
 	render() {
+		console.log(this.state.currentList);
 		return (
 			<div id="corkboard-area">
 				<Reorder 
@@ -82,16 +125,17 @@ class CorkboardChild extends Component {
 					template={IndexCard}
 					onReorder={this.onReorder}
 					component="div"
+					holdTime={200}
 				>
 					{
 						this.state.currentList 
 						? (
-							this.state.currentList.map((item) => (
+							this.state.currentList.map((item, i) => (
 						      	<IndexCard 
 									key={item.id}
-									docId={item.id}
-									title={item.title}
-									notes={item.notes ? item.notes : null}
+									docIndex={i}
+									card={item}
+									onCardChange={this.onCardChange}
 								/>
 						    ))
 						) : null
@@ -119,15 +163,19 @@ const Corkboard = (props) => {
 	const updateTree = (treeData) => {
 		dispatch(updateDocTree({tree: treeData}));
 	}
-	const onReorder = (newOrder) => {
-		let reorderedNode = {...curDocRow.node, expanded: true, children: [...newOrder]}
+	const replaceCurRow = (newRow) => {
+		console.log("repRow", newRow)
 		let reorderedTree = changeNodeAtPath({
 			treeData: docTree,
 			path: curDocRow.path,
 			getNodeKey: ({treeIndex}) => {return treeIndex;},
-			newNode: reorderedNode
+			newNode: newRow
 		});
 		updateTree(reorderedTree);
+	}
+	const onReorder = (newOrder) => {
+		let reorderedNode = {...curDocRow.node, expanded: true, children: [...newOrder]}
+		replaceCurRow(reorderedNode);
 	}
 	return(
 		<CorkboardChild 
@@ -138,7 +186,7 @@ const Corkboard = (props) => {
 			newDoc={newDoc}
 			onTreeChange={updateTree}
 			docList = {props.docList}
-			onReorder={onReorder}
+			replaceCurRow={replaceCurRow}
 			//key={curDocId}
 		/>
 	);

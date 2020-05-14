@@ -19,11 +19,52 @@
 		margin: .5rem;
 		padding: .3rem;
 		border-radius: 3px;
+		display: grid;
+		grid-template-rows: 1.6rem 1fr;
+		position: relative;
+
+		& > span > svg {
+			$dim: 1.4rem;
+			height: $dim;
+			width: $dim;
+			vertical-align: center;
+			position: absolute;
+			top: .3rem;
+			right: .3rem;
+			z-index: 1;
+			cursor: move;
+			color: $light-text;
+			opacity: .3;
+		}
 
 		h3 {
 			margin: 0;
 			width: 100%;
 			border-bottom: 1px solid $index-card-red;
+
+			input {
+				font-size: inherit;
+				color: inherit;
+				cursor: text;
+				border: none;
+				width: 85%;
+				background-color: transparent;
+				text-overflow: ellipsis;
+
+				&:focus {
+					//outline: none;
+				}
+			}
+		}
+
+		textarea {
+			resize: none;
+			width: 100%;
+			height: 100%;
+			border: none;
+			font-family: $font-family-sans;
+			font-size: .9rem;
+			background-color: transparent;
 		}
 
 		&[data-placeholder] {
