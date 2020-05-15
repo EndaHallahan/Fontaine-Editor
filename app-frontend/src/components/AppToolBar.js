@@ -38,12 +38,12 @@ class AppToolbarChild extends Component {
 					<span className="editor-mode">
 						<KeyboardFocusableButton
 							onClick={()=>this.props.changeEditorMode("editor")}
-							title="Editor"
+							title="Editor (Ctrl+1)"
 							className={this.props.editorMode === "editor" ? "active" : null}
 						><Icon icon={edit3} /></KeyboardFocusableButton>
 						<KeyboardFocusableButton
 							onClick={()=>this.props.changeEditorMode("corkboard")}
-							title="Corkboard"
+							title="Corkboard (Ctrl+2)"
 							className={this.props.editorMode === "corkboard" ? "active" : null}
 						><Icon icon={gridIcon} /></KeyboardFocusableButton>
 					</span>

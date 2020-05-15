@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ModalHandler from "./components/ModalHandler";
 import Workspace from "./components/Workspace";
 import SettingsHandler from "./components/SettingsHandler";
+import ShortcutHandler from "./components/ShortcutHandler";
 
 class App extends Component {
 	render() {
@@ -10,6 +11,7 @@ class App extends Component {
 			<div className="App">
 				<SettingsHandler />
 				<ModalHandler />
+				<ShortcutHandler />
 				<main>
 					<Workspace />
 				</main>

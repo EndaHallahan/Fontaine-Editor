@@ -8,6 +8,7 @@ import SortableTree, {
 } from 'react-sortable-tree';
 import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
 import { v4 as uuidv4 } from "uuid";
+import { GlobalHotKeys } from "react-hotkeys";
 
 import { Icon, InlineIcon } from '@iconify/react';
 import bookOpen from '@iconify/icons-feather/book-open';
@@ -17,7 +18,7 @@ import folder from '@iconify/icons-feather/folder';
 import folderPlus from '@iconify/icons-feather/folder-plus';
 import trash2 from '@iconify/icons-feather/trash-2';
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 import { 
 	switchDocument, 
 	queueDocumentChanges, 
@@ -27,6 +28,12 @@ import {
 
 import EditableTitle from "./EditableTitle";
 import KeyboardFocusableButton from "./KeyboardFocusableButton";
+
+const keyMap = {
+		NEW_DOC: "ctrl+alt+n",
+		NEW_FOLDER: "ctrl+shift+alt+n",
+		SEND_TO_TRASH: "shift+del",
+	}
 
 class FolderTreeChild extends Component {
 	constructor(props) {
@@ -39,6 +46,20 @@ class FolderTreeChild extends Component {
 	    this.selectNode = this.selectNode.bind(this);
 	    this.trashSelectedNode = this.trashSelectedNode.bind(this);
 	    this.getNodeKey = this.getNodeKey.bind(this);
+		this.keyHandlers = {
+			NEW_DOC: e => {
+				e.preventDefault();
+				this.addNewNodeUnderCurrent("file")
+			},
+			NEW_FOLDER: e => {
+				e.preventDefault();
+				this.addNewNodeUnderCurrent("folder")
+			},
+			SEND_TO_TRASH: e => {
+				e.preventDefault();
+				this.trashSelectedNode();
+			},
+		}
 	}
 	addNewNodeUnderCurrent(nodeType, e) {
 		const id = uuidv4();
@@ -66,7 +87,7 @@ class FolderTreeChild extends Component {
 			treeData,
 			searchMethod: (rowData) => {return(rowData.node.id === id)}
 		});
-		if (e.ctrlKey) {
+		if (e && e.ctrlKey) {
 			this.selectNode(selRow.matches[0]);
 		}
 	}
@@ -146,6 +167,7 @@ class FolderTreeChild extends Component {
 	render() {
 		return(
 			<div className="file-tree">
+				<GlobalHotKeys keyMap={keyMap} handlers={this.keyHandlers}/>
 				<div className="file-tree-head">
 					<KeyboardFocusableButton 
 						value={<Icon icon={filePlus} />}
