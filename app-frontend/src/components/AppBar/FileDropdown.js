@@ -19,7 +19,6 @@ const FileDropdown = (props) => {
 		>
 			<LI
 				title="New Project"
-				shortcut="Ctrl+N"
 			/>
 			<LI
 				title="Open Project..."

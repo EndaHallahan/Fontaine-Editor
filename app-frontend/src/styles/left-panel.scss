@@ -37,17 +37,13 @@
 					padding: 0 4px 0 6px;
 				}
 
-				&:not(:last-child) {
-					border-right: 1px solid $dark-lowlight;
-				}
-
 				svg {
-					vertical-align: text-bottom !important;
+					vertical-align: text-bottom;
 				}
 
 				&.new-folder {
 					svg {
-						vertical-align: -32% !important;
+						vertical-align: -32%;
 					}
 				}
 
@@ -61,13 +57,10 @@
 			.right {
 				flex-grow: 1;
 				text-align: right;
-				//margin-right: 1.5rem;
 			}
 		}
 		.rst__tree {
 			padding-right: .5rem;
-			/*overflow-x: scroll;
-			overflow-y: hidden;*/
 		}
 		.ReactVirtualized__Grid__innerScrollContainer {
 			height: 100% !important;

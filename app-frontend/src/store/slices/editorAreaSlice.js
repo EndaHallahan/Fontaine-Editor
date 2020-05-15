@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 /* 
-Modes:
+Available Modes:
 	"editor"
 	"corkboard"
 */
@@ -9,7 +9,7 @@ Modes:
 const editorAreaSlice = createSlice({
 	name: "editorArea",
 	initialState: {
-		mode: "corkboard"
+		mode: "editor"
 	},
 	reducers: {
 		setMode(state, action) {
