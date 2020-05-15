@@ -50,12 +50,12 @@ class IndexCard extends Component {
 					/>
 				</h3>
 				<TextArea
-					placeholder="Make a note..."
+					placeholder="Write a synopsis..."
 					onChange={e => {
-						const note = e.target.value;
-                    	this.props.onCardChange({...this.props.card, note}, this.props.docIndex);
+						const synopsis = e.target.value;
+                    	this.props.onCardChange({...this.props.card, synopsis}, this.props.docIndex);
 					}}
-				>{this.props.card.note}</TextArea>
+				>{this.props.card.synopsis}</TextArea>
 				<span title="Hold to drag"><Icon icon={gridIcon} /></span>
 			</div>
 		);
@@ -86,7 +86,6 @@ class CorkboardChild extends Component {
 	onCardChange(newCard, index) {
 		let newList = Array.from(this.state.currentList);
 		newList[index] = newCard;
-		console.log("newCardList", newList)
 		this.setState({
 			...this.state,
 			currentList: newList
@@ -96,9 +95,7 @@ class CorkboardChild extends Component {
 		});
 	}
 	UNSAFE_componentWillReceiveProps(nextProps) {
-		console.log("newCurRow", nextProps.curDocRow)
 		if (!_.isEqual(nextProps.treeData, this.props.treeData)) {
-			console.log("Corkboard Tree Update!")
 			this.setState({
 				...this.state,
 				currentList: nextProps.curDocRow ? nextProps.curDocRow.node.children : this.props.curDocRow,
@@ -106,7 +103,6 @@ class CorkboardChild extends Component {
 			})
 		}
 		if (!_.isEqual(nextProps.curDocRow, this.props.curDocRow)) {
-			console.log("Corkboard Row Update!")
 			this.setState({
 				...this.state,
 				currentList: nextProps.curDocRow.node.children,
@@ -115,7 +111,6 @@ class CorkboardChild extends Component {
 		}
 	}
 	render() {
-		console.log(this.state.currentList);
 		return (
 			<div id="corkboard-area">
 				<Reorder 
@@ -164,7 +159,6 @@ const Corkboard = (props) => {
 		dispatch(updateDocTree({tree: treeData}));
 	}
 	const replaceCurRow = (newRow) => {
-		console.log("repRow", newRow)
 		let reorderedTree = changeNodeAtPath({
 			treeData: docTree,
 			path: curDocRow.path,

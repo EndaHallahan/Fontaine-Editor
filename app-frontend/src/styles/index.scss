@@ -37,6 +37,25 @@ $font-family-sans: "Open Sans", sans-serif;
 
 * {
 	box-sizing: border-box;
+
+	&::-webkit-scrollbar {
+	    width: 15px;
+	    height: 15px;
+	}
+
+	&::-webkit-scrollbar-track {
+	    background: $dark;
+	}
+
+	&::-webkit-scrollbar-thumb {
+	    background: $dark-highlight;
+	    border-radius: 3px;
+	    border: 2px solid $dark;
+	}
+
+	&::-webkit-scrollbar-corner {
+		background: $dark;
+	}
 }
 
 body {
@@ -192,3 +211,5 @@ input {
 	grid-template-rows: 15rem 1fr 1fr;
 	padding-bottom: .5rem;
 }
+
+

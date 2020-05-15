@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Icon, InlineIcon } from '@iconify/react';
 import gridIcon from '@iconify/icons-feather/grid';
 import fileText from '@iconify/icons-feather/file-text';
+import edit3 from '@iconify/icons-feather/edit-3';
 
 import { setMode } from "../store/slices/editorAreaSlice";
 import KeyboardFocusableButton from "./KeyboardFocusableButton";
@@ -39,7 +40,7 @@ class AppToolbarChild extends Component {
 							onClick={()=>this.props.changeEditorMode("editor")}
 							title="Editor"
 							className={this.props.editorMode === "editor" ? "active" : null}
-						><Icon icon={fileText} /></KeyboardFocusableButton>
+						><Icon icon={edit3} /></KeyboardFocusableButton>
 						<KeyboardFocusableButton
 							onClick={()=>this.props.changeEditorMode("corkboard")}
 							title="Corkboard"

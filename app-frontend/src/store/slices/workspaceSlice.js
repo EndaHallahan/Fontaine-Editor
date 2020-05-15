@@ -129,7 +129,27 @@ const workspaceSlice = createSlice({
 		updateDocTree(state, action) {
 			const {tree} = action.payload;
 			state.docTree = tree;
-			state.curDocRow = getDocRow(state.docTree, state.curDocId);
+			let newDocList = [state.curDocId];
+			const selRow = find({
+				getNodeKey: ({treeIndex}) => {return treeIndex;},
+				treeData: state.docTree,
+				searchMethod: (rowData) => {return(rowData.node.id === state.curDocId)}
+			}).matches[0];
+			state.curDocRow = selRow;
+			let newWorkingDocs = {};
+			if (selRow && selRow.node.children) {
+				walk({
+					treeData: selRow.node.children,
+					getNodeKey: ({treeIndex}) => {return treeIndex;},
+					callback: (row) => newDocList.push(row.node.id),
+					ignoreCollapsed: false
+				});
+			}
+			newWorkingDocs = getFullChildContents(newDocList, state.docCache);
+			newDocList.forEach(id => {
+				state.docCache[id] = newWorkingDocs[id];
+			});
+			state.curDocList = newDocList;
 		}
 	}
 });
