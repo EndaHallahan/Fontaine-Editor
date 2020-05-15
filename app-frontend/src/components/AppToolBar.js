@@ -1,6 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
+import { Icon, InlineIcon } from '@iconify/react';
+import gridIcon from '@iconify/icons-feather/grid';
+import fileText from '@iconify/icons-feather/file-text';
+
 import { setMode } from "../store/slices/editorAreaSlice";
+import KeyboardFocusableButton from "./KeyboardFocusableButton";
 
 const AppToolbar = (props) => {
 	const dispatch = useDispatch();
@@ -8,6 +13,7 @@ const AppToolbar = (props) => {
 	const changeEditorMode = (mode) => dispatch(setMode({mode}));
 	return(
 		<AppToolbarChild 
+			editorMode={editorMode}
 			changeEditorMode={changeEditorMode}
 		/>
 	);
@@ -23,12 +29,28 @@ class AppToolbarChild extends Component {
 	render() {
 		return (
 			<div id="app-toolbar">
-				<button
-					onClick={()=>this.props.changeEditorMode("editor")}
-				>Editor</button>
-				<button
-					onClick={()=>this.props.changeEditorMode("corkboard")}
-				>Corkboard</button>
+				<span>
+					
+				</span>
+				
+				<span>
+					<span className="editor-mode">
+						<KeyboardFocusableButton
+							onClick={()=>this.props.changeEditorMode("editor")}
+							title="Editor"
+							className={this.props.editorMode === "editor" ? "active" : null}
+						><Icon icon={fileText} /></KeyboardFocusableButton>
+						<KeyboardFocusableButton
+							onClick={()=>this.props.changeEditorMode("corkboard")}
+							title="Corkboard"
+							className={this.props.editorMode === "corkboard" ? "active" : null}
+						><Icon icon={gridIcon} /></KeyboardFocusableButton>
+					</span>
+				</span>
+
+				<span>
+					
+				</span>
 			</div>
 		);
 	}

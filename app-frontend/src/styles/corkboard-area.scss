@@ -22,6 +22,15 @@
 		display: grid;
 		grid-template-rows: 1.6rem 1fr;
 		position: relative;
+		box-shadow: 10px 10px 8px black;
+
+		&.has-contents {
+			box-shadow: 
+				1px 1px 1px rgba(0,0,0,0.30),
+				5px 5px 0px hsla(255, 0%, 70%, 100%),
+				10px 10px 8px black
+			;
+		}
 
 		& > span > svg {
 			$dim: 1.4rem;

@@ -35,10 +35,47 @@ main {
 
 
 		#app-toolbar {
+			$icon-size: 1.5rem;
 			height: $toolbar-height;
 			background-color: $darker;
 			color: $dark-text;
 			border-bottom: 1px solid $dark-highlight;
+			padding: .2rem .3rem;
+			/*display: inline-flex;*/
+			display: grid;
+			grid-auto-flow: column;
+			grid-template-columns: 1fr 8rem 1fr;
+			align-items: center;
+
+			button.keyboard-focusable-button {
+				font-size: $icon-size;
+				margin: .25rem;
+				border-radius: 3px;
+
+				> div {
+					height: $icon-size;
+				}
+
+				&.active {
+					color: black;
+					background-color: $fontaine-blue;
+				}
+			}
+
+			span:nth-child(2) {
+				text-align: center;
+			}
+
+			span:nth-child(3) {
+				text-align: right;
+			}
+
+			span.editor-mode {
+				border-right: 1px solid $dark-highlight;
+				border-left: 1px solid $dark-highlight;
+				border-radius: 3px;
+				display: inline-flex;
+			}
 		}
 
 		#work-area {

@@ -38,7 +38,7 @@ class IndexCard extends Component {
 		return (
 			<div 
 				{...this.props}
-				className="index-card" 
+				className={this.props.card.children ? "index-card has-contents" : "index-card"}
 			>
 				<h3>
 					<Input
@@ -125,7 +125,7 @@ class CorkboardChild extends Component {
 					template={IndexCard}
 					onReorder={this.onReorder}
 					component="div"
-					holdTime={200}
+					holdTime={300}
 				>
 					{
 						this.state.currentList 
