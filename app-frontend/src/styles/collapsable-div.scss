@@ -1,0 +1,37 @@
+.collapsable-div {
+	
+	> div {
+		overflow: hidden;
+	}
+
+	.collapsable-header {
+		background-color: $darker;
+		padding: .1rem .5rem;
+		position: relative;
+		font-size: .9rem;
+		cursor: pointer;
+		user-select: none;
+		border-bottom: 1px solid $dark-lowlight;
+
+		&::after {
+			content: "";
+			position: absolute;
+			right: .5rem;
+			top: .4rem;
+			transform-origin: 7px 4px;
+			border: solid transparent 10px;
+		    border-left-width: 7px;
+		    border-right-width: 7px;
+		    border-top-color: grey;
+		    transform: rotateZ(-90deg);
+		}
+
+		&.open::after {
+			transform: rotateZ(0deg);
+		}
+	}
+
+	& > div:last-child.open {
+		padding: .2rem;
+	}
+}

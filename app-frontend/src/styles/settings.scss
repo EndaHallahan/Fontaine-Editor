@@ -1,0 +1,59 @@
+.editor-preview {
+	height: 15rem;
+	overflow-y: auto;
+	background-color: var(--editor-container-colour);
+	
+
+	& > div {
+		color: var(--editor-text-colour);
+		background-color: var(--editor-background-colour);
+		box-shadow: var(--editor-drop-shadow);
+		font-size: var(--editor-default-font-size);
+		width: 80%;
+		margin: 0 auto;
+		padding: 0 .5rem;
+	}
+}
+
+.options-list {
+	padding: .5rem;
+	height: 100%;
+	position: relative;
+	font-size: .9rem;
+
+	& > div {
+		display: grid;
+		grid-template-columns: 1fr 5rem;
+
+		 > *:last-child {
+		 	justify-self: end;
+		}
+	}
+}
+.confirm-wrapper {
+	padding: .3rem;
+	padding-right: .5rem;
+	border: none;
+	display: inline-flex;
+	width: 100%;
+	align-self: end;
+	button {
+		margin-left: .5rem;
+		height: 2.5rem;
+		& > div {
+			height: 2.5rem
+		}
+	}
+
+	.right {
+		flex-grow: 1;
+		text-align: right;
+	}
+}
+
+.editor-settings-tab {
+	height: 100%;
+	display: grid;
+	grid-template-rows: 15rem 1fr 1fr;
+	padding-bottom: .5rem;
+}
