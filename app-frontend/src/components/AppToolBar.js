@@ -5,13 +5,13 @@ import gridIcon from '@iconify/icons-feather/grid';
 import fileText from '@iconify/icons-feather/file-text';
 import edit3 from '@iconify/icons-feather/edit-3';
 
-import { setMode } from "../store/slices/editorAreaSlice";
+import { setEditorMode } from "../store/slices/uiSlice";
 import KeyboardFocusableButton from "./KeyboardFocusableButton";
 
 const AppToolbar = (props) => {
 	const dispatch = useDispatch();
-	const editorMode = useSelector(state => state.editorAreaReducer.mode);
-	const changeEditorMode = (mode) => dispatch(setMode({mode}));
+	const editorMode = useSelector(state => state.uiReducer.editorMode);
+	const changeEditorMode = (mode) => dispatch(setEditorMode({mode}));
 	return(
 		<AppToolbarChild 
 			editorMode={editorMode}

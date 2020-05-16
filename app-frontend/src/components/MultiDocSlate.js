@@ -23,6 +23,7 @@ class MultiDocSlate extends Component {
 			...this.state,
 			activeEditor: id
 		});
+		this.props.inspectDoc(id)
 	}
 	createHoistedEditor(id, editor) {
 		this.editors[id] = editor;

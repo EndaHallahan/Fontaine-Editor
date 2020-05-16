@@ -24,6 +24,7 @@
 		grid-template-rows: 1.6rem 1fr;
 		position: relative;
 		box-shadow: 10px 10px 8px black;
+		user-select: none;
 
 		&.has-contents {
 			box-shadow: 
@@ -31,6 +32,11 @@
 				5px 5px 0px hsla(255, 0%, 70%, 100%),
 				10px 10px 8px black
 			;
+		}
+
+		&.inspected {
+			outline: 3px solid $fontaine-blue;
+			outline-offset: 4px;
 		}
 
 		& > span > svg {
@@ -67,13 +73,7 @@
 		}
 
 		textarea {
-			resize: none;
-			width: 100%;
-			height: 100%;
-			border: none;
-			font-family: $font-family-sans;
-			font-size: .9rem;
-			background-color: transparent;
+			text-overflow: ellipsis;
 		}
 
 		&[data-placeholder] {

@@ -4,7 +4,7 @@ import Editor from "./Editor";
 import Corkboard from "./Corkboard";
 
 const EditorArea = (props) => {
-	const editorMode = useSelector(state => state.editorAreaReducer.mode);
+	const editorMode = useSelector(state => state.uiReducer.editorMode);
 	switch (editorMode) {
 		case "editor":
 			return(<Editor {...props}/>);

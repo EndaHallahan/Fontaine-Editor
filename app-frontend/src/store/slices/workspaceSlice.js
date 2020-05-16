@@ -41,6 +41,7 @@ function createInitialState(docIndex) {
 	let docCache = {};
 	let curDocList = [];
 	let curDocRow = {};
+	let inspectedDocRow = {};
 	if (curDocId !== null) {
 		let newDocList = [curDocId];
 
@@ -51,6 +52,7 @@ function createInitialState(docIndex) {
 		}).matches[0];
 
 		curDocRow = selRow;
+		inspectedDocRow = selRow;
 
 		let newWorkingDocs = {};
 		if (selRow && selRow.node.children) {
@@ -76,6 +78,7 @@ function createInitialState(docIndex) {
 		curDocRow,
 		curDocList,
 		docCache,
+		inspectedDocRow,
 		docChangeQueues: {},
 	};
 }
@@ -94,6 +97,7 @@ const workspaceSlice = createSlice({
 				searchMethod: (rowData) => {return(rowData.node.id === curDocId)}
 			}).matches[0];
 			state.curDocRow = selRow;
+			state.inspectedDocRow = selRow;
 			let newWorkingDocs = {};
 			if (selRow && selRow.node.children) {
 				walk({
@@ -108,6 +112,16 @@ const workspaceSlice = createSlice({
 				state.docCache[id] = newWorkingDocs[id];
 			});
 			state.curDocList = newDocList;
+		},
+		inspectDocument(state, action) {
+			const inspDocId = action.payload.id;
+			const selRow = find({
+				getNodeKey: ({treeIndex}) => {return treeIndex;},
+				treeData: state.docTree,
+				searchMethod: (rowData) => {return(rowData.node.id === inspDocId)},
+				ignoreCollapsed: false
+			}).matches[0];
+			state.inspectedDocRow = selRow;
 		},
 		updateWorkingDoc(state, action) {
 			const {id, newDoc} = action.payload;
@@ -136,6 +150,12 @@ const workspaceSlice = createSlice({
 				searchMethod: (rowData) => {return(rowData.node.id === state.curDocId)}
 			}).matches[0];
 			state.curDocRow = selRow;
+			const inspRow = find({
+				getNodeKey: ({treeIndex}) => {return treeIndex;},
+				treeData: state.docTree,
+				searchMethod: (rowData) => {return(rowData.node.id === state.inspectedDocRow.node.id)}
+			}).matches[0];
+			state.inspectedDocRow = inspRow;
 			let newWorkingDocs = {};
 			if (selRow && selRow.node.children) {
 				walk({
@@ -156,6 +176,7 @@ const workspaceSlice = createSlice({
 
 export const { 
 	switchDocument, 
+	inspectDocument,
 	createNewDocument,
 	queueDocumentChanges, 
 	updateWorkingDoc,

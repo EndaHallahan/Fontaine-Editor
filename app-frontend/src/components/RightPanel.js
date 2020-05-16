@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { useSelector } from 'react-redux'
 import { Resizable } from "re-resizable";
 
-import FolderTree from "./FolderTree";
+import Inspector from "./Inspector";
 
-class LeftPanelChild extends Component {
+class RightPanelChild extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -25,31 +25,30 @@ class LeftPanelChild extends Component {
 				}}
 				enable={{ 
 					top:false, 
-					right:true, 
+					right:false, 
 					bottom:false, 
-					left:false, 
+					left:true, 
 					topRight:false, 
 					bottomRight:false, 
 					bottomLeft:false, 
 					topLeft:false 
 				}}
 				className={this.props.open ? "panel" : "panel closed"}
-				id="left-panel"
+				id="right-panel"
 			>
-				<FolderTree />
+				<Inspector />
 			</Resizable>
 		);
-		
 	}
 }
 
-const LeftPanel = (props) => {
-	const panelOpen = useSelector(state => state.uiReducer.leftPanelOpen);
+const RightPanel = (props) => {
+	const panelOpen = useSelector(state => state.uiReducer.rightPanelOpen);
 	return(
-		<LeftPanelChild
+		<RightPanelChild
 			open={panelOpen}
 		/>
 	);
 }
 
-export default LeftPanel;
+export default RightPanel;

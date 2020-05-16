@@ -2,13 +2,13 @@ import { combineReducers } from 'redux';
 import workspaceReducer from "./workspaceSlice";
 import modalReducer from "./modalSlice";
 import settingsReducer from "./settingsSlice";
-import editorAreaReducer from "./editorAreaSlice";
+import uiReducer from "./uiSlice";
 
 const rootReducer = combineReducers({
 	workspaceReducer,
 	modalReducer,
 	settingsReducer,
-	editorAreaReducer,
+	uiReducer,
 });
 
 export default rootReducer;

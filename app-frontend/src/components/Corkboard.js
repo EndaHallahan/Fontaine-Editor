@@ -18,6 +18,7 @@ import gridIcon from '@iconify/icons-feather/grid';
 
 import { 
 	switchDocument, 
+	inspectDocument,
 	queueDocumentChanges, 
 	createNewDocument, 
 	updateDocTree 
@@ -38,7 +39,11 @@ class IndexCard extends Component {
 		return (
 			<div 
 				{...this.props}
-				className={this.props.card.children ? "index-card has-contents" : "index-card"}
+				className={
+					(this.props.card.children ? "index-card has-contents" : "index-card")
+					+ (this.props.isInspected ? " inspected" : "")
+				}
+				onClick={() => this.props.inspectDoc(this.props.card.id)}
 			>
 				<h3>
 					<Input
@@ -50,12 +55,12 @@ class IndexCard extends Component {
 					/>
 				</h3>
 				<TextArea
-					placeholder="Write a synopsis..."
+					placeholder="Write a summary..."
 					onChange={e => {
-						const synopsis = e.target.value;
-                    	this.props.onCardChange({...this.props.card, synopsis}, this.props.docIndex);
+						const summary = e.target.value;
+                    	this.props.onCardChange({...this.props.card, summary}, this.props.docIndex);
 					}}
-				>{this.props.card.synopsis}</TextArea>
+				>{this.props.card.summary}</TextArea>
 				<span title="Hold to drag"><Icon icon={gridIcon} /></span>
 			</div>
 		);
@@ -131,6 +136,8 @@ class CorkboardChild extends Component {
 									docIndex={i}
 									card={item}
 									onCardChange={this.onCardChange}
+									inspectDoc={this.props.inspectDoc}
+									isInspected={this.props.inspDocId === item.id}
 								/>
 						    ))
 						) : null
@@ -145,12 +152,16 @@ const Corkboard = (props) => {
 	const dispatch = useDispatch();
 	const docTree = useSelector(state => state.workspaceReducer.docTree);
 	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
+	const inspDocRow = useSelector(state => state.workspaceReducer.inspectedDocRow)
 	const curDocRow = useSelector(state => state.workspaceReducer.curDocRow);
 	const lastTreeUpdate = useSelector(state => state.workspaceReducer.docTreeLastUpdate);
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {
 			dispatch(switchDocument({id: node.node.id}));
 		}
+	}
+	const inspectDoc = (id) => {
+		dispatch(inspectDocument({id: id}))
 	}
 	const newDoc = (id) => {
 		dispatch(createNewDocument({id}));
@@ -177,6 +188,8 @@ const Corkboard = (props) => {
 			curDoc={props.docId}
 			curDocRow={curDocRow}
 			getDoc={getDoc}
+			inspectDoc={inspectDoc}
+			inspDocId={inspDocRow.node.id}
 			newDoc={newDoc}
 			onTreeChange={updateTree}
 			docList = {props.docList}

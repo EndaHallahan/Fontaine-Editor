@@ -11,6 +11,7 @@ import { switchDocument } from "../store/slices/workspaceSlice";
 
 import EditorArea from "./EditorArea";
 import LeftPanel from "./LeftPanel";
+import RightPanel from "./RightPanel";
 import AppBar from "./AppBar";
 import AppToolBar from "./AppToolBar";
 
@@ -35,9 +36,7 @@ const Workspace = (props) => {
 					docList = {curDocList}
 					docId = {curDocId}
 				/>
-				<div id="right-panel">
-
-				</div>
+				<RightPanel />
 			</div>
 			<div id="bottom-panel">
 

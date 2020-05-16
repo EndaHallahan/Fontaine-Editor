@@ -21,6 +21,9 @@ class Input extends Component {
 	      	this.input.current.blur();
 	    }
 	}
+	componentWillUnmount() {
+		this.input.current.blur();
+	}
 	render() {
 		return(
 			<input
@@ -55,6 +58,9 @@ class TextArea extends Component {
 		if (e.keyCode === 27) {
 	      	this.input.current.blur();
 	    }
+	}
+	componentWillUnmount() {
+		this.input.current.blur();
 	}
 	render() {
 		return(

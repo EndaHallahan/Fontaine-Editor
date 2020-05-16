@@ -9,7 +9,7 @@ Available Modes:
 const editorAreaSlice = createSlice({
 	name: "editorArea",
 	initialState: {
-		mode: "editor"
+		mode: "corkboard"
 	},
 	reducers: {
 		setMode(state, action) {
