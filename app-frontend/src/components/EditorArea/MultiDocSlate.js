@@ -68,9 +68,11 @@ const SlateInstance = React.forwardRef((props, ref) => {
 	  	children: [{ text: '' }],
 	}];
   	const [value, setValue] = useState(props.value && props.value.ops ? props.value.ops : defaultContents);
-  	const updateDocument = (value) => {
-  		setValue(value);
-  		props.updateDoc(props.docId, value);
+  	const updateDocument = (inValue) => {
+  		if (inValue !== value) {
+  			setValue(inValue);
+  			props.updateDoc(props.docId, inValue);
+  		}
   	}
   	const renderElement = useCallback(props => <Element {...props} />, [])
   	const renderLeaf = useCallback(props => <Leaf {...props} />, [])

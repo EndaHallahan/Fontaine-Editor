@@ -10,8 +10,8 @@ const uiSlice = createSlice({
 	name: "ui",
 	initialState: {
 		leftPanelOpen: true,
-		rightPanelOpen: true,
-		editorMode: "corkboard"
+		rightPanelOpen: false,
+		editorMode: "editor"
 	},
 	reducers: {
 		setEditorMode(state, action) {
