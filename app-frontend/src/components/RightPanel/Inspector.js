@@ -8,9 +8,9 @@ import SortableTree, {
 import { 
 	inspectDocument, 
 	updateDocTree 
-} from "../store/slices/workspaceSlice";
-import { Input, TextArea } from "./StatefulInputs";
-import CollapsableDiv from "./CollapsableDiv";
+} from "../../store/slices/workspaceSlice";
+import { Input, TextArea } from "../StatefulInputs";
+import CollapsableDiv from "../CollapsableDiv";
 
 class InspectorChild extends Component {
 	constructor(props) {

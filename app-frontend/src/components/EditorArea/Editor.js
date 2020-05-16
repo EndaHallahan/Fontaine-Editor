@@ -5,7 +5,7 @@ import {
 	queueDocumentChanges,
 	updateWorkingDoc,
 	inspectDocument
-} from "../store/slices/workspaceSlice";
+} from "../../store/slices/workspaceSlice";
 import MultiDocSlate from "./MultiDocSlate";
 
 const Editor = (props) => {

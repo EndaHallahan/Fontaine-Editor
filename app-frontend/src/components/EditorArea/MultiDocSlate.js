@@ -3,8 +3,8 @@ import { createEditor } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { queueDocumentChanges, updateWorkingDoc } from "../store/slices/workspaceSlice";
-import { Element, Leaf } from "../utils/editor/renderElement";
+import { queueDocumentChanges, updateWorkingDoc } from "../../store/slices/workspaceSlice";
+import { Element, Leaf } from "../../utils/editor/renderElement";
 import EditorToolbar from "./EditorToolbar";
 
 class MultiDocSlate extends Component {

@@ -5,7 +5,7 @@ import formatItalic from '@iconify/icons-mdi/format-italic';
 import formatUnderline from '@iconify/icons-mdi/format-underline';
 import formatStrikethrough from '@iconify/icons-mdi/format-strikethrough';
 
-import Helpers from "../utils/editor/Helpers";
+import Helpers from "../../utils/editor/Helpers";
 
 const MarkButton = (props) => {
   return (

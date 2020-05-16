@@ -9,6 +9,7 @@ import SortableTree, {
 import FileExplorerTheme from 'react-sortable-tree-theme-file-explorer';
 import { v4 as uuidv4 } from "uuid";
 import { GlobalHotKeys } from "react-hotkeys";
+import { useSelector, useDispatch } from 'react-redux';
 
 import { Icon, InlineIcon } from '@iconify/react';
 import bookOpen from '@iconify/icons-feather/book-open';
@@ -18,16 +19,15 @@ import folder from '@iconify/icons-feather/folder';
 import folderPlus from '@iconify/icons-feather/folder-plus';
 import trash2 from '@iconify/icons-feather/trash-2';
 
-import { useSelector, useDispatch } from 'react-redux';
 import { 
 	switchDocument, 
 	queueDocumentChanges, 
 	createNewDocument, 
 	updateDocTree 
-} from "../store/slices/workspaceSlice";
+} from "../../store/slices/workspaceSlice";
 
-import EditableTitle from "./EditableTitle";
-import KeyboardFocusableButton from "./KeyboardFocusableButton";
+import EditableTitle from "../EditableTitle";
+import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
 const keyMap = {
 		NEW_DOC: "ctrl+alt+n",
