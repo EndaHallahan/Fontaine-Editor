@@ -1,4 +1,5 @@
 import React, { Component, Fragment, useEffect, useMemo, useState, useCallback } from 'react';
+import { ReactEditor } from 'slate-react'
 import { Icon, InlineIcon } from '@iconify/react';
 import formatBold from '@iconify/icons-mdi/format-bold';
 import formatItalic from '@iconify/icons-mdi/format-italic';
@@ -14,9 +15,7 @@ const MarkButton = (props) => {
       	className={Helpers.isMarkActive(props.editor, props.format) ? "active" : null}
       	onClick={event => {
         	Helpers.toggleMark(props.editor, props.format);
-        	if (props.editorEle) {
-        		props.editorEle.focus()
-        	}
+        	ReactEditor.focus(props.editor);
       	}}
     >
       	{props.children}

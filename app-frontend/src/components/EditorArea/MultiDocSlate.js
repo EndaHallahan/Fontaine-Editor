@@ -24,10 +24,18 @@ class MultiDocSlate extends Component {
 			...this.state,
 			activeEditor: id
 		});
-		this.props.inspectDoc(id)
+		this.props.inspectDoc(id);
 	}
 	createHoistedEditor(id, editor) {
 		this.editors[id] = editor;
+	}
+	componentDidUpdate(prevProps) {
+		if (prevProps.docId !== this.props.docId) {
+			this.setState({
+				...this.state,
+				activeEditor: null
+			});
+		}	
 	}
 	render() {
 		return (
@@ -38,10 +46,9 @@ class MultiDocSlate extends Component {
 				/>
 				<div className="editor-body">
 					{
-						this.props.docList.map(id => {
+						this.props.docList.map((id, i) => {
 							return(
 								<SlateInstance
-									//editor = {editors[id]}
 									ref={id === this.state.activeEditor ? this.activeEditorRef : null}
 									createHoistedEditor = {this.createHoistedEditor}
 									key = {id}
