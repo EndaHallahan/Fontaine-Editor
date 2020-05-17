@@ -1,0 +1,50 @@
+.editor-area-footer {
+	background-color: $dark;
+	border-top: 1px solid $dark-lowlight;
+	border-left: 1px solid $dark-lowlight;
+	height: 1.4rem;
+	font-size: 1.4rem;
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-columns: 1fr 8rem 1fr;
+	align-items: center;
+	padding: 0 .1rem;
+
+	span {
+		display: inline-flex;
+		align-items: center;
+	}
+
+	span:nth-child(2) {
+		justify-content: center;
+	}
+
+	span:nth-child(3) {
+		justify-content: flex-end;
+	}
+
+	svg {
+		$dim: 1.2rem;
+		width: $dim;
+		height: $dim;
+		vertical-align: text-bottom;
+	}
+
+	span.editor-mode {
+		border-right: 1px solid $dark-highlight;
+		border-left: 1px solid $dark-highlight;
+		border-radius: 3px;
+		display: inline-flex;
+		height: 100%;
+		vertical-align: text-top;
+
+		> button {
+			margin: 0 .2rem;
+
+
+		}
+		.active {
+				color: $fontaine-blue;
+			}
+	}
+}

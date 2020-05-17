@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { queueDocumentChanges, updateWorkingDoc } from "../../store/slices/workspaceSlice";
 import { Element, Leaf } from "../../utils/editor/renderElement";
 import EditorToolbar from "./EditorToolbar";
+import EditorFooter from "./EditorFooter";
 
 class MultiDocSlate extends Component {
 	constructor(props) {
@@ -55,6 +56,7 @@ class MultiDocSlate extends Component {
 						})
 					}
 				</div>
+				<EditorFooter />
 			</div>
 		);
 	}

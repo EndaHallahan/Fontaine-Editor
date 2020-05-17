@@ -36,43 +36,6 @@
 	}
 }
 
-.appbar-dropdown {
-	min-width: 15rem;
-	background-color: $dark;
-	color: $dark-text;
-	border: 1px solid $dark-lowlight;
-	padding: .4rem .4rem;
-	font-size: .9rem;
-
-	hr {
-		$col: $dark-highlight;
-		background-color: $col;
-		border: 1px solid $col;
-		height: 1px;
-		width: 99%;
-	}
-
-	.dropdown-menu-item {
-		display: grid;
-		grid-template-columns: 27px 1fr 1fr;
-		padding: 2px 3px;
-
-		.icon {
-			$dim: 1rem;
-			svg {
-				vertical-align: top;
-				margin-top: 1.7px;
-				height: $dim;
-				width: $dim;
-			}
-		}
-		
-		&.highlighted {
-			background-color: $fontaine-blue;
-		}
-	}
-}
-
 
 
 

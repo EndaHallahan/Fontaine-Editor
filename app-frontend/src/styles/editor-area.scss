@@ -1,8 +1,8 @@
 #editor-area {
 	width: 100%;
 	display: grid;
-	grid-template-rows: min-content 1fr;
-	height: calc(100vh - #{$sum-top-height + $footer-height});
+	grid-template-rows: min-content 1fr min-content;
+	height: inherit;
 	width: 100%;
 	background-color: var(--editor-container-colour);
 	border: none;
@@ -74,5 +74,9 @@
 				padding: 2rem 3rem;
 			}
 		}
+	}
+
+	.editor-footer {
+
 	}
 }

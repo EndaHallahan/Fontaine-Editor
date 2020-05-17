@@ -3,10 +3,10 @@ import {MenuList, MenuItem, MenuButton, Dropdown, SubMenuItem} from "react-menu-
 
 import KeyboardFocusableButton from "./KeyboardFocusableButton";
 
-const CustomDropdown = ({title, children, dropClass}) => {
+const CustomDropdown = ({title, children, dropClass, className}) => {
 	return (
 		<MenuButton
-			className={"dropdown-menu-button"}
+			className={"dropdown-menu-button " + ( className || "")}
 			openedClassName="opened"
 			ButtonComponent={KeyboardFocusableButton}
 			menu={

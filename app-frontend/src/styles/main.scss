@@ -6,8 +6,6 @@
 }
 
 $header-height: 1.3rem;
-$toolbar-height: 2.5rem;
-$sum-top-height: $header-height + $toolbar-height;
 $footer-height: 1.5rem;
 
 footer {
@@ -20,6 +18,9 @@ footer {
 @import "appbar";
 
 main {
+	--toolbar-height: calc(var(--app-toolbar-active) * 2.5rem + .5rem);
+	--sum-top-height: calc(var(--toolbar-height) + #{$header-height});
+
 	height: 100%;
 
 	#workspace {
@@ -29,7 +30,7 @@ main {
 
 		#app-toolbar {
 			$icon-size: 1.5rem;
-			height: $toolbar-height;
+			height: var(--toolbar-height);
 			background-color: $darker;
 			color: $dark-text;
 			border-bottom: 1px solid $dark-highlight;
@@ -38,6 +39,7 @@ main {
 			grid-auto-flow: column;
 			grid-template-columns: 1fr 8rem 1fr;
 			align-items: center;
+			overflow: hidden;
 
 			button.keyboard-focusable-button {
 				font-size: $icon-size;
@@ -71,7 +73,7 @@ main {
 		}
 
 		#work-area {
-			height: calc(100vh - #{$sum-top-height + $footer-height});
+			height: calc(100vh - var(--sum-top-height) - #{$footer-height});
 			display: grid;
 			width: 100%;
 			grid-template-columns: min-content auto min-content;
@@ -81,6 +83,7 @@ main {
 			@import "left-panel";
 			@import "right-panel";
 			@import "editor-area";
+			@import "editor-area-footers";
 			@import "corkboard-area";	
 		}
 	}

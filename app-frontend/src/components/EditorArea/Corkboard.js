@@ -21,8 +21,7 @@ import {
 	updateDocTree 
 } from "../../store/slices/workspaceSlice";
 import IndexCard from "./IndexCard";
-
-
+import CorkboardFooter from "./CorkboardFooter";
 
 class CorkboardChild extends Component {
 	constructor(props) {
@@ -75,31 +74,34 @@ class CorkboardChild extends Component {
 	render() {
 		return (
 			<div id="corkboard-area">
-				<Reorder 
-					reorderId="corkboard"
-					itemKey="id"
-					list={this.props.curDocRow.node.children}
-					template={IndexCard}
-					onReorder={this.onReorder}
-					component="div"
-					holdTime={300}
-				>
-					{
-						this.state.currentList 
-						? (
-							this.state.currentList.map((item, i) => (
-						      	<IndexCard 
-									key={item.id}
-									docIndex={i}
-									card={item}
-									onCardChange={this.onCardChange}
-									inspectDoc={this.props.inspectDoc}
-									isInspected={this.props.inspDocId === item.id}
-								/>
-						    ))
-						) : null
-						}
-				</Reorder>
+				<div className="board">
+					<Reorder 
+						reorderId="corkboard"
+						itemKey="id"
+						list={this.props.curDocRow.node.children}
+						template={IndexCard}
+						onReorder={this.onReorder}
+						component="div"
+						holdTime={300}
+					>
+						{
+							this.state.currentList 
+							? (
+								this.state.currentList.map((item, i) => (
+							      	<IndexCard 
+										key={item.id}
+										docIndex={i}
+										card={item}
+										onCardChange={this.onCardChange}
+										inspectDoc={this.props.inspectDoc}
+										isInspected={this.props.inspDocId === item.id}
+									/>
+							    ))
+							) : null
+							}
+					</Reorder>
+				</div>
+				<CorkboardFooter />
 			</div>
 		);
 	}

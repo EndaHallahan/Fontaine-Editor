@@ -21,6 +21,8 @@ $index-card-red: #EE0000;
 $font-family-sans: "Open Sans", sans-serif;
 
 :root {
+	--app-toolbar-active: 0;
+
 	--editor-toolbar-text-colour: black;
 	--editor-toolbar-background-colour: white;
 	--editor-container-colour: #555555;
@@ -41,6 +43,7 @@ $font-family-sans: "Open Sans", sans-serif;
 @import "settings";
 
 @import "menus";
+@import "dropdowns";
 @import "modal";
 @import "keyboard-focusable-button";
 @import "vertical-tabular-menu";

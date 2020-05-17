@@ -1,83 +1,90 @@
 #corkboard-area {
-	background-color: var(--editor-container-colour);
-	display: flex;
-	justify-content: center;
-	overflow-y: auto;
-
-	& > div {
+	display: grid;
+	grid-template-rows: 1fr min-content;
+	height: inherit;
+	
+	.board {
+		background-color: var(--editor-container-colour);
 		display: flex;
-		flex-wrap: wrap;
-		padding: 1rem;
-		align-items: flex-start;
-		align-content: flex-start;
-		justify-content: flex-start;
-	}
+		justify-content: center;
+		overflow-y: auto;
 
-	.index-card {
-		width: var(--corkboard-card-width);
-		height: calc(.67 * var(--corkboard-card-width));
-		background-color: white;
-		margin: .5rem;
-		padding: .3rem;
-		border-radius: 3px;
-		display: grid;
-		grid-template-rows: 1.6rem 1fr;
-		position: relative;
-		box-shadow: 10px 10px 8px black;
-		user-select: none;
-
-		&.has-contents {
-			box-shadow: 
-				1px 1px 1px rgba(0,0,0,0.30),
-				5px 5px 0px hsla(255, 0%, 70%, 100%),
-				10px 10px 8px black
-			;
+		& > div {
+			display: flex;
+			flex-wrap: wrap;
+			padding: 1rem;
+			align-items: flex-start;
+			align-content: flex-start;
+			justify-content: flex-start;
 		}
 
-		&.inspected {
-			outline: 3px solid $fontaine-blue;
-			outline-offset: 4px;
-		}
+		.index-card {
+			width: var(--corkboard-card-width);
+			height: calc(.67 * var(--corkboard-card-width));
+			background-color: white;
+			margin: .5rem;
+			padding: .3rem;
+			border-radius: 3px;
+			display: grid;
+			grid-template-rows: 1.6rem 1fr;
+			position: relative;
+			box-shadow: 10px 10px 8px black;
+			user-select: none;
 
-		& > span > svg {
-			$dim: 1.4rem;
-			height: $dim;
-			width: $dim;
-			vertical-align: center;
-			position: absolute;
-			top: .3rem;
-			right: .3rem;
-			cursor: move;
-			color: $light-text;
-			opacity: .3;
-		}
+			&.has-contents {
+				box-shadow: 
+					1px 1px 1px rgba(0,0,0,0.30),
+					5px 5px 0px hsla(255, 0%, 70%, 100%),
+					10px 10px 8px black
+				;
+			}
 
-		h3 {
-			margin: 0;
-			width: 100%;
-			border-bottom: 1px solid $index-card-red;
+			&.inspected {
+				outline: 3px solid $fontaine-blue;
+				outline-offset: 4px;
+			}
 
-			input {
-				font-size: inherit;
-				color: inherit;
-				cursor: text;
-				border: none;
-				width: 85%;
-				background-color: transparent;
-				text-overflow: ellipsis;
+			& > span > svg {
+				$dim: 1.4rem;
+				height: $dim;
+				width: $dim;
+				vertical-align: center;
+				position: absolute;
+				top: .3rem;
+				right: .3rem;
+				cursor: move;
+				color: $light-text;
+				opacity: .3;
+			}
 
-				&:focus {
-					//outline: none;
+			h3 {
+				margin: 0;
+				width: 100%;
+				border-bottom: 1px solid $index-card-red;
+
+				input {
+					font-size: inherit;
+					color: inherit;
+					cursor: text;
+					border: none;
+					width: 85%;
+					background-color: transparent;
+					text-overflow: ellipsis;
+
+					&:focus {
+						//outline: none;
+					}
 				}
 			}
-		}
 
-		textarea {
-			text-overflow: ellipsis;
-		}
+			textarea {
+				text-overflow: ellipsis;
+			}
 
-		&[data-placeholder] {
-			opacity: .5;
+			&[data-placeholder] {
+				opacity: .5;
+			}
 		}
 	}
+	
 }

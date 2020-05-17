@@ -11,7 +11,11 @@ const uiSlice = createSlice({
 	initialState: {
 		leftPanelOpen: true,
 		rightPanelOpen: false,
-		editorMode: "editor"
+
+		editorMode: "editor",
+
+		splitEditorOpen: true,
+		splitEditorMode: "editor",
 	},
 	reducers: {
 		setEditorMode(state, action) {
@@ -24,7 +28,6 @@ const uiSlice = createSlice({
 		toggleRightPanel(state, action) {
 			state.rightPanelOpen = !state.rightPanelOpen;
 		},
-
 	}
 });
 
