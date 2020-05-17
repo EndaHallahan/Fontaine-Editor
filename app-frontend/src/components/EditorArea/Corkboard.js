@@ -23,7 +23,7 @@ import {
 import IndexCard from "./IndexCard";
 import CorkboardFooter from "./CorkboardFooter";
 
-class CorkboardChild extends Component {
+class Corkboard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -73,10 +73,10 @@ class CorkboardChild extends Component {
 	}
 	render() {
 		return (
-			<div id="corkboard-area">
+			<div class="corkboard-area">
 				<div className="board">
 					<Reorder 
-						reorderId="corkboard"
+						reorderId= {this.props.split ? "split-corkboard" : "corkboard"}
 						itemKey="id"
 						list={this.props.curDocRow.node.children}
 						template={IndexCard}
@@ -101,13 +101,13 @@ class CorkboardChild extends Component {
 							}
 					</Reorder>
 				</div>
-				<CorkboardFooter />
+				<CorkboardFooter split={this.props.split}/>
 			</div>
 		);
 	}
 }
 
-const Corkboard = (props) => {
+/*const Corkboard = (props) => {
 	const dispatch = useDispatch();
 	const docTree = useSelector(state => state.workspaceReducer.docTree);
 	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
@@ -143,6 +143,7 @@ const Corkboard = (props) => {
 	}
 	return(
 		<CorkboardChild 
+			{...props}
 			treeData={docTree}
 			curDoc={props.docId}
 			curDocRow={curDocRow}
@@ -153,9 +154,10 @@ const Corkboard = (props) => {
 			onTreeChange={updateTree}
 			docList = {props.docList}
 			replaceCurRow={replaceCurRow}
+
 			//key={curDocId}
 		/>
 	);
-}
+}*/
 
 export default Corkboard;

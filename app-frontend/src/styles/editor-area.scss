@@ -1,8 +1,9 @@
-#editor-area {
+.editor-area {
 	width: 100%;
+	min-width: 190px;
 	display: grid;
 	grid-template-rows: min-content 1fr min-content;
-	height: inherit;
+	height: auto;
 	width: 100%;
 	background-color: var(--editor-container-colour);
 	border: none;
@@ -52,7 +53,7 @@
 	}
 
 	.editor-body {
-		overflow-y: scroll;
+		overflow-y: auto;
 
 		.slate-wrapper {
 			min-height: 3rem;

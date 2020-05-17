@@ -15,6 +15,7 @@ const Editor = (props) => {
 	const inspectDoc = (id) => {dispatch(inspectDocument({id: id}))}
 	return(
 		<MultiDocSlate 
+			{...props}
 			doc = {props.doc}
 			docSet = {props.docSet}
 			docList = {props.docList}

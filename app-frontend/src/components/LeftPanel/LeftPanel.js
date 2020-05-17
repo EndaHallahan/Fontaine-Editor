@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import { Resizable } from "re-resizable";
 
 import FolderTree from "./FolderTree";

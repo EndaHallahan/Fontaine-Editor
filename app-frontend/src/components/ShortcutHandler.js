@@ -6,6 +6,7 @@ import {
 	setEditorMode, 
 	toggleLeftPanel,
 	toggleRightPanel,
+	toggleSplitEditor,
 } from "../store/slices/uiSlice";
 
 configure({
@@ -19,6 +20,7 @@ const ShortcutHandler = (props) => {
 		OPEN_CORKBOARD: "ctrl+2",
 		TOGGLE_NAVIGATOR: "ctrl+alt+b",
 		TOGGLE_INSPECTOR: "ctrl+alt+d",
+		TOGGLE_SPLIT_EDITOR: "ctrl+alt+s",
 	}
 	const defHandlers = {
 		OPEN_EDITOR: e => {
@@ -36,6 +38,10 @@ const ShortcutHandler = (props) => {
 		TOGGLE_INSPECTOR: e => {
 			e.preventDefault();
 			dispatch(toggleRightPanel());
+		},
+		TOGGLE_SPLIT_EDITOR: e => {
+			e.preventDefault();
+			dispatch(toggleSplitEditor());
 		},
 	}
 

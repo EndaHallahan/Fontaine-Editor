@@ -79,6 +79,63 @@ main {
 			grid-template-columns: min-content auto min-content;
 			grid-gap: 0px;
 
+			#editor-area-wrapper {
+				///display: grid;
+				//grid-auto-flow: var(--split-editor-orientation);
+				display: flex;
+				flex-direction: row;
+				height: inherit;
+
+				.editor-window {
+					display: grid;
+					grid-template-rows: 1.5rem 1fr;
+					height: inherit;
+					width: 100%;
+
+					&.main-window {
+
+					}
+
+					&.split-window {
+						border-left: 2px solid $dark-lowlight;
+					}
+
+					.info-bar {
+						background-color: $darker;
+						border-top: 1px solid $dark-lowlight;
+						border-bottom: 1px solid $dark-lowlight;
+						//height: 1.4rem;
+						//font-size: 1.4rem;
+						display: grid;
+						grid-auto-flow: column;
+						grid-template-columns: 1fr 1fr;
+						align-items: center;
+						padding: 0 .5rem;
+
+						color: $dark-text;
+						font-size: .9rem;
+
+						span {
+							display: inline-flex;
+							align-items: center;
+						}
+						> span:nth-child(2) {
+							justify-content: flex-end;
+						}
+
+						svg {
+							$dim: 1.1rem;
+							width: $dim;
+							height: $dim;
+							vertical-align: text-bottom;
+						}
+
+					}
+				}
+
+				
+			}
+
 			@import "panels";
 			@import "left-panel";
 			@import "right-panel";

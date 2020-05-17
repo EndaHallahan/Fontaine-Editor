@@ -9,7 +9,7 @@ Available Editor Modes:
 const uiSlice = createSlice({
 	name: "ui",
 	initialState: {
-		leftPanelOpen: true,
+		leftPanelOpen: false,
 		rightPanelOpen: false,
 
 		editorMode: "editor",
@@ -28,6 +28,17 @@ const uiSlice = createSlice({
 		toggleRightPanel(state, action) {
 			state.rightPanelOpen = !state.rightPanelOpen;
 		},
+		toggleSplitEditor(state, action) {
+			state.splitEditorOpen = !state.splitEditorOpen;
+		},
+		setSplitEditorOpen(state, action) {
+			let {open} = action.payload;
+			state.splitEditorOpen = open;
+		},
+		setSplitEditorMode(state, action) {
+			let {mode} = action.payload;
+			state.splitEditorMode = mode;
+		},
 	}
 });
 
@@ -35,6 +46,9 @@ export const {
 	setEditorMode,
 	toggleLeftPanel,
 	toggleRightPanel,
+	toggleSplitEditor,
+	setSplitEditorOpen,
+	setSplitEditorMode,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

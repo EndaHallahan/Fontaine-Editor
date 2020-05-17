@@ -6,15 +6,29 @@ import gridIcon from '@iconify/icons-feather/grid';
 import edit3 from '@iconify/icons-feather/edit-3';
 
 import CustomDropdown from "../CustomDropdown";
-import { setEditorMode } from "../../store/slices/uiSlice";
+import { setEditorMode, setSplitEditorMode } from "../../store/slices/uiSlice";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
 const ModeSelector = (props) => {
 	const dispatch = useDispatch();
-	const editorMode = useSelector(state => state.uiReducer.editorMode);
-	const changeEditorMode = (mode) => dispatch(setEditorMode({mode}));
+
+	const mainEditorMode = useSelector(state => state.uiReducer.editorMode);
+	const changeMainEditorMode = (mode) => dispatch(setEditorMode({mode}));
+
+	const splitEditorMode = useSelector(state => state.uiReducer.splitEditorMode);
+	const changeSplitEditorMode = (mode) => dispatch(setSplitEditorMode({mode}));
+
+	let editorMode;
+	let changeEditorMode;
+	if (!props.split) {
+		 editorMode = mainEditorMode;
+		 changeEditorMode = changeMainEditorMode;
+	} else {
+		 editorMode = splitEditorMode;
+		 changeEditorMode = changeSplitEditorMode;
+	}
+	
 	let curModeIcon; 
-	console.log("mode:", editorMode)
 	switch(editorMode) {
 		case "editor":
 			curModeIcon = (<Icon icon={edit3} />);

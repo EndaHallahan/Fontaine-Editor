@@ -1,18 +1,17 @@
 import React from 'react';
-import { useSelector } from 'react-redux'
-import Editor from "./Editor";
-import Corkboard from "./Corkboard";
+import { useSelector } from 'react-redux';
+
+import MainWindow from "./MainWindow";
+import SplitWindow from "./SplitWindow";
+
 
 const EditorArea = (props) => {
-	const editorMode = useSelector(state => state.uiReducer.editorMode);
-	switch (editorMode) {
-		case "editor":
-			return(<Editor {...props}/>);
-		case "corkboard":
-			return(<Corkboard {...props}/>);
-		default:
-			return(<Editor {...props}/>);
-	}
+	return (
+		<div id="editor-area-wrapper">
+			<MainWindow {...props}/>
+			<SplitWindow {...props}/>
+		</div>
+	);
 }
 
 export default EditorArea;

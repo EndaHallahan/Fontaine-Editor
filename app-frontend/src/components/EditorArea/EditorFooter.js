@@ -8,7 +8,7 @@ const EditorFooter = (props) => {
 		<div className="editor-area-footer editor-footer">
 			<span></span>
 			<span></span>
-			<span><ModeSelector /></span>
+			<span><ModeSelector split={props.split}/></span>
 		</div>
 	);
 }

@@ -39,7 +39,7 @@ class MultiDocSlate extends Component {
 	}
 	render() {
 		return (
-			<div id="editor-area">
+			<div className="editor-area">
 				<EditorToolbar 
 					editor={this.editors[this.state.activeEditor]}
 					editorEle={this.activeEditorRef.current ? this.activeEditorRef.current.firstChild: null}
@@ -63,7 +63,7 @@ class MultiDocSlate extends Component {
 						})
 					}
 				</div>
-				<EditorFooter />
+				<EditorFooter split={this.props.split}/>
 			</div>
 		);
 	}

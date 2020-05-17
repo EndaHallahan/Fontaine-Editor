@@ -4,7 +4,11 @@ import { Icon, InlineIcon } from '@iconify/react';
 import check from '@iconify/icons-feather/check';
 import toggleRight from '@iconify/icons-feather/toggle-right';
 
-import { toggleRightPanel, toggleLeftPanel } from "../../store/slices/uiSlice";
+import { 
+	toggleRightPanel, 
+	toggleLeftPanel,
+	toggleSplitEditor,
+} from "../../store/slices/uiSlice";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 import CustomDropdown from "../CustomDropdown";
 import LI from "./LI";
@@ -13,6 +17,7 @@ const ViewDropdown = (props) => {
 	const dispatch = useDispatch();
 	const leftPanelOpen = useSelector(state => state.uiReducer.leftPanelOpen);
 	const rightPanelOpen = useSelector(state => state.uiReducer.rightPanelOpen);
+	const splitEditorOpen = useSelector(state => state.uiReducer.splitEditorOpen);
 	return (
 		<CustomDropdown
 			title="View"
@@ -32,6 +37,14 @@ const ViewDropdown = (props) => {
 				shortcut="Ctrl+Alt+D"
 				onItemChosen={e => {
 					dispatch(toggleRightPanel());
+				}}
+			/>
+			<LI
+				icon={splitEditorOpen ? check : null}
+				title="Split Editor"
+				shortcut="Ctrl+Alt+S"
+				onItemChosen={e => {
+					dispatch(toggleSplitEditor());
 				}}
 			/>
 			<hr/>
