@@ -14,7 +14,9 @@ const MarkButton = (props) => {
       	className={Helpers.isMarkActive(props.editor, props.format) ? "active" : null}
       	onClick={event => {
         	Helpers.toggleMark(props.editor, props.format);
-        	props.editorEle.focus();
+        	if (props.editorEle) {
+        		props.editorEle.focus()
+        	}
       	}}
     >
       	{props.children}
