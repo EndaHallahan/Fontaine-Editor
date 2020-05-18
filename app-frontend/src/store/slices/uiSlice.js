@@ -9,7 +9,7 @@ Available Editor Modes:
 const uiSlice = createSlice({
 	name: "ui",
 	initialState: {
-		leftPanelOpen: true,
+		leftPanelOpen: false,
 		rightPanelOpen: false,
 
 		editorMode: "editor",

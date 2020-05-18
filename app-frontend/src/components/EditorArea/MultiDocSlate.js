@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useEffect, useMemo, useState, useCallback } from 'react';
+import React, { Component, Fragment, useEffect, useMemo, useState, useCallback} from 'react';
 import { createEditor } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 import { useSelector, useDispatch } from 'react-redux'
@@ -58,6 +58,7 @@ class MultiDocSlate extends Component {
 									value={this.props.docSet[id]}
 									active={id === this.state.activeEditor}
 									setActive={this.setActiveEditor}
+									split={this.props.split}
 								/>
 							);
 						})
@@ -76,10 +77,9 @@ const SlateInstance = React.forwardRef((props, ref) => {
 	  	type: 'paragraph',
 	  	children: [{ text: '' }],
 	}];
-  	const [value, setValue] = useState(props.value && props.value.ops ? props.value.ops : defaultContents);
+  	let value = props.value && props.value.ops ? props.value.ops : defaultContents;
   	const updateDocument = (inValue) => {
   		if (inValue !== value) {
-  			setValue(inValue);
   			props.updateDoc(props.docId, inValue);
   		}
   	}

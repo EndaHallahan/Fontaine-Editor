@@ -78,7 +78,9 @@ const SplitWindow = (props) => {
 	}
 
 	const queueDocChanges = (id, changes) => dispatch(queueDocumentChanges({docId: id, changes: changes}));
-	const updateDoc = (id, newDoc) => {dispatch(updateWorkingDoc({id, newDoc}))};
+	const updateDoc = (id, newDoc) => {
+		dispatch(updateWorkingDoc({id, newDoc}))
+	};
 	const inspectDoc = (id) => {dispatch(inspectDocument({id: id}))}
 
 	const closeSplitEditor = () => {
@@ -93,7 +95,7 @@ const SplitWindow = (props) => {
 					<span>
 						<KeyboardFocusableButton
 							onClick={closeSplitEditor}
-							title="Close the split Editor"
+							title="Close split editor (Ctrl+Alt+S)"
 						><Icon icon={xCircle} /></KeyboardFocusableButton>
 					</span>
 				</div>
