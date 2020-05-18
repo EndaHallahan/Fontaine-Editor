@@ -38,9 +38,12 @@ function saveDocument(id, changes) {
 function createInitialState(docIndex) {
 	let docTree = docIndex.documents;
 	let curDocId = docIndex.lastDocument || null;
+	let splitDocId = docIndex.lastSplitDocument || null;
 	let docCache = {};
 	let curDocList = [];
 	let curDocRow = {};
+	let splitDocList = [];
+	let splitDocRow = {};
 	let inspectedDocRow = {};
 	if (curDocId !== null) {
 		let newDocList = [curDocId];
@@ -71,15 +74,52 @@ function createInitialState(docIndex) {
 
 		curDocList = newDocList;
 	}
+	if (splitDocId !== null) {
+		let newDocList = [splitDocId];
+
+		const selRow = find({
+			getNodeKey: ({treeIndex}) => {return treeIndex;},
+			treeData: docTree,
+			searchMethod: (rowData) => {return(rowData.node.id === splitDocId)}
+		}).matches[0];
+
+		splitDocRow = selRow;
+
+		let newWorkingDocs = {};
+		if (selRow && selRow.node.children) {
+			walk({
+				treeData: selRow.node.children,
+				getNodeKey: ({treeIndex}) => {return treeIndex;},
+				callback: (row) => newDocList.push(row.node.id),
+				ignoreCollapsed: false
+			});
+		}
+		newWorkingDocs = getFullChildContents(newDocList, docCache);
+
+		newDocList.forEach(id => {
+			docCache[id] = newWorkingDocs[id];
+		});
+
+		splitDocList = newDocList;
+	} else {
+		splitDocId = curDocId;
+		splitDocList = curDocList;
+		splitDocRow = curDocRow;
+	}
 
 	return {
 		docTree,
-		curDocId,
-		curDocRow,
-		curDocList,
 		docCache,
 		inspectedDocRow,
 		docChangeQueues: {},
+		//Main editor
+		curDocId,
+		curDocRow,
+		curDocList,
+		//Split Editor
+		splitDocId,
+		splitDocRow,
+		splitDocList,
 	};
 }
 
@@ -112,6 +152,32 @@ const workspaceSlice = createSlice({
 				state.docCache[id] = newWorkingDocs[id];
 			});
 			state.curDocList = newDocList;
+		},
+		switchSplitDocument(state, action) {
+			const splitDocId = action.payload.id;
+			state.splitDocId = splitDocId;
+			let newDocList = [splitDocId];
+			const selRow = find({
+				getNodeKey: ({treeIndex}) => {return treeIndex;},
+				treeData: state.docTree,
+				searchMethod: (rowData) => {return(rowData.node.id === splitDocId)}
+			}).matches[0];
+			state.splitDocRow = selRow;
+			//state.inspectedDocRow = selRow;
+			let newWorkingDocs = {};
+			if (selRow && selRow.node.children) {
+				walk({
+					treeData: selRow.node.children,
+					getNodeKey: ({treeIndex}) => {return treeIndex;},
+					callback: (row) => newDocList.push(row.node.id),
+					ignoreCollapsed: false
+				});
+			}
+			newWorkingDocs = getFullChildContents(newDocList, state.docCache);
+			newDocList.forEach(id => {
+				state.docCache[id] = newWorkingDocs[id];
+			});
+			state.splitDocList = newDocList;
 		},
 		inspectDocument(state, action) {
 			const inspDocId = action.payload.id;
@@ -175,7 +241,8 @@ const workspaceSlice = createSlice({
 });
 
 export const { 
-	switchDocument, 
+	switchDocument,
+	switchSplitDocument, 
 	inspectDocument,
 	createNewDocument,
 	queueDocumentChanges, 

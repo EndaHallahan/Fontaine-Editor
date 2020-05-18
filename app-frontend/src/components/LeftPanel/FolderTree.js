@@ -21,10 +21,12 @@ import trash2 from '@iconify/icons-feather/trash-2';
 
 import { 
 	switchDocument, 
+	switchSplitDocument,
 	queueDocumentChanges, 
 	createNewDocument, 
 	updateDocTree 
 } from "../../store/slices/workspaceSlice";
+import { setSplitEditorOpen } from "../../store/slices/uiSlice";
 
 import EditableTitle from "../EditableTitle";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
@@ -112,18 +114,23 @@ class FolderTreeChild extends Component {
 			searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
 		});
 		this.selectNode(selRow.matches[0]);
-			this.props.onTreeChange(selRow.treeData)
+		this.props.onTreeChange(selRow.treeData);
 		this.setState({
 			...this.state,
 			currentlySelectedNode: selRow.matches[0]
 		});	
 	}
-	selectNode(rowInfo) {
+	selectNode(rowInfo, e) {
 		this.setState({
 			...this.state,
 			currentlySelectedNode: rowInfo
 		});
-		this.props.getDoc(rowInfo);
+		if (e && e.ctrlKey) {
+			this.props.getSplitDoc(rowInfo);
+		} else {
+			this.props.getDoc(rowInfo);
+		}
+		
 	}
 	trashSelectedNode() {
 		if (this.state.currentlySelectedNode.node.permanent) {
@@ -217,14 +224,17 @@ class FolderTreeChild extends Component {
 			          	}}
 			          	generateNodeProps={rowInfo => ({
 			          		className: (
-			          			this.props.curDoc !== null 
-			          			&& rowInfo.node.id === this.props.curDoc
-			          			? "selected" : null
+			          			this.props.curDoc !== null && rowInfo.node.id === this.props.curDoc
+			          			? "selected" 
+			          			: this.props.splitDoc !== null && rowInfo.node.id === this.props.splitDoc
+			          				? "selected-split"
+			          				: null
 			          		),
 			          		title: (
 			          			<EditableTitle
 			          				value={rowInfo.node.title}
-			          				onClick={() => {this.selectNode(rowInfo)}}
+			          				onClick={(e) => {this.selectNode(rowInfo, e)}}
+			          				title="Ctrl+Click to split"
 				                  	onClose={text => {
 				                    	const title = text;
 				                    	const changedTree = changeNodeAtPath({
@@ -238,7 +248,11 @@ class FolderTreeChild extends Component {
 			          			/>
 				            ),
 				            icons: [(
-				            	<div className="tree-file-icon" onClick={() => {this.selectNode(rowInfo)}}>
+				            	<div 
+				            		className="tree-file-icon" 
+				            		title="Ctrl+Click to split"
+				            		onClick={(e) => {this.selectNode(rowInfo, e)}}
+				            	>
 				                  	{
 				                  		{
 				                  			'manuscript': <Icon icon={bookOpen} />,
@@ -260,11 +274,21 @@ class FolderTreeChild extends Component {
 const FolderTree = (props) => {
 	const docTree = useSelector(state => state.workspaceReducer.docTree);
 	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
+	const splitOpen = useSelector(state => state.uiReducer.splitEditorOpen);
+	const splitDocId = useSelector(state => state.workspaceReducer.splitDocId);
 	const lastTreeUpdate = useSelector(state => state.workspaceReducer.docTreeLastUpdater);
 	const dispatch = useDispatch();
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {
 			dispatch(switchDocument({id: node.node.id}));
+		}
+	}
+	const getSplitDoc = (node, path, treeIndex) => {
+		if (node.node.id !== undefined) {
+			if (!splitOpen) {
+				dispatch(setSplitEditorOpen({open: true}));
+			}
+			dispatch(switchSplitDocument({id: node.node.id}));
 		}
 	}
 	const newDoc = (id) => {
@@ -277,7 +301,9 @@ const FolderTree = (props) => {
 		<FolderTreeChild
 			treeData={docTree}
 			curDoc={curDocId}
+			splitDoc={splitOpen ? splitDocId : null}
 			getDoc={getDoc}
+			getSplitDoc={getSplitDoc}
 			newDoc={newDoc}
 			onTreeChange={updateTree}
 		/>

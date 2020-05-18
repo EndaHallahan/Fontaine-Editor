@@ -17,9 +17,6 @@ import AppToolBar from "./AppToolBar";
 
 const Workspace = (props) => {
 	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
-	const curDocList = useSelector(state => state.workspaceReducer.curDocList);
-	const curDocCache = useSelector(state => state.workspaceReducer.workingDocs);
-	const docCache = useSelector(state => state.workspaceReducer.docCache);
 	const dispatch = useDispatch();
 	useEffect(() => {
 		if (curDocId !== null) {dispatch(switchDocument({id: curDocId}));}
@@ -30,12 +27,7 @@ const Workspace = (props) => {
 			<AppToolBar />
 			<div id="work-area">
 				<LeftPanel />
-				<EditorArea 
-					doc = {docCache[curDocId]}
-					docSet = {docCache}
-					docList = {curDocList}
-					docId = {curDocId}
-				/>
+				<EditorArea />
 				<RightPanel />
 			</div>
 			<div id="bottom-panel">

@@ -85,6 +85,9 @@
 				color: black;
 				font-style: italic;
 			}
+			&.selected-split {
+				border: 1px dashed $fontaine-blue;
+			}
 			.rstcustom__rowContents {
 				justify-content: flex-start;
 				.rstcustom__toolbarButton svg {

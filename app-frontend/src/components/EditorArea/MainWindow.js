@@ -22,10 +22,9 @@ import {
 	createNewDocument, 
 	updateDocTree 
 } from "../../store/slices/workspaceSlice";
-import MultiDocSlate from "./MultiDocSlate";
 import { toggleSplitEditor } from "../../store/slices/uiSlice";
 
-import Editor from "./Editor";
+import MultiDocSlate from "./MultiDocSlate";
 import Corkboard from "./Corkboard";
 
 
@@ -37,6 +36,9 @@ import KeyboardFocusableButton from "../KeyboardFocusableButton";
 const MainWindow = (props) => {
 	const dispatch = useDispatch();
 	const editorMode = useSelector(state => state.uiReducer.editorMode);
+
+	const docCache = useSelector(state => state.workspaceReducer.docCache);
+	const curDocList = useSelector(state => state.workspaceReducer.curDocList);
 
 	const docTree = useSelector(state => state.workspaceReducer.docTree);
 	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
@@ -83,10 +85,10 @@ const MainWindow = (props) => {
 				{
 		          	"editor": (
 		          		<MultiDocSlate 
-							doc = {props.doc}
-							docSet = {props.docSet}
-							docList = {props.docList}
-							docId = {props.docId}
+							doc = {docCache[curDocId]}
+							docSet = {docCache}
+							docList = {curDocList}
+							docId = {curDocId}
 							updateDoc = {updateDoc}
 							inspectDoc={inspectDoc}
 							queueDocChanges = {queueDocChanges}
@@ -95,17 +97,15 @@ const MainWindow = (props) => {
 		          	"corkboard": (
 		          		<Corkboard
 							treeData={docTree}
-							curDoc={props.docId}
+							curDoc={curDocId}
 							curDocRow={curDocRow}
 							getDoc={getDoc}
 							inspectDoc={inspectDoc}
 							inspDocId={inspDocRow.node.id}
 							newDoc={newDoc}
 							onTreeChange={updateTree}
-							docList = {props.docList}
+							docList = {curDocList}
 							replaceCurRow={replaceCurRow}
-
-							//key={curDocId}
 						/>
 		          	),
 		        }[editorMode]

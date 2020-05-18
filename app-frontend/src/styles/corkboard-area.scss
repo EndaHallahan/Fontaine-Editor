@@ -1,7 +1,7 @@
 .corkboard-area {
 	display: grid;
 	grid-template-rows: 1fr min-content;
-	height: inherit;
+	height: auto;
 
 	.board {
 		background-color: var(--editor-container-colour);

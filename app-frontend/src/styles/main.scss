@@ -88,7 +88,7 @@ main {
 
 				.editor-window {
 					display: grid;
-					grid-template-rows: 1.5rem 1fr;
+					grid-template-rows: 1.5rem calc(calc(100vh - var(--sum-top-height) - #{$footer-height}) - 1.5rem);
 					height: inherit;
 					width: 100%;
 

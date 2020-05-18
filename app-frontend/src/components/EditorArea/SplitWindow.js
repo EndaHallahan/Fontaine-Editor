@@ -23,13 +23,13 @@ import {
 	updateWorkingDoc,
 	inspectDocument,
 	switchDocument, 
+	switchSplitDocument,
 	createNewDocument, 
 	updateDocTree 
 } from "../../store/slices/workspaceSlice";
-import MultiDocSlate from "./MultiDocSlate";
 import { setSplitEditorOpen } from "../../store/slices/uiSlice";
 
-import Editor from "./Editor";
+import MultiDocSlate from "./MultiDocSlate";
 import Corkboard from "./Corkboard";
 
 
@@ -43,15 +43,18 @@ const SplitWindow = (props) => {
 	const editorOpen = useSelector(state => state.uiReducer.splitEditorOpen);
 	const editorMode = useSelector(state => state.uiReducer.splitEditorMode);
 
+	const docCache = useSelector(state => state.workspaceReducer.docCache);
+	const curDocList = useSelector(state => state.workspaceReducer.splitDocList);
+
 	const docTree = useSelector(state => state.workspaceReducer.docTree);
-	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
+	const curDocId = useSelector(state => state.workspaceReducer.splitDocId);
 	const inspDocRow = useSelector(state => state.workspaceReducer.inspectedDocRow)
-	const curDocRow = useSelector(state => state.workspaceReducer.curDocRow);
+	const curDocRow = useSelector(state => state.workspaceReducer.splitDocRow);
 	const lastTreeUpdate = useSelector(state => state.workspaceReducer.docTreeLastUpdate);
 
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {
-			dispatch(switchDocument({id: node.node.id}));
+			dispatch(switchSplitDocument({id: node.node.id}));
 		}
 	}
 	const newDoc = (id) => {
@@ -86,7 +89,7 @@ const SplitWindow = (props) => {
 		return(
 			<SplitEditorWrapper>
 				<div className="info-bar">
-					<span></span>
+					<span><span>{curDocRow.node.title}</span></span>
 					<span>
 						<KeyboardFocusableButton
 							onClick={closeSplitEditor}
@@ -98,10 +101,10 @@ const SplitWindow = (props) => {
 					{
 			          	"editor": (
 			          		<MultiDocSlate 
-								doc = {props.doc}
-								docSet = {props.docSet}
-								docList = {props.docList}
-								docId = {props.docId}
+								doc = {docCache[curDocId]}
+								docSet = {docCache}
+								docList = {curDocList}
+								docId = {curDocId}
 								updateDoc = {updateDoc}
 								inspectDoc={inspectDoc}
 								queueDocChanges = {queueDocChanges}
@@ -111,14 +114,14 @@ const SplitWindow = (props) => {
 			          	"corkboard": (
 			          		<Corkboard
 								treeData={docTree}
-								curDoc={props.docId}
+								curDoc={curDocId}
 								curDocRow={curDocRow}
 								getDoc={getDoc}
 								inspectDoc={inspectDoc}
 								inspDocId={inspDocRow.node.id}
 								newDoc={newDoc}
 								onTreeChange={updateTree}
-								docList = {props.docList}
+								docList = {curDocList}
 								replaceCurRow={replaceCurRow}
 								split={true}
 							/>

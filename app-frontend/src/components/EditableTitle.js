@@ -33,6 +33,7 @@ class EditableTitle extends Component {
 				<KeyboardFocusableButton 
 					value={this.props.value}
 					className="editable-title"
+					title={this.props.title}
 					onClick={event => {
 						if (this.props.onClick) {
 							this.props.onClick(event);
