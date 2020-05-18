@@ -12,9 +12,11 @@ class IndexCard extends Component {
 		}
 	}
 	render() {
+		console.log(this.props)
+		let {docIndex, card, onCardChange, inspectDoc, isInspected, ...other} = this.props;
 		return (
 			<div 
-				{...this.props}
+				{...other}
 				className={
 					(this.props.card.children ? "index-card has-contents" : "index-card")
 					+ (this.props.isInspected ? " inspected" : "")
@@ -36,7 +38,8 @@ class IndexCard extends Component {
 						const summary = e.target.value;
                     	this.props.onCardChange({...this.props.card, summary}, this.props.docIndex);
 					}}
-				>{this.props.card.summary}</TextArea>
+					value={this.props.card.summary}
+				/>
 				<span title="Hold to drag"><Icon icon={gridIcon} /></span>
 			</div>
 		);

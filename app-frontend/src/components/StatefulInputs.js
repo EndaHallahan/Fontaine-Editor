@@ -24,6 +24,14 @@ class Input extends Component {
 	componentWillUnmount() {
 		this.input.current.blur();
 	}
+	componentDidUpdate(prevProps) {
+		if (prevProps.value !== this.props.value) {
+			this.setState({
+				...this.state,
+				contents: this.props.value
+			});
+		}
+	}
 	render() {
 		return(
 			<input
@@ -42,7 +50,7 @@ class TextArea extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			contents: this.props.children
+			contents: this.props.value
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -62,18 +70,25 @@ class TextArea extends Component {
 	componentWillUnmount() {
 		this.input.current.blur();
 	}
+	componentDidUpdate(prevProps) {
+		if (prevProps.value !== this.props.value) {
+			this.setState({
+				...this.state,
+				contents: this.props.value
+			});
+		}
+	}
 	render() {
 		return(
 			<textarea
 				{...this.props}
+				children={null}
 				onChange={this.handleChange}
 				onBlur={this.props.onChange}
 				onKeyDown={this.handleKeyDown}
 				ref={this.input}
 				value={this.state.contents}
-				
-			>
-			</textarea>
+			/>
 		);
 	}
 }

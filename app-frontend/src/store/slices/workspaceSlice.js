@@ -31,6 +31,35 @@ function getDocRow(docTree, curDocId) {
 	return selRow;
 }
 
+function getListRowFor(docId, docList, docRow, docTree, docCache) {
+	let outList = [];
+	let outRow = {};
+	let outCache = {...docCache};
+	let newDocList = [docId];
+	const selRow = find({
+		getNodeKey: ({treeIndex}) => {return treeIndex;},
+		treeData: docTree,
+		searchMethod: (rowData) => {return(rowData.node.id === docId)}
+	}).matches[0];
+	outRow = selRow;
+	let newWorkingDocs = {};
+	if (selRow && selRow.node.children) {
+		walk({
+			treeData: selRow.node.children,
+			getNodeKey: ({treeIndex}) => {return treeIndex;},
+			callback: (row) => newDocList.push(row.node.id),
+			ignoreCollapsed: false
+		});
+	}
+	newWorkingDocs = getFullChildContents(newDocList, docCache);
+	newDocList.forEach(id => {
+		outCache[id] = newWorkingDocs[id];
+	});
+	outList = newDocList;
+
+	return [outList, outRow, outCache];
+}
+
 function saveDocument(id, changes) {
 
 }
@@ -46,67 +75,36 @@ function createInitialState(docIndex) {
 	let splitDocRow = {};
 	let inspectedDocRow = {};
 	if (curDocId !== null) {
-		let newDocList = [curDocId];
-
-		const selRow = find({
-			getNodeKey: ({treeIndex}) => {return treeIndex;},
-			treeData: docTree,
-			searchMethod: (rowData) => {return(rowData.node.id === curDocId)}
-		}).matches[0];
-
-		curDocRow = selRow;
-		inspectedDocRow = selRow;
-
-		let newWorkingDocs = {};
-		if (selRow && selRow.node.children) {
-			walk({
-				treeData: selRow.node.children,
-				getNodeKey: ({treeIndex}) => {return treeIndex;},
-				callback: (row) => newDocList.push(row.node.id),
-				ignoreCollapsed: false
-			});
-		}
-		newWorkingDocs = getFullChildContents(newDocList, docCache);
-
-		newDocList.forEach(id => {
-			docCache[id] = newWorkingDocs[id];
-		});
-
-		curDocList = newDocList;
+		[
+			curDocList,
+			curDocRow,
+			docCache
+		] = getListRowFor(
+			curDocId, 
+			curDocList, 
+			curDocRow, 
+			docTree, 
+			docCache
+		);
+		inspectedDocRow = curDocRow;
 	}
 	if (splitDocId !== null) {
-		let newDocList = [splitDocId];
-
-		const selRow = find({
-			getNodeKey: ({treeIndex}) => {return treeIndex;},
-			treeData: docTree,
-			searchMethod: (rowData) => {return(rowData.node.id === splitDocId)}
-		}).matches[0];
-
-		splitDocRow = selRow;
-
-		let newWorkingDocs = {};
-		if (selRow && selRow.node.children) {
-			walk({
-				treeData: selRow.node.children,
-				getNodeKey: ({treeIndex}) => {return treeIndex;},
-				callback: (row) => newDocList.push(row.node.id),
-				ignoreCollapsed: false
-			});
-		}
-		newWorkingDocs = getFullChildContents(newDocList, docCache);
-
-		newDocList.forEach(id => {
-			docCache[id] = newWorkingDocs[id];
-		});
-
-		splitDocList = newDocList;
+		[
+			splitDocList,
+			splitDocRow,
+			docCache
+		] = getListRowFor(
+			splitDocId, 
+			splitDocList, 
+			splitDocRow, 
+			docTree, 
+			docCache
+		);
 	} else {
 		splitDocId = curDocId;
 		splitDocList = curDocList;
 		splitDocRow = curDocRow;
 	}
-
 	return {
 		docTree,
 		docCache,
@@ -130,54 +128,33 @@ const workspaceSlice = createSlice({
 		switchDocument(state, action) {
 			const curDocId = action.payload.id;
 			state.curDocId = curDocId;
-			let newDocList = [curDocId];
-			const selRow = find({
-				getNodeKey: ({treeIndex}) => {return treeIndex;},
-				treeData: state.docTree,
-				searchMethod: (rowData) => {return(rowData.node.id === curDocId)}
-			}).matches[0];
-			state.curDocRow = selRow;
-			state.inspectedDocRow = selRow;
-			let newWorkingDocs = {};
-			if (selRow && selRow.node.children) {
-				walk({
-					treeData: selRow.node.children,
-					getNodeKey: ({treeIndex}) => {return treeIndex;},
-					callback: (row) => newDocList.push(row.node.id),
-					ignoreCollapsed: false
-				});
-			}
-			newWorkingDocs = getFullChildContents(newDocList, state.docCache);
-			newDocList.forEach(id => {
-				state.docCache[id] = newWorkingDocs[id];
-			});
-			state.curDocList = newDocList;
+			[
+				state.curDocList,
+				state.curDocRow,
+				state.docCache
+			] = getListRowFor(
+				state.curDocId, 
+				state.curDocList, 
+				state.curDocRow, 
+				state.docTree, 
+				state.docCache
+			);
+			state.inspectedDocRow = state.curDocRow;
 		},
 		switchSplitDocument(state, action) {
 			const splitDocId = action.payload.id;
 			state.splitDocId = splitDocId;
-			let newDocList = [splitDocId];
-			const selRow = find({
-				getNodeKey: ({treeIndex}) => {return treeIndex;},
-				treeData: state.docTree,
-				searchMethod: (rowData) => {return(rowData.node.id === splitDocId)}
-			}).matches[0];
-			state.splitDocRow = selRow;
-			//state.inspectedDocRow = selRow;
-			let newWorkingDocs = {};
-			if (selRow && selRow.node.children) {
-				walk({
-					treeData: selRow.node.children,
-					getNodeKey: ({treeIndex}) => {return treeIndex;},
-					callback: (row) => newDocList.push(row.node.id),
-					ignoreCollapsed: false
-				});
-			}
-			newWorkingDocs = getFullChildContents(newDocList, state.docCache);
-			newDocList.forEach(id => {
-				state.docCache[id] = newWorkingDocs[id];
-			});
-			state.splitDocList = newDocList;
+			[
+				state.splitDocList,
+				state.splitDocRow,
+				state.docCache
+			] = getListRowFor(
+				state.splitDocId, 
+				state.splitDocList, 
+				state.splitDocRow, 
+				state.docTree, 
+				state.docCache
+			);
 		},
 		inspectDocument(state, action) {
 			const inspDocId = action.payload.id;
@@ -209,33 +186,36 @@ const workspaceSlice = createSlice({
 		updateDocTree(state, action) {
 			const {tree} = action.payload;
 			state.docTree = tree;
-			let newDocList = [state.curDocId];
-			const selRow = find({
-				getNodeKey: ({treeIndex}) => {return treeIndex;},
-				treeData: state.docTree,
-				searchMethod: (rowData) => {return(rowData.node.id === state.curDocId)}
-			}).matches[0];
-			state.curDocRow = selRow;
+			[
+				state.curDocList,
+				state.curDocRow,
+				state.docCache
+			] = getListRowFor(
+				state.curDocId, 
+				state.curDocList, 
+				state.curDocRow, 
+				state.docTree, 
+				state.docCache
+			);
+			if (state.splitDocId) {
+				[
+					state.splitDocList,
+					state.splitDocRow,
+					state.docCache
+				] = getListRowFor(
+					state.splitDocId, 
+					state.splitDocList, 
+					state.splitDocRow, 
+					state.docTree, 
+					state.docCache
+				);
+			}
 			const inspRow = find({
 				getNodeKey: ({treeIndex}) => {return treeIndex;},
 				treeData: state.docTree,
 				searchMethod: (rowData) => {return(rowData.node.id === state.inspectedDocRow.node.id)}
 			}).matches[0];
 			state.inspectedDocRow = inspRow;
-			let newWorkingDocs = {};
-			if (selRow && selRow.node.children) {
-				walk({
-					treeData: selRow.node.children,
-					getNodeKey: ({treeIndex}) => {return treeIndex;},
-					callback: (row) => newDocList.push(row.node.id),
-					ignoreCollapsed: false
-				});
-			}
-			newWorkingDocs = getFullChildContents(newDocList, state.docCache);
-			newDocList.forEach(id => {
-				state.docCache[id] = newWorkingDocs[id];
-			});
-			state.curDocList = newDocList;
 		}
 	}
 });

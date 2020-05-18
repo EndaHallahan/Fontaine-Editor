@@ -27,49 +27,24 @@ class Corkboard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			treeData: this.props.treeData,
-			currentlySelectedNode: this.props.curDocRow.node || null,
-			currentList: this.props.curDocRow.node.children || null,
 			freeForm: false,
 		}
 		this.onReorder = this.onReorder.bind(this);
 		this.onCardChange = this.onCardChange.bind(this);
 	}
 	onReorder (event, previousIndex, nextIndex, fromId, toId) {
-		this.setState({
-			...this.state,
-			currentList: reorder(this.state.currentList, previousIndex, nextIndex)
-		}, () => {
-			let reorderedNode = {...this.props.curDocRow.node, expanded: true, children: [...this.state.currentList]}
-			this.props.replaceCurRow(reorderedNode)
-		});
+		let reorderedNode = {
+			...this.props.curDocRow.node, 
+			expanded: true, 
+			children: reorder(this.props.curDocRow.node.children, previousIndex, nextIndex)
+		}
+		this.props.replaceCurRow(reorderedNode);
 	}
 	onCardChange(newCard, index) {
-		let newList = Array.from(this.state.currentList);
+		let newList = Array.from(this.props.curDocRow.node.children);
 		newList[index] = newCard;
-		this.setState({
-			...this.state,
-			currentList: newList
-		}, () => {
-			let modifiedNode = {...this.props.curDocRow.node, expanded: true, children: [...this.state.currentList]}
-			this.props.replaceCurRow(modifiedNode);
-		});
-	}
-	UNSAFE_componentWillReceiveProps(nextProps) {
-		if (!_.isEqual(nextProps.treeData, this.props.treeData)) {
-			this.setState({
-				...this.state,
-				currentList: nextProps.curDocRow ? nextProps.curDocRow.node.children : this.props.curDocRow,
-				treeData: nextProps.treeData
-			})
-		}
-		if (!_.isEqual(nextProps.curDocRow, this.props.curDocRow)) {
-			this.setState({
-				...this.state,
-				currentList: nextProps.curDocRow.node.children,
-				treeData: nextProps.treeData
-			})
-		}
+		let modifiedNode = {...this.props.curDocRow.node, expanded: true, children: [...newList]}
+		this.props.replaceCurRow(modifiedNode);
 	}
 	render() {
 		return (
@@ -85,9 +60,9 @@ class Corkboard extends Component {
 						holdTime={300}
 					>
 						{
-							this.state.currentList 
+							this.props.curDocRow.node.children 
 							? (
-								this.state.currentList.map((item, i) => (
+								this.props.curDocRow.node.children.map((item, i) => (
 							      	<IndexCard 
 										key={item.id}
 										docIndex={i}
@@ -106,58 +81,5 @@ class Corkboard extends Component {
 		);
 	}
 }
-
-/*const Corkboard = (props) => {
-	const dispatch = useDispatch();
-	const docTree = useSelector(state => state.workspaceReducer.docTree);
-	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
-	const inspDocRow = useSelector(state => state.workspaceReducer.inspectedDocRow)
-	const curDocRow = useSelector(state => state.workspaceReducer.curDocRow);
-	const lastTreeUpdate = useSelector(state => state.workspaceReducer.docTreeLastUpdate);
-	const getDoc = (node, path, treeIndex) => {
-		if (node.node.id !== undefined) {
-			dispatch(switchDocument({id: node.node.id}));
-		}
-	}
-	const inspectDoc = (id) => {
-		dispatch(inspectDocument({id: id}))
-	}
-	const newDoc = (id) => {
-		dispatch(createNewDocument({id}));
-	}
-	const updateTree = (treeData) => {
-		dispatch(updateDocTree({tree: treeData}));
-	}
-	const replaceCurRow = (newRow) => {
-		let reorderedTree = changeNodeAtPath({
-			treeData: docTree,
-			path: curDocRow.path,
-			getNodeKey: ({treeIndex}) => {return treeIndex;},
-			newNode: newRow
-		});
-		updateTree(reorderedTree);
-	}
-	const onReorder = (newOrder) => {
-		let reorderedNode = {...curDocRow.node, expanded: true, children: [...newOrder]}
-		replaceCurRow(reorderedNode);
-	}
-	return(
-		<CorkboardChild 
-			{...props}
-			treeData={docTree}
-			curDoc={props.docId}
-			curDocRow={curDocRow}
-			getDoc={getDoc}
-			inspectDoc={inspectDoc}
-			inspDocId={inspDocRow.node.id}
-			newDoc={newDoc}
-			onTreeChange={updateTree}
-			docList = {props.docList}
-			replaceCurRow={replaceCurRow}
-
-			//key={curDocId}
-		/>
-	);
-}*/
 
 export default Corkboard;
