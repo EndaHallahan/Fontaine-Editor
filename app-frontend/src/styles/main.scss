@@ -124,6 +124,8 @@ main {
 						span {
 							display: inline-flex;
 							align-items: center;
+							text-overflow: ellipsis;
+							white-space: nowrap
 						}
 
 						> span:nth-child(2) {
