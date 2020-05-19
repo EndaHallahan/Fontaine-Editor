@@ -52,6 +52,10 @@
 				width: $dim;
 			}
 		}
+
+		.shortcut {
+			padding-left: 1rem;
+		}
 		
 		&.highlighted {
 			background-color: $fontaine-blue;

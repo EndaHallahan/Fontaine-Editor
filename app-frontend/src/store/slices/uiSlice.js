@@ -16,6 +16,7 @@ const uiSlice = createSlice({
 
 		splitEditorOpen: true,
 		splitEditorMode: "corkboard",
+		splitOrientation: "vertical",
 	},
 	reducers: {
 		setEditorMode(state, action) {
@@ -30,6 +31,9 @@ const uiSlice = createSlice({
 		},
 		toggleSplitEditor(state, action) {
 			state.splitEditorOpen = !state.splitEditorOpen;
+		},
+		toggleSplitOrientation(state, action) {
+			state.splitOrientation = state.splitOrientation === "vertical" ? "horizontal" : "vertical";
 		},
 		setSplitEditorOpen(state, action) {
 			let {open} = action.payload;
@@ -47,6 +51,7 @@ export const {
 	toggleLeftPanel,
 	toggleRightPanel,
 	toggleSplitEditor,
+	toggleSplitOrientation,
 	setSplitEditorOpen,
 	setSplitEditorMode,
 } = uiSlice.actions;

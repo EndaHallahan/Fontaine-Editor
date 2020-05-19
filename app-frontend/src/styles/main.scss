@@ -80,11 +80,25 @@ main {
 			grid-gap: 0px;
 
 			#editor-area-wrapper {
-				///display: grid;
-				//grid-auto-flow: var(--split-editor-orientation);
 				display: flex;
+				flex-wrap: nowrap;
 				flex-direction: row;
 				height: inherit;
+
+				&.split-horizontal {
+					height: inherit;
+					display: grid;
+					grid-template-rows: minmax(0, 1fr) min-content;
+					.editor-window {
+						height: 100%;
+						flex: 1;
+						grid-template-rows: 1.5rem minmax(0, 1fr);
+						&.split-window {
+							border-left: none;
+							border-top: 2px solid $dark-lowlight;
+						}
+					}
+				}
 
 				.editor-window {
 					display: grid;
@@ -93,7 +107,7 @@ main {
 					width: 100%;
 
 					&.main-window {
-
+						
 					}
 
 					&.split-window {
@@ -119,10 +133,15 @@ main {
 							display: inline-flex;
 							align-items: center;
 						}
+
 						> span:nth-child(2) {
 							justify-content: flex-end;
 						}
 
+						button {
+							margin-left: .2rem;
+						}
+						
 						svg {
 							$dim: 1.1rem;
 							width: $dim;

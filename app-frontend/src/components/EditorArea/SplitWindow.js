@@ -15,8 +15,7 @@ import SortableTree, {
 
 import { Icon, InlineIcon } from '@iconify/react';
 import xCircle from '@iconify/icons-feather/x-circle';
-
-
+import layoutIcon from '@iconify/icons-feather/layout';
 
 import { 
 	queueDocumentChanges,
@@ -27,14 +26,13 @@ import {
 	createNewDocument, 
 	updateDocTree 
 } from "../../store/slices/workspaceSlice";
-import { setSplitEditorOpen } from "../../store/slices/uiSlice";
+import { 
+	setSplitEditorOpen,
+	toggleSplitOrientation,
+} from "../../store/slices/uiSlice";
 
 import MultiDocSlate from "./MultiDocSlate";
 import Corkboard from "./Corkboard";
-
-
-
-
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
 
@@ -42,6 +40,7 @@ const SplitWindow = (props) => {
 	const dispatch = useDispatch();
 	const editorOpen = useSelector(state => state.uiReducer.splitEditorOpen);
 	const editorMode = useSelector(state => state.uiReducer.splitEditorMode);
+	const splitOrientation = useSelector(state => state.uiReducer.splitOrientation);
 
 	const docCache = useSelector(state => state.workspaceReducer.docCache);
 	const curDocList = useSelector(state => state.workspaceReducer.splitDocList);
@@ -86,16 +85,25 @@ const SplitWindow = (props) => {
 	const closeSplitEditor = () => {
 		dispatch(setSplitEditorOpen({open: false}));
 	}
+	const switchOrientation = () => {
+		dispatch(toggleSplitOrientation());
+	}
 
 	if (editorOpen) {
 		return(
-			<SplitEditorWrapper>
+			<SplitEditorWrapper
+				orientation={splitOrientation}
+			>
 				<div className="info-bar">
 					<span><span>{curDocRow.node.title}</span></span>
 					<span>
 						<KeyboardFocusableButton
+							onClick={switchOrientation}
+							title="Change Orientation (Ctrl+')"
+						><Icon icon={layoutIcon} /></KeyboardFocusableButton>
+						<KeyboardFocusableButton
 							onClick={closeSplitEditor}
-							title="Close split editor (Ctrl+Alt+S)"
+							title="Close Split Editor (Ctrl+Alt+S)"
 						><Icon icon={xCircle} /></KeyboardFocusableButton>
 					</span>
 				</div>
@@ -138,42 +146,69 @@ const SplitWindow = (props) => {
 	
 }
 
-
 class SplitEditorWrapper extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			width: this.props.width || "50%"
+			width: this.props.width || "50%",
+			height: this.props.height || 300
 		}
 	}
 	render() {
-		return (
-			<Resizable
-				size={{width: this.state.width, height: "100%"}}
-				minWidth={190}
-				maxWidth={"80%"}
-				onResizeStop={(e, direction, ref, d) => {
-				    this.setState({
-				    	...this.state,
-				     	width: this.state.width + d.width
-				    }); 
-				}}
-				enable={{ 
-					top:false, 
-					right:false, 
-					bottom:false, 
-					left:true, 
-					topRight:false, 
-					bottomRight:false, 
-					bottomLeft:false, 
-					topLeft:false 
-				}}
-				className="editor-window split-window"
-			>
-				{this.props.children}
-			</Resizable>
-			
-		);
+		if (this.props.orientation === "vertical") {
+			return (
+				<Resizable
+					size={{width: this.state.width, height: "100%"}}
+					minWidth={190}
+					maxWidth={"80%"}
+					onResizeStop={(e, direction, ref, d) => {
+					    this.setState({
+					    	...this.state,
+					     	width: this.state.width + d.width
+					    }); 
+					}}
+					enable={{ 
+						top:false, 
+						right:false, 
+						bottom:false, 
+						left:true, 
+						topRight:false, 
+						bottomRight:false, 
+						bottomLeft:false, 
+						topLeft:false 
+					}}
+					className="editor-window split-window"
+				>
+					{this.props.children}
+				</Resizable>
+			);
+		} else {
+			return (
+				<Resizable
+					size={{height: this.state.height, width: "100%"}}
+					minHeight={190}
+					onResizeStop={(e, direction, ref, d) => {
+					    this.setState({
+					    	...this.state,
+					     	height: this.state.height + d.height
+					    }); 
+					}}
+					enable={{ 
+						top:true, 
+						right:false, 
+						bottom:false, 
+						left:false, 
+						topRight:false, 
+						bottomRight:false, 
+						bottomLeft:false, 
+						topLeft:false 
+					}}
+					className="editor-window split-window"
+				>
+					{this.props.children}
+				</Resizable>
+			);
+		}
 	}
 }
 
