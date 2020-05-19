@@ -30,15 +30,12 @@ import {
 	setSplitEditorOpen,
 	toggleSplitOrientation,
 } from "../../store/slices/uiSlice";
-
 import MultiDocSlate from "./MultiDocSlate";
 import Corkboard from "./Corkboard";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
-
 const SplitWindow = (props) => {
 	const dispatch = useDispatch();
-	const editorOpen = useSelector(state => state.uiReducer.splitEditorOpen);
 	const editorMode = useSelector(state => state.uiReducer.splitEditorMode);
 	const splitOrientation = useSelector(state => state.uiReducer.splitOrientation);
 
@@ -89,191 +86,58 @@ const SplitWindow = (props) => {
 		dispatch(toggleSplitOrientation());
 	}
 
-	if (editorOpen) {
-		return(
-			<SplitEditorWrapper
-				orientation={splitOrientation}
-			>
-				<div className="info-bar">
-					<span><span>{curDocRow.node.title}</span></span>
-					<span>
-						<KeyboardFocusableButton
-							onClick={switchOrientation}
-							title="Change Orientation (Ctrl+')"
-						><Icon icon={layoutIcon} /></KeyboardFocusableButton>
-						<KeyboardFocusableButton
-							onClick={closeSplitEditor}
-							title="Close Split Editor (Ctrl+Alt+S)"
-						><Icon icon={xCircle} /></KeyboardFocusableButton>
-					</span>
-				</div>
-				{
-					{
-			          	"editor": (
-			          		<MultiDocSlate 
-								doc = {docCache[curDocId]}
-								docSet = {docCache}
-								docList = {curDocList}
-								docId = {curDocId}
-								updateDoc = {updateDoc}
-								inspectDoc={inspectDoc}
-								queueDocChanges = {queueDocChanges}
-								split={true}
-							/>
-			          	),
-			          	"corkboard": (
-			          		<Corkboard
-								treeData={docTree}
-								curDoc={curDocId}
-								curDocRow={curDocRow}
-								getDoc={getDoc}
-								inspectDoc={inspectDoc}
-								inspDocId={inspDocRow.node.id}
-								newDoc={newDoc}
-								onTreeChange={updateTree}
-								docList = {curDocList}
-								replaceCurRow={replaceCurRow}
-								split={true}
-							/>
-			          	),
-			        }[editorMode]
-			    }
-			</SplitEditorWrapper>
-		);
-	} else {
-		return (<div />);
-	}
-	
-}
-
-class SplitEditorWrapper extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			width: this.props.width || "50%",
-			height: this.props.height || 300
-		}
-	}
-	render() {
-		if (this.props.orientation === "vertical") {
-			return (
-				<Resizable
-					size={{width: this.state.width, height: "100%"}}
-					minWidth={190}
-					maxWidth={"80%"}
-					onResizeStop={(e, direction, ref, d) => {
-					    this.setState({
-					    	...this.state,
-					     	width: this.state.width + d.width
-					    }); 
-					}}
-					enable={{ 
-						top:false, 
-						right:false, 
-						bottom:false, 
-						left:true, 
-						topRight:false, 
-						bottomRight:false, 
-						bottomLeft:false, 
-						topLeft:false 
-					}}
-					className="editor-window split-window"
-				>
-					{this.props.children}
-				</Resizable>
-			);
-		} else {
-			return (
-				<Resizable
-					size={{height: this.state.height, width: "100%"}}
-					minHeight={190}
-					onResizeStop={(e, direction, ref, d) => {
-					    this.setState({
-					    	...this.state,
-					     	height: this.state.height + d.height
-					    }); 
-					}}
-					enable={{ 
-						top:true, 
-						right:false, 
-						bottom:false, 
-						left:false, 
-						topRight:false, 
-						bottomRight:false, 
-						bottomLeft:false, 
-						topLeft:false 
-					}}
-					className="editor-window split-window"
-				>
-					{this.props.children}
-				</Resizable>
-			);
-		}
-	}
-}
-
-export default SplitWindow;
-
-
-
-
-/*class SplitEditorChild extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			width: this.props.width || "50%"
-		}
-	}
-	render() {
-		return (
-			<Resizable
-				size={{width: this.state.width, height: "100%"}}
-				minWidth={190}
-				maxWidth={"80%"}
-				onResizeStop={(e, direction, ref, d) => {
-				    this.setState({
-				    	...this.state,
-				     	width: this.state.width + d.width
-				    }); 
-				}}
-				enable={{ 
-					top:false, 
-					right:false, 
-					bottom:false, 
-					left:true, 
-					topRight:false, 
-					bottomRight:false, 
-					bottomLeft:false, 
-					topLeft:false 
-				}}
-				className="split-editor"
-			>
-				<div className="split-bar">
-					<KeyboardFocusableButton
-						onClick={this.props.switchSplitEditor}
-						title="Close the split Editor"
-						//className={editorMode === "editor" ? "active" : null}
-					><Icon icon={xCircle} /></KeyboardFocusableButton>
-				</div>
-				{this.props.children}
-			</Resizable>
-			
-		);
-	}
-}
-
-const SplitEditor = (props) => {
-	const dispatch = useDispatch();
-
-	//const mainEditorMode = useSelector(state => state.uiReducer.editorMode);
-	const switchSplitEditor = () => dispatch(toggleSplitEditor());
-
 	return(
-		<SplitEditorChild
-			{...props}
-			switchSplitEditor={switchSplitEditor} 
-		/>
+		<div
+			className="editor-window split-window"
+		>
+			<div className="info-bar">
+				<span><span>{curDocRow.node.title}</span></span>
+				<span>
+					<KeyboardFocusableButton
+						onClick={switchOrientation}
+						title="Change Orientation (Ctrl+')"
+					><Icon icon={layoutIcon} /></KeyboardFocusableButton>
+					<KeyboardFocusableButton
+						onClick={closeSplitEditor}
+						title="Close Split Editor (Ctrl+Alt+S)"
+					><Icon icon={xCircle} /></KeyboardFocusableButton>
+				</span>
+			</div>
+			<div className="area-wrapper">
+			{
+				{
+		          	"editor": (
+		          		<MultiDocSlate 
+							doc = {docCache[curDocId]}
+							docSet = {docCache}
+							docList = {curDocList}
+							docId = {curDocId}
+							updateDoc = {updateDoc}
+							inspectDoc={inspectDoc}
+							queueDocChanges = {queueDocChanges}
+							split={true}
+						/>
+		          	),
+		          	"corkboard": (
+		          		<Corkboard
+							treeData={docTree}
+							curDoc={curDocId}
+							curDocRow={curDocRow}
+							getDoc={getDoc}
+							inspectDoc={inspectDoc}
+							inspDocId={inspDocRow.node.id}
+							newDoc={newDoc}
+							onTreeChange={updateTree}
+							docList = {curDocList}
+							replaceCurRow={replaceCurRow}
+							split={true}
+						/>
+		          	),
+		        }[editorMode]
+		    }
+		    </div>
+		</div>
 	);
 }
 
-export default SplitEditor;*/
+export default SplitWindow;

@@ -13,7 +13,6 @@ import SortableTree, {
 	find,
 } from 'react-sortable-tree';
 
-
 import { 
 	queueDocumentChanges,
 	updateWorkingDoc,
@@ -26,12 +25,7 @@ import { toggleSplitEditor } from "../../store/slices/uiSlice";
 
 import MultiDocSlate from "./MultiDocSlate";
 import Corkboard from "./Corkboard";
-
-
-
-
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
-
 
 const MainWindow = (props) => {
 	const dispatch = useDispatch();
@@ -81,6 +75,7 @@ const MainWindow = (props) => {
 				<span><span>{curDocRow.node.title}</span></span>
 				<span></span>
 			</div>
+			<div className="area-wrapper">
 			{
 				{
 		          	"editor": (
@@ -109,73 +104,10 @@ const MainWindow = (props) => {
 						/>
 		          	),
 		        }[editorMode]
-			}	
+			}
+			</div>	
 		</div>
 	);
 }
 
 export default MainWindow;
-
-
-
-
-/*class SplitEditorChild extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			width: this.props.width || "50%"
-		}
-	}
-	render() {
-		return (
-			<Resizable
-				size={{width: this.state.width, height: "100%"}}
-				minWidth={190}
-				maxWidth={"80%"}
-				onResizeStop={(e, direction, ref, d) => {
-				    this.setState({
-				    	...this.state,
-				     	width: this.state.width + d.width
-				    }); 
-				}}
-				enable={{ 
-					top:false, 
-					right:false, 
-					bottom:false, 
-					left:true, 
-					topRight:false, 
-					bottomRight:false, 
-					bottomLeft:false, 
-					topLeft:false 
-				}}
-				className="split-editor"
-			>
-				<div className="split-bar">
-					<KeyboardFocusableButton
-						onClick={this.props.switchSplitEditor}
-						title="Close the split Editor"
-						//className={editorMode === "editor" ? "active" : null}
-					><Icon icon={xCircle} /></KeyboardFocusableButton>
-				</div>
-				{this.props.children}
-			</Resizable>
-			
-		);
-	}
-}
-
-const SplitEditor = (props) => {
-	const dispatch = useDispatch();
-
-	//const mainEditorMode = useSelector(state => state.uiReducer.editorMode);
-	const switchSplitEditor = () => dispatch(toggleSplitEditor());
-
-	return(
-		<SplitEditorChild
-			{...props}
-			switchSplitEditor={switchSplitEditor} 
-		/>
-	);
-}
-
-export default SplitEditor;*/

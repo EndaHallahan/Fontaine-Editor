@@ -1,12 +1,15 @@
 .editor-area {
-	width: 100%;
-	min-width: 190px;
 	display: grid;
 	grid-template-rows: min-content 1fr min-content;
-	height: auto;
+	height: 100%;
 	width: 100%;
 	background-color: var(--editor-container-colour);
 	border: none;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
 
 	.editor-toolbar {
 		background-color: $light;
