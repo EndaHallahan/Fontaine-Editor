@@ -47,7 +47,8 @@ class InspectorChild extends Component {
 							const summary = e.target.value;
 	                    	this.onRowChange({...this.props.inspRow, summary});
 						}}
-					>{this.props.inspRow.summary}</TextArea>
+						value={this.props.inspRow.summary}
+					/>
 				</CollapsableDiv>
 				<CollapsableDiv
 					openHeight={null}
@@ -61,7 +62,8 @@ class InspectorChild extends Component {
 							const notes = e.target.value;
 	                    	this.onRowChange({...this.props.inspRow, notes});
 						}}
-					>{this.props.inspRow.notes}</TextArea>
+						value={this.props.inspRow.notes}
+					/>
 				</CollapsableDiv>
 			</div>
 		);
