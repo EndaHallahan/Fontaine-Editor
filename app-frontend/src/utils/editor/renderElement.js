@@ -14,6 +14,14 @@ const Element = ({ attributes, children, element }) => {
       		return <li {...attributes}>{children}</li>
     	case 'numbered-list':
       		return <ol {...attributes}>{children}</ol>
+      	case 'align-left':
+      		return <div style={{textAlign: "left"}} {...attributes}>{children}</div>
+      	case 'align-right':
+      		return <div style={{textAlign: "right"}} {...attributes}>{children}</div>
+      	case 'align-center':
+      		return <div style={{textAlign: "center"}} {...attributes}>{children}</div>
+      	case 'align-justify':
+      		return <div style={{textAlign: "justify"}} {...attributes}>{children}</div>
     	default:
       		return <p {...attributes}>{children}</p>
   }

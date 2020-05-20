@@ -51,7 +51,7 @@ let documentIndex = {
 		]},
 		{type: "trash", title: "Trash", permanent: true, id:"04279288-7cdc-486c-a279-9c0f7a698a31"}
 	],
-	lastDocument: "339b5bc4-6869-4f6b-802d-4179d1deab71"
+	lastDocument: "f5bfb84b-7f56-4028-9bac-53f3e9b5af9b"
 }
 
 export {documents, documentIndex};

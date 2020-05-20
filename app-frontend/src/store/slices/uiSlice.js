@@ -12,9 +12,9 @@ const uiSlice = createSlice({
 		leftPanelOpen: false,
 		rightPanelOpen: false,
 
-		editorMode: "corkboard",
+		editorMode: "editor",
 
-		splitEditorOpen: true,
+		splitEditorOpen: false,
 		splitEditorMode: "corkboard",
 		splitOrientation: "vertical",
 	},

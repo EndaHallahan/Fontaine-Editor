@@ -1,17 +1,25 @@
 import React, { Component, Fragment, useEffect, useMemo, useState, useCallback } from 'react';
 import { ReactEditor } from 'slate-react'
 import { Icon, InlineIcon } from '@iconify/react';
+
 import formatBold from '@iconify/icons-mdi/format-bold';
 import formatItalic from '@iconify/icons-mdi/format-italic';
 import formatUnderline from '@iconify/icons-mdi/format-underline';
 import formatStrikethrough from '@iconify/icons-mdi/format-strikethrough';
+
+import formatListNumbered from '@iconify/icons-mdi/format-list-numbered';
+import formatListBulleted from '@iconify/icons-mdi/format-list-bulleted';
+
+import formatAlignLeft from '@iconify/icons-mdi/format-align-left';
+import formatAlignRight from '@iconify/icons-mdi/format-align-right';
+import formatAlignCenter from '@iconify/icons-mdi/format-align-center';
+import formatAlignJustify from '@iconify/icons-mdi/format-align-justify';
 
 import Helpers from "../../utils/editor/Helpers";
 
 const MarkButton = (props) => {
   return (
     <button
-      	//active={isMarkActive(editor, format)}
       	className={Helpers.isMarkActive(props.editor, props.format) ? "active" : null}
       	onClick={event => {
         	Helpers.toggleMark(props.editor, props.format);
@@ -21,6 +29,20 @@ const MarkButton = (props) => {
       	{props.children}
     </button>
   );
+}
+
+const BlockButton = (props) => {
+	return (
+		<button
+			className={Helpers.isBlockActive(props.editor, props.format) ? "active" : null}
+			onClick={event => {
+	        	Helpers.toggleBlock(props.editor, props.format);
+	        	ReactEditor.focus(props.editor);
+	      	}}
+		>
+			{props.children}
+		</button>
+	)
 }
 
 const EditorToolbar = (props) => { 
@@ -63,6 +85,48 @@ const EditorToolbar = (props) => {
 						</MarkButton>
 
 						<div className="divider" />
+
+						<BlockButton
+							format="numbered-list" 
+							editor={editor} 
+							editorEle={props.editorEle}
+						>
+							<Icon icon={formatListNumbered} />
+						</BlockButton>
+
+						<BlockButton
+							format="bulleted-list" 
+							editor={editor} 
+							editorEle={props.editorEle}
+						>
+							<Icon icon={formatListBulleted} />
+						</BlockButton>
+
+						<div className="divider" />
+
+						<BlockButton
+							format="align-center" 
+							editor={editor} 
+							editorEle={props.editorEle}
+						>
+							<Icon icon={formatAlignCenter} />
+						</BlockButton>
+
+						<BlockButton
+							format="align-right" 
+							editor={editor} 
+							editorEle={props.editorEle}
+						>
+							<Icon icon={formatAlignRight} />
+						</BlockButton>
+
+						<BlockButton
+							format="align-justify" 
+							editor={editor} 
+							editorEle={props.editorEle}
+						>
+							<Icon icon={formatAlignJustify} />
+						</BlockButton>
 
 					</Fragment>
 				) : null
