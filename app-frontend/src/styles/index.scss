@@ -37,12 +37,19 @@ $font-family-sans: "Open Sans", sans-serif;
 	--corkboard-container-colour: #555555;
 	--corkboard-card-width: 15rem;
 	//--corkboard-card-colour: white;
+
+	--distraction-free-background-color: black;
+	--distraction-free-paper-color: black;
+	--distraction-free-text-color: white;
+	--distraction-free-page-width: 60%;
+	--distraction-free-show-corners: 1;
 }
 
 @import "overrides";
 
 @import "main";
 @import "settings";
+@import "distraction-free";
 
 @import "menus";
 @import "dropdowns";

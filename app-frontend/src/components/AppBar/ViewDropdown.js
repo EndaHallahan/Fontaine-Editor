@@ -3,12 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Icon, InlineIcon } from '@iconify/react';
 import check from '@iconify/icons-feather/check';
 import layoutIcon from '@iconify/icons-feather/layout';
+import maximizeIcon from '@iconify/icons-feather/maximize';
 
 import { 
 	toggleRightPanel, 
 	toggleLeftPanel,
 	toggleSplitEditor,
 	toggleSplitOrientation,
+	setDistractionFree,
 } from "../../store/slices/uiSlice";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 import CustomDropdown from "../CustomDropdown";
@@ -58,6 +60,14 @@ const ViewDropdown = (props) => {
 				}}
 			/>
 			<hr/>
+			<LI
+				icon={maximizeIcon}
+				title="Distraction-Free Mode"
+				shortcut="Alt+F11"
+				onItemChosen={e => {
+					dispatch(setDistractionFree({open: true}));
+				}}
+			/>
 		</CustomDropdown>
 	);
 }

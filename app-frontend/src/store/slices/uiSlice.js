@@ -9,7 +9,7 @@ Available Editor Modes:
 const uiSlice = createSlice({
 	name: "ui",
 	initialState: {
-		leftPanelOpen: false,
+		leftPanelOpen: true,
 		rightPanelOpen: false,
 
 		editorMode: "editor",
@@ -17,6 +17,8 @@ const uiSlice = createSlice({
 		splitEditorOpen: false,
 		splitEditorMode: "corkboard",
 		splitOrientation: "vertical",
+
+		distractionFreeOpen: false,
 	},
 	reducers: {
 		setEditorMode(state, action) {
@@ -43,6 +45,13 @@ const uiSlice = createSlice({
 			let {mode} = action.payload;
 			state.splitEditorMode = mode;
 		},
+		toggleDistractionFree(state, action) {
+			state.distractionFreeOpen = !state.distractionFreeOpen;
+		},
+		setDistractionFree(state, action) {
+			let {open} = action.payload
+			state.distractionFreeOpen = open;
+		}
 	}
 });
 
@@ -53,7 +62,9 @@ export const {
 	toggleSplitEditor,
 	toggleSplitOrientation,
 	setSplitEditorOpen,
-	setSplitEditorMode,
+	setSplitEditorMode, 
+	toggleDistractionFree,
+	setDistractionFree
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

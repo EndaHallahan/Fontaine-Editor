@@ -58,6 +58,10 @@
 	.editor-body {
 		overflow-y: auto;
 
+		& > div:only-child {
+			height: 100%;
+		}
+
 		.slate-wrapper {
 			min-height: 3rem;
 			color: var(--editor-text-colour);
@@ -69,10 +73,7 @@
 			margin: .5rem auto 0 auto;
 			height: auto;
 			font-size: var(--editor-default-font-size);
-
-			&:only-child {
-				min-height: 100%;
-			}
+			min-height: 100%;
 
 			& > div {
 				padding: 2rem 3rem;
