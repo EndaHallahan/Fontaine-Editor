@@ -15,6 +15,9 @@ import formatAlignRight from '@iconify/icons-mdi/format-align-right';
 import formatAlignCenter from '@iconify/icons-mdi/format-align-center';
 import formatAlignJustify from '@iconify/icons-mdi/format-align-justify';
 
+import formatSuperscript from '@iconify/icons-mdi/format-superscript';
+import formatSubscript from '@iconify/icons-mdi/format-subscript';
+
 import Helpers from "../../utils/editor/Helpers";
 
 const MarkButton = (props) => {
@@ -86,6 +89,24 @@ const EditorToolbar = (props) => {
 
 						<div className="divider" />
 
+						<MarkButton
+							format="superscript" 
+							editor={editor} 
+							editorEle={props.editorEle}
+						>
+							<Icon icon={formatSuperscript} />
+						</MarkButton>
+
+						<MarkButton
+							format="subscript" 
+							editor={editor} 
+							editorEle={props.editorEle}
+						>
+							<Icon icon={formatSubscript} />
+						</MarkButton>
+
+						<div className="divider" />
+
 						<BlockButton
 							format="numbered-list" 
 							editor={editor} 
@@ -127,7 +148,6 @@ const EditorToolbar = (props) => {
 						>
 							<Icon icon={formatAlignJustify} />
 						</BlockButton>
-
 					</Fragment>
 				) : null
 			}

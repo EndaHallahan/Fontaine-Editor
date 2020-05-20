@@ -48,6 +48,14 @@ const Leaf = ({ attributes, children, leaf }) => {
 		children = <del>{children}</del>
 	}
 
+	if (leaf.superscript) {
+		children = <sup>{children}</sup>
+	}
+
+	if (leaf.subscript) {
+		children = <sub>{children}</sub>
+	}
+
 	return <span {...attributes}>{children}</span>
 }
 
