@@ -9,7 +9,7 @@ import {
 	inspectDocument, 
 	updateDocTree 
 } from "../../store/slices/workspaceSlice";
-import { Input, TextArea } from "../StatefulInputs";
+import { Input, TextArea, Select } from "../StatefulInputs";
 import CollapsableDiv from "../CollapsableDiv";
 
 class InspectorChild extends Component {
@@ -24,7 +24,7 @@ class InspectorChild extends Component {
 	}
 	render() {
 		return (
-			<div className="inspector">
+			<div className="inspector" key={this.props.inspRow.id}>
 				<div className="inspector-head">
 
 				</div>
@@ -33,8 +33,22 @@ class InspectorChild extends Component {
 					title="Details"
 					className="details"
 				>
-					<div>Title:</div>
-					<div className="right">{this.props.inspRow.title}</div>
+					<div>Status:</div>
+					<Select
+						options={[
+							{value: "", name: "None"},
+							{value: "Not Started"},
+							{value: "Rough Draft"},
+							{value: "Needs Editing"},
+							{value: "Final Draft"},
+							{value: "Done"}
+						]}
+						value={this.props.inspRow.status}
+						onChange={e => {
+							const status = e.target.value;
+	                    	this.onRowChange({...this.props.inspRow, status});
+						}}
+					/>
 				</CollapsableDiv>
 				<CollapsableDiv
 					openHeight="7rem"

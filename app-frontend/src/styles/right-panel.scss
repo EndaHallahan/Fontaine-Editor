@@ -5,6 +5,7 @@
 
 	.collapsable-div {
 		margin-bottom: .1rem;
+		overflow: visible;
 
 		&:last-child {
 			flex-grow: 1;

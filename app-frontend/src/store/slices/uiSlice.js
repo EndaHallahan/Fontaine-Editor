@@ -10,7 +10,7 @@ const uiSlice = createSlice({
 	name: "ui",
 	initialState: {
 		leftPanelOpen: true,
-		rightPanelOpen: false,
+		rightPanelOpen: true,
 
 		editorMode: "editor",
 
