@@ -1,5 +1,11 @@
 import React, { Component, Fragment } from 'react';
 
+/*import ReactTagInput from "@pathofdev/react-tag-input";
+import "@pathofdev/react-tag-input/build/index.css";*/
+
+import TagsInput from 'react-tagsinput'
+//import 'react-tagsinput/react-tagsinput.css'
+
 class Input extends Component {
 	constructor(props) {
 		super(props);
@@ -140,4 +146,25 @@ class Select extends Component {
 	}
 }
 
-export {Input, TextArea, Select};
+
+const KeyCodes = {
+  comma: 188,
+  enter: 13,
+};
+
+const delimiters = [KeyCodes.comma, KeyCodes.enter];
+
+
+class TagInput extends React.Component {
+    render() {
+        return (
+            <TagsInput 
+            	{...this.props}
+		    />
+        )
+    }
+};
+
+
+
+export {Input, TextArea, Select, TagInput};

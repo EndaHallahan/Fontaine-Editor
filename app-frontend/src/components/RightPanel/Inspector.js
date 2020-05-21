@@ -1,16 +1,22 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import SortableTree, { 
 	changeNodeAtPath, 
 	find,
 } from 'react-sortable-tree';
+import { Icon, InlineIcon } from '@iconify/react';
+import tagIcon from '@iconify/icons-feather/tag';
+import infoIcon from '@iconify/icons-feather/info';
+
+
 
 import { 
 	inspectDocument, 
 	updateDocTree 
 } from "../../store/slices/workspaceSlice";
-import { Input, TextArea, Select } from "../StatefulInputs";
+import { Input, TextArea, Select, TagInput } from "../StatefulInputs";
 import CollapsableDiv from "../CollapsableDiv";
+import TabularMenu from "../TabularMenu";
 
 class InspectorChild extends Component {
 	constructor(props) {
@@ -25,60 +31,103 @@ class InspectorChild extends Component {
 	render() {
 		return (
 			<div className="inspector" key={this.props.inspRow.id}>
-				<div className="inspector-head">
-
-				</div>
-				<CollapsableDiv
-					openHeight="auto"
-					title="Details"
-					className="details"
-				>
-					<div>Status:</div>
-					<Select
-						options={[
-							{value: "", name: "None"},
-							{value: "Not Started"},
-							{value: "Rough Draft"},
-							{value: "Needs Editing"},
-							{value: "Final Draft"},
-							{value: "Done"}
-						]}
-						value={this.props.inspRow.status}
-						onChange={e => {
-							const status = e.target.value;
-	                    	this.onRowChange({...this.props.inspRow, status});
-						}}
-					/>
-				</CollapsableDiv>
-				<CollapsableDiv
-					openHeight="7rem"
-					title="Summary"
-				>
-					<TextArea
-						placeholder="Write a summary..."
-						key={this.props.inspRow.summary}
-						onChange={e => {
-							const summary = e.target.value;
-	                    	this.onRowChange({...this.props.inspRow, summary});
-						}}
-						value={this.props.inspRow.summary}
-					/>
-				</CollapsableDiv>
-				<CollapsableDiv
-					openHeight={null}
-					defaultOpen={true}
-					title="Notes"
-				>
-					<TextArea
-						placeholder="Make a note..."
-						key={this.props.inspRow.notes}
-						onChange={e => {
-							const notes = e.target.value;
-	                    	this.onRowChange({...this.props.inspRow, notes});
-						}}
-						value={this.props.inspRow.notes}
-					/>
-				</CollapsableDiv>
+				<TabularMenu
+	       			startTab={1}
+	       			horizontal
+	       			windows={[
+	       				{tabName:(<Icon icon={infoIcon} />), render: () => 
+		       				<Fragment>
+		       					<CollapsableDiv
+									openHeight="auto"
+									title="Details"
+									className="details"
+								>
+									<div>Status:</div>
+									<Select
+										options={[
+											{value: "", name: "None"},
+											{value: "Not Started"},
+											{value: "Rough Draft"},
+											{value: "Needs Editing"},
+											{value: "Final Draft"},
+											{value: "Done"}
+										]}
+										value={this.props.inspRow.status}
+										onChange={e => {
+											const status = e.target.value;
+					                    	this.onRowChange({...this.props.inspRow, status});
+										}}
+									/>
+								</CollapsableDiv>
+								<CollapsableDiv
+									openHeight="7rem"
+									title="Summary"
+								>
+									<TextArea
+										placeholder="Write a summary..."
+										key={this.props.inspRow.summary}
+										onChange={e => {
+											const summary = e.target.value;
+					                    	this.onRowChange({...this.props.inspRow, summary});
+										}}
+										value={this.props.inspRow.summary}
+									/>
+								</CollapsableDiv>
+								<CollapsableDiv
+									openHeight={null}
+									defaultOpen={true}
+									title="Notes"
+								>
+									<TextArea
+										placeholder="Make a note..."
+										key={this.props.inspRow.notes}
+										onChange={e => {
+											const notes = e.target.value;
+					                    	this.onRowChange({...this.props.inspRow, notes});
+										}}
+										value={this.props.inspRow.notes}
+									/>
+								</CollapsableDiv>
+							</Fragment>
+	       				},
+	       				{tabName:(<Icon icon={tagIcon} />), render: () => 
+	       					<Fragment>
+	       					<CollapsableDiv
+									openHeight={null}
+									defaultOpen={true}
+									title="Tags"
+								>
+									<TagInput 
+		       							value={this.props.inspRow.tags || []}
+		       							placeholder="Add a tag..."
+		       							maxTags={10}
+		       							onlyUnique
+		       							onChange={(tags) => {
+		       								this.onRowChange({...this.props.inspRow, tags});
+		       							}}
+		       							inputProps = {{
+										  	className: 'tag-input-input',
+										  	placeholder: 'Add a tag...'
+										}}
+										tagProps = {{
+										  	className: 'tag-input-tag',
+										  	classNameRemove: 'tag-input-remove'
+										}}
+		       							renderLayout={(tags, input) => 
+		       								<div className="tag-input">
+		       									{input}
+		       									<div className="tags">
+		       										{tags}
+		       									</div>
+		       								</div>
+		       							}
+		       						/>
+								</CollapsableDiv>
+	       						
+	       					</Fragment>
+	       				},
+	       			]}
+	       		/>	
 			</div>
 		);
 	}

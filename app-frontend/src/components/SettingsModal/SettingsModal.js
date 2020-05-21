@@ -6,7 +6,7 @@ import xCircle from '@iconify/icons-feather/x-circle';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSetting, setSettings, resetDefaults } from "../../store/slices/settingsSlice";
 
-import VerticalTabularMenu from "../VerticalTabularMenu";
+import TabularMenu from "../TabularMenu";
 import ColourPicker from "../ColourPicker"; 
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 import CustomModal from "../CustomModal";
@@ -46,7 +46,7 @@ class SettingsModalChild extends Component {
 	          	contentLabel="Settings Popup"
 	          	title="Settings and Customization"
 	        >
-	       		<VerticalTabularMenu
+	       		<TabularMenu
 	       			startTab={1}
 	       			windows={[
 	       				{tabName:"General", render: () => 

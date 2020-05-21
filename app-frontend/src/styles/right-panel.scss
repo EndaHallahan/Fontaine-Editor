@@ -3,6 +3,29 @@
 	color: $dark-text;
 	border-left: 1px solid $dark-lowlight;
 
+
+
+	.tab-bar {
+		height: 1.5rem;
+
+			.keyboard-focusable-button {
+
+				svg {
+					$dim: 1.1rem;
+					width: $dim;
+					height: $dim;
+				}
+
+				.tab {
+
+					&.active {
+						color: $fontaine-blue;
+						background-color: transparent;
+					}
+				}
+			}
+		}
+
 	.collapsable-div {
 		margin-bottom: .1rem;
 		overflow: visible;
@@ -32,6 +55,7 @@
 		align-content: start;
 		display: flex;
 		flex-direction: column;
+		overflow-x: hidden;
 
 		.details {
 			font-size: .9rem; 
@@ -41,5 +65,50 @@
 				font-style: italic;
 			}
 		}
+	}
+
+	.tag-input {
+		height: 100%;
+		display: grid;
+		grid-template-rows: 2rem 1fr;
+
+		.tag-input-input {
+			width: 100%;
+			padding: 0 .5rem;
+			font-size: 1rem;
+			height: 2rem;
+			background-color: transparent;
+			color: $dark-text;
+			border: none;
+			border-bottom: 1px solid $dark-highlight;
+		}
+
+		.tags {
+			padding: .5rem;
+			font-size: .9rem;
+			display: flex;
+			flex-wrap: wrap;
+			width: 100%;
+			overflow-y: auto;
+		}
+
+		.tag-input-tag {
+			background-color: $fontaine-blue;
+			color: black;
+			padding: .2rem .4rem;
+			border-radius: 3px;
+			margin-bottom: 5px;
+  margin-right: 5px;
+		}
+
+		.tag-input-remove {
+
+			cursor: pointer;
+  font-weight: bold;
+		}
+
+		.tag-input-tag a::before {
+  content: " ×";
+}
 	}
 }

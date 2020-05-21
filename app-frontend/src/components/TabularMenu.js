@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import KeyboardFocusableButton from "./KeyboardFocusableButton";
 
-class VerticalTabularMenu extends Component {
+class TabularMenu extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -17,8 +17,8 @@ class VerticalTabularMenu extends Component {
 	}
 	render() {
 		return (
-			<div className="vertical-tabular-menu">
-				<div className="vtl-tab-bar">
+			<div className={this.props.horizontal ? "tabular-menu horizontal" : "tabular-menu vertical"}>
+				<div className="tab-bar">
 					{
 						this.props.windows.map((tab, i) => 	
 							<KeyboardFocusableButton 
@@ -26,7 +26,7 @@ class VerticalTabularMenu extends Component {
 								onClick={() => this.setActiveTab(i)}
 							>
 								<div 
-									className={this.state.activeTab === i ? "vtl-tab active" : "vtl-tab"}
+									className={this.state.activeTab === i ? "tab active" : "tab"}
 								>
 									{tab.tabName}
 								</div>
@@ -34,7 +34,7 @@ class VerticalTabularMenu extends Component {
 						)
 					}
 				</div>
-				<div className="vtl-window">
+				<div className="window">
 					{this.props.windows[this.state.activeTab].render()}
 				</div>
 			</div>
@@ -42,4 +42,4 @@ class VerticalTabularMenu extends Component {
 	}
 }
 
-export default VerticalTabularMenu;	
+export default TabularMenu;	

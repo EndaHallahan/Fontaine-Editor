@@ -1,5 +1,5 @@
 .panel {
-	height: 100%;
+	max-height: calc(100vh - var(--sum-top-height) - #{$footer-height});
 	resize: horizontal;
 
 	&.closed {

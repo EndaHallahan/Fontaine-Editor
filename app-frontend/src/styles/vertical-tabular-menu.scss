@@ -1,24 +1,13 @@
-.vertical-tabular-menu {
-	height: 100%;
-	display: grid;
-	grid-template-columns: 10rem 1fr;
+.tabular-menu {
 
-	.vtl-tab-bar {
-		height: 100%;
+	.tab-bar {
 		background-color: $darker;
 		border-right: 1px solid $dark-lowlight;
 
-
 		.keyboard-focusable-button {
-			display: block;
-			width: 100%;
 			font-size: 1rem;
 
-			.vtl-tab {
-				width: 100%;
-				height: 2rem;
-				line-height: 2rem;
-				border-bottom: 1px solid $dark-highlight;
+			.tab {
 
 				&.active {
 					background-color: $fontaine-blue;
@@ -28,7 +17,67 @@
 		}
 	}
 
-	.vtl-window {
+	.window {
 		height: 100%;
 	}
+
+	&.vertical {
+		height: 100%;
+		display: grid;
+		grid-template-columns: 10rem 1fr;
+
+		.tab-bar {
+			height: 100%;
+			background-color: $darker;
+			border-right: 1px solid $dark-lowlight;
+
+
+			.keyboard-focusable-button {
+				display: block;
+				width: 100%;
+				font-size: 1rem;
+
+				.tab {
+					width: 100%;
+					height: 2rem;
+					line-height: 2rem;
+					border-bottom: 1px solid $dark-highlight;
+
+					&.active {
+						background-color: $fontaine-blue;
+						color: black;
+					}
+				}
+			}
+		}
+	}
+
+	&.horizontal {
+		.tab-bar {
+			background-color: $darker;
+			border-bottom: 1px solid $dark-lowlight;
+
+			.keyboard-focusable-button {
+				font-size: 1rem;
+				width: 2rem;
+				> div {
+					width: 2rem;
+				}
+
+				svg {
+					vertical-align: text-bottom;
+				}
+
+				.tab {
+					border-right: 1px solid $dark-highlight;
+
+					&.active {
+						background-color: $fontaine-blue;
+						color: black;
+					}
+				}
+			}
+		}
+	}
+	
 }
