@@ -4,6 +4,8 @@ import { MenuItem } from "react-menu-list";
 import { Icon, InlineIcon } from '@iconify/react';
 import gridIcon from '@iconify/icons-feather/grid';
 import edit3 from '@iconify/icons-feather/edit-3';
+import serverIcon from '@iconify/icons-feather/server';
+
 
 import CustomDropdown from "../CustomDropdown";
 import { setEditorMode, setSplitEditorMode } from "../../store/slices/uiSlice";
@@ -35,6 +37,9 @@ const ModeSelector = (props) => {
 			break;
 		case "corkboard":
 			curModeIcon = (<Icon icon={gridIcon} />);
+			break;
+		case "overview":
+			curModeIcon = (<Icon icon={serverIcon} />);
 			break;
 		default:
 			curModeIcon = (<Icon icon={edit3} />);
@@ -74,6 +79,11 @@ const ModeSelector = (props) => {
 				title="Corkboard (Ctrl+2)"
 				className={editorMode === "corkboard" ? "active" : null}
 			><Icon icon={gridIcon} /></KeyboardFocusableButton>
+			<KeyboardFocusableButton
+				onClick={()=>changeEditorMode("overview")}
+				title="Overview (Ctrl+3)"
+				className={editorMode === "overview" ? "active" : null}
+			><Icon icon={serverIcon} /></KeyboardFocusableButton>
 		</span>
 	);
 }

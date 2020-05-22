@@ -47,11 +47,11 @@ let documentIndex = {
 				{type: "file", title: "File 0", id: "d53e22d3-b743-414d-beab-8ea40c56adef", summary: "Test summary."},
 				{type: "file", title: "File 1", id: "156989b0-ffff-4ff1-9228-23f0f5c414d8"}
 			]},
-			{type: "file", title: "File 2", id: "f5bfb84b-7f56-4028-9bac-53f3e9b5af9b"},
+			{type: "file", title: "File 2", id: "f5bfb84b-7f56-4028-9bac-53f3e9b5af9b", summary: "Stay calm; this is just a test.", status: "Rough Draft"}
 		]},
 		{type: "trash", title: "Trash", permanent: true, id:"04279288-7cdc-486c-a279-9c0f7a698a31"}
 	],
-	lastDocument: "f5bfb84b-7f56-4028-9bac-53f3e9b5af9b",
+	lastDocument: "d12d04aa-7f82-48d6-a39d-362eade665f9",
 	projectTags: [
 		"pov:Abigail",
 		"pov:John",

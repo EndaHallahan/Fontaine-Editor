@@ -12,7 +12,6 @@ class IndexCard extends Component {
 		}
 	}
 	render() {
-		console.log(this.props)
 		let {docIndex, card, onCardChange, inspectDoc, isInspected, ...other} = this.props;
 		return (
 			<div 

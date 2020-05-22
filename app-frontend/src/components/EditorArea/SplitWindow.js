@@ -32,6 +32,7 @@ import {
 } from "../../store/slices/uiSlice";
 import MultiDocSlate from "./MultiDocSlate";
 import Corkboard from "./Corkboard";
+import Overview from "./Overview";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
 const SplitWindow = (props) => {
@@ -47,6 +48,8 @@ const SplitWindow = (props) => {
 	const inspDocRow = useSelector(state => state.workspaceReducer.inspectedDocRow)
 	const curDocRow = useSelector(state => state.workspaceReducer.splitDocRow);
 	const lastTreeUpdate = useSelector(state => state.workspaceReducer.docTreeLastUpdate);
+
+	const metadataFields = useSelector(state => state.workspaceReducer.metadataFields);
 
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {
@@ -130,6 +133,22 @@ const SplitWindow = (props) => {
 							onTreeChange={updateTree}
 							docList = {curDocList}
 							replaceCurRow={replaceCurRow}
+							split={true}
+						/>
+		          	),
+		          	"overview": (
+		          		<Overview
+							treeData={docTree}
+							curDoc={curDocId}
+							curDocRow={curDocRow}
+							getDoc={getDoc}
+							inspectDoc={inspectDoc}
+							inspDocId={inspDocRow.node.id}
+							newDoc={newDoc}
+							onTreeChange={updateTree}
+							docList = {curDocList}
+							replaceCurRow={replaceCurRow}
+							mdFields={metadataFields}
 							split={true}
 						/>
 		          	),

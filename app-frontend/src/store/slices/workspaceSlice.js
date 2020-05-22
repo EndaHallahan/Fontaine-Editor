@@ -64,6 +64,21 @@ function saveDocument(id, changes) {
 
 }
 
+function getMetadataFields(tagList) {
+	let fields = [];
+	for (let tag of tagList) {
+		let splitTag = tag.split(":");
+		if (splitTag.length < 2) {
+			break;
+		} else {
+			if (!fields.includes(splitTag[0])) {
+				fields.push(splitTag[0]);
+			}
+		}
+	}
+	return fields;
+}
+
 function createInitialState(docIndex) {
 	let docTree = docIndex.documents;
 	let curDocId = docIndex.lastDocument || null;
@@ -79,7 +94,8 @@ function createInitialState(docIndex) {
 		let bScore = b.includes(":") ? 1 : -1;
 		let alph = a > b ? 1 : -1;
 		return (alph + aScore + bScore);
-	});;
+	});
+	let metadataFields = getMetadataFields(projectTags)
 	if (curDocId !== null) {
 		[
 			curDocList,
@@ -125,6 +141,7 @@ function createInitialState(docIndex) {
 		splitDocRow,
 		splitDocList,
 		projectTags,
+		metadataFields,
 	};
 }
 
@@ -232,6 +249,9 @@ const workspaceSlice = createSlice({
 				let alph = a > b ? 1 : -1;
 				return (alph + aScore + bScore);
 			});
+			if (tag.includes(":")) {
+				state.metadataFields = getMetadataFields(state.projectTags);
+			}
 		}
 	}
 });

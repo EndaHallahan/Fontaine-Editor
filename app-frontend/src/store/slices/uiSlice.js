@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 Available Editor Modes:
 	"editor"
 	"corkboard"
+	"overview"
 */
 
 const uiSlice = createSlice({
@@ -12,7 +13,7 @@ const uiSlice = createSlice({
 		leftPanelOpen: true,
 		rightPanelOpen: true,
 
-		editorMode: "editor",
+		editorMode: "overview",
 
 		splitEditorOpen: false,
 		splitEditorMode: "corkboard",

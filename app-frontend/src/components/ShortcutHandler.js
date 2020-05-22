@@ -20,6 +20,7 @@ const ShortcutHandler = (props) => {
 	const defKeyMap = {
 		OPEN_EDITOR: "ctrl+1",
 		OPEN_CORKBOARD: "ctrl+2",
+		OPEN_OVERVIEW: "ctrl+3",
 		TOGGLE_NAVIGATOR: "ctrl+alt+b",
 		TOGGLE_INSPECTOR: "ctrl+alt+d",
 		TOGGLE_SPLIT_EDITOR: "ctrl+alt+s",
@@ -34,6 +35,10 @@ const ShortcutHandler = (props) => {
 		OPEN_CORKBOARD: e => {
 			e.preventDefault();
 			dispatch(setEditorMode({mode: "corkboard"}));
+		},
+		OPEN_OVERVIEW: e => {
+			e.preventDefault();
+			dispatch(setEditorMode({mode: "overview"}));
 		},
 		TOGGLE_NAVIGATOR: e => {
 			e.preventDefault();
