@@ -13,10 +13,14 @@ import {
 	updateDocTree,
 	addProjectTag,
 } from "../../store/slices/workspaceSlice";
+import { 
+	setInspectorTab,
+} from "../../store/slices/uiSlice";
 import { Input, TextArea, Select } from "../StatefulInputs";
 import CollapsableDiv from "../CollapsableDiv";
 import TabularMenu from "../TabularMenu";
 import Tagger from "./Tagger";
+import MetaTagTable from "./MetaTagTable";
 
 class InspectorChild extends Component {
 	constructor(props) {
@@ -33,7 +37,8 @@ class InspectorChild extends Component {
 		return (
 			<div className="inspector" key={this.props.inspRow.id}>
 				<TabularMenu
-	       			startTab={1}
+	       			startTab={this.props.tab}
+	       			onTabChange={this.props.setTab}
 	       			horizontal
 	       			windows={[
 	       				{tabName:(<Icon icon={infoIcon} />), render: () => 
@@ -58,6 +63,16 @@ class InspectorChild extends Component {
 											const status = e.target.value;
 					                    	this.onRowChange({...this.props.inspRow, status});
 										}}
+									/>
+									<MetaTagTable 
+										/*onChange={tags => {
+					                    	this.onRowChange({...this.props.inspRow, tags});
+										}}
+										onNewTag={tag => {
+											this.props.addTag(tag);
+										}}*/
+										tags={this.props.inspRow.tags || []}
+										//tagList={this.props.projTags}
 									/>
 								</CollapsableDiv>
 								<CollapsableDiv
@@ -123,6 +138,7 @@ const Inspector = (props) => {
 	const docTree = useSelector(state => state.workspaceReducer.docTree);
 	const curInspRow = useSelector(state => state.workspaceReducer.inspectedDocRow);
 	const projTags = useSelector(state => state.workspaceReducer.projectTags);
+	const inspectorTab = useSelector(state => state.uiReducer.inspectorTab);
 	const updateTree = (treeData) => {
 		dispatch(updateDocTree({tree: treeData}));
 	}
@@ -138,6 +154,9 @@ const Inspector = (props) => {
 		});
 		updateTree(modifiedTree);
 	}
+	const setInspTab = (tab) => {
+		dispatch(setInspectorTab({tab}));
+	}
 	if (curInspRow && curInspRow.node) {
 		return (
 			<InspectorChild 
@@ -145,6 +164,8 @@ const Inspector = (props) => {
 				replaceInspRow={replaceInspRow}
 				projTags={projTags}
 				addTag={addTag}
+				tab={inspectorTab}
+				setTab={setInspTab}
 			/>
 		);
 	} else {

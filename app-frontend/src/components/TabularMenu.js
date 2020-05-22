@@ -10,6 +10,9 @@ class TabularMenu extends Component {
 		this.setActiveTab = this.setActiveTab.bind(this);
 	}
 	setActiveTab(id) {
+		if (this.props.onTabChange) {
+			this.props.onTabChange(id);
+		}
 		this.setState({
 			...this.state,
 			activeTab: id

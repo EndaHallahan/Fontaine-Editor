@@ -64,6 +64,33 @@
 				margin-left: 1rem;
 				font-style: italic;
 			}
+
+			table {
+				width: 100%;
+				border-collapse: collapse;
+
+				caption {
+					text-align: left;
+				}
+
+				tr {
+					display: grid;
+					grid-template-columns: 1fr 3fr;
+					border-collapse: collapse;
+				}
+
+				td {
+					border-collapse: collapse;
+					border: 1px solid $dark-highlight;
+					padding: .1rem .4rem;
+					text-overflow: ellipsis;
+
+					&:first-child {
+						text-align: center;
+						background-color: $darker;
+					}
+				}
+			}
 		}
 	}
 

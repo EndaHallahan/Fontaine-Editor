@@ -19,6 +19,8 @@ const uiSlice = createSlice({
 		splitOrientation: "vertical",
 
 		distractionFreeOpen: false,
+
+		inspectorTab: 0,
 	},
 	reducers: {
 		setEditorMode(state, action) {
@@ -51,7 +53,11 @@ const uiSlice = createSlice({
 		setDistractionFree(state, action) {
 			let {open} = action.payload
 			state.distractionFreeOpen = open;
-		}
+		},
+		setInspectorTab(state, action) {
+			let {tab} = action.payload;
+			state.inspectorTab = tab;
+		},
 	}
 });
 
@@ -64,7 +70,8 @@ export const {
 	setSplitEditorOpen,
 	setSplitEditorMode, 
 	toggleDistractionFree,
-	setDistractionFree
+	setDistractionFree,
+	setInspectorTab,
 } = uiSlice.actions;
 
 export default uiSlice.reducer;

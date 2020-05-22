@@ -16,7 +16,12 @@ class Tagger extends Component {
 	}
 	addTag(tag) {
 		let newTags = [...this.props.tags, tag];
-		newTags.sort();
+		newTags.sort((a, b) => {
+			let aScore = a.includes(":") ? -1 : 1;
+			let bScore = b.includes(":") ? 1 : -1;
+			let alph = a > b ? 1 : -1;
+			return (alph + aScore + bScore);
+		});
 		this.props.onChange(newTags);
 		if (!this.props.tagList.includes(tag)) {
 			this.props.onNewTag(tag);

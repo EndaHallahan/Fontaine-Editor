@@ -74,7 +74,12 @@ function createInitialState(docIndex) {
 	let splitDocList = [];
 	let splitDocRow = {};
 	let inspectedDocRow = {};
-	let projectTags = docIndex.projectTags.sort();
+	let projectTags = docIndex.projectTags.sort((a, b) => {
+		let aScore = a.includes(":") ? -1 : 1;
+		let bScore = b.includes(":") ? 1 : -1;
+		let alph = a > b ? 1 : -1;
+		return (alph + aScore + bScore);
+	});;
 	if (curDocId !== null) {
 		[
 			curDocList,
@@ -221,7 +226,12 @@ const workspaceSlice = createSlice({
 		},
 		addProjectTag(state, action) {
 			const {tag} = action.payload;
-			state.projectTags = [...state.projectTags, tag].sort();
+			state.projectTags = [...state.projectTags, tag].sort((a, b) => {
+				let aScore = a.includes(":") ? -1 : 1;
+				let bScore = b.includes(":") ? 1 : -1;
+				let alph = a > b ? 1 : -1;
+				return (alph + aScore + bScore);
+			});
 		}
 	}
 });
