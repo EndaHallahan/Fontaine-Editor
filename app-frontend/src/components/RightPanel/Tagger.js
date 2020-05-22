@@ -1,4 +1,9 @@
 import React, { Component, Fragment} from "react";
+import { Icon, InlineIcon } from '@iconify/react';
+import xIcon from '@iconify/icons-feather/x';
+import plusSquare from '@iconify/icons-feather/plus-square';
+
+import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
 class Tagger extends Component {
 	constructor(props) {
@@ -168,31 +173,39 @@ class TagInput extends Component {
 	render() {
 		return(
 			<Fragment>
-				<input
-					ref={this.inputEle}
-					value={this.state.value}
-					onChange={this.handleInputChange}
-					onKeyDown={this.handleKeyPress}
-					onFocus={this.handleFocus}
-					onBlur={this.handleBlur}
-					placeholder="Add a tag..."
-				/>
+				<div>
+					<input
+						ref={this.inputEle}
+						value={this.state.value}
+						onChange={this.handleInputChange}
+						onKeyDown={this.handleKeyPress}
+						onFocus={this.handleFocus}
+						onBlur={this.handleBlur}
+						placeholder="Add a tag..."
+					/>
+					<KeyboardFocusableButton
+						onClick={() => this.submitTag(this.state.value)}
+						title="Add Tag"
+					><Icon icon={plusSquare} /></KeyboardFocusableButton>
+				</div>
 				{
 					this.state.suggestionsOpen && this.state.activeSuggestions.length ? (
 						<div className="tag-suggestions">
 							<div>Tag Search</div>
-							{
-								this.state.activeSuggestions.map((sug, i) => (
-									<Suggestion
-										key={i}
-										index={i}
-										selected={this.state.highlightedSuggestion === i}
-										suggestion={sug}
-										highlight={this.setHighlightedSuggestion}
-										setSuggestion={this.setSuggestion}
-									/>
-								))
-							}
+							<div className="sug-wrapper">
+								{
+									this.state.activeSuggestions.map((sug, i) => (
+										<Suggestion
+											key={i}
+											index={i}
+											selected={this.state.highlightedSuggestion === i}
+											suggestion={sug}
+											highlight={this.setHighlightedSuggestion}
+											setSuggestion={this.setSuggestion}
+										/>
+									))
+								}
+							</div>
 						</div>
 					) : null
 				}
@@ -221,9 +234,12 @@ const Tag = (props) => {
 	return(
 		<div className="tag">
 			{props.tag}
-			<button onClick={() => props.removeTag(props.index)}>
-				X
-			</button>
+			<KeyboardFocusableButton 
+				onClick={() => props.removeTag(props.index)}
+				title="Remove Tag"
+			>
+				<Icon icon={xIcon} />
+			</KeyboardFocusableButton>
 		</div>
 	);
 }
