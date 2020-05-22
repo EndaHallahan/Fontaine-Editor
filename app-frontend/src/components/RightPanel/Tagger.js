@@ -16,6 +16,7 @@ class Tagger extends Component {
 	}
 	addTag(tag) {
 		let newTags = [...this.props.tags, tag];
+		newTags.sort();
 		this.props.onChange(newTags);
 		if (!this.props.tagList.includes(tag)) {
 			this.props.onNewTag(tag);

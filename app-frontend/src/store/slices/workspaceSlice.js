@@ -74,7 +74,7 @@ function createInitialState(docIndex) {
 	let splitDocList = [];
 	let splitDocRow = {};
 	let inspectedDocRow = {};
-	let projectTags = docIndex.projectTags;
+	let projectTags = docIndex.projectTags.sort();
 	if (curDocId !== null) {
 		[
 			curDocList,
@@ -221,7 +221,7 @@ const workspaceSlice = createSlice({
 		},
 		addProjectTag(state, action) {
 			const {tag} = action.payload;
-			state.projectTags = [...state.projectTags, tag];
+			state.projectTags = [...state.projectTags, tag].sort();
 		}
 	}
 });
