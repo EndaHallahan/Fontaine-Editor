@@ -8,15 +8,14 @@ import { Icon, InlineIcon } from '@iconify/react';
 import tagIcon from '@iconify/icons-feather/tag';
 import infoIcon from '@iconify/icons-feather/info';
 
-
-
 import { 
 	inspectDocument, 
 	updateDocTree 
 } from "../../store/slices/workspaceSlice";
-import { Input, TextArea, Select, TagInput } from "../StatefulInputs";
+import { Input, TextArea, Select } from "../StatefulInputs";
 import CollapsableDiv from "../CollapsableDiv";
 import TabularMenu from "../TabularMenu";
+import Tagger from "./Tagger";
 
 class InspectorChild extends Component {
 	constructor(props) {
@@ -24,6 +23,7 @@ class InspectorChild extends Component {
 		this.state = {
 			
 		}
+		this.onRowChange = this.onRowChange.bind(this);
 	}
 	onRowChange(newRow) {
 		this.props.replaceInspRow(newRow);
@@ -97,31 +97,20 @@ class InspectorChild extends Component {
 									defaultOpen={true}
 									title="Tags"
 								>
-									<TagInput 
-		       							value={this.props.inspRow.tags || []}
-		       							placeholder="Add a tag..."
-		       							maxTags={10}
-		       							onlyUnique
-		       							onChange={(tags) => {
-		       								this.onRowChange({...this.props.inspRow, tags});
-		       							}}
-		       							inputProps = {{
-										  	className: 'tag-input-input',
-										  	placeholder: 'Add a tag...'
+									<Tagger 
+										onChange={tags => {
+											console.log(tags);
+					                    	this.onRowChange({...this.props.inspRow, tags});
 										}}
-										tagProps = {{
-										  	className: 'tag-input-tag',
-										  	classNameRemove: 'tag-input-remove'
-										}}
-		       							renderLayout={(tags, input) => 
-		       								<div className="tag-input">
-		       									{input}
-		       									<div className="tags">
-		       										{tags}
-		       									</div>
-		       								</div>
-		       							}
-		       						/>
+										tags={this.props.inspRow.tags || []}
+										tagList={[
+											"argabarga",
+											"pov:Abigail",
+											"pov:John",
+											"pov:Benjamin",
+
+										]}
+									/>
 								</CollapsableDiv>
 	       						
 	       					</Fragment>

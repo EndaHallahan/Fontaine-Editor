@@ -67,10 +67,92 @@
 		}
 	}
 
-	.tag-input {
+	.tagger {
+
+
+		input {
+			width: 100%;
+			height: 2rem;
+			background-color: transparent;
+			border: none;
+			border-bottom: 1px solid $dark-highlight;
+			font-size: 1rem;
+			color: $dark-text;
+		}
+
+		.tag-suggestions {
+			position: absolute;
+			right: calc(100% + 5px);
+			top: 3rem;
+			background-color: $dark;
+			border: 1px solid $dark-lowlight;
+			min-width: 10rem;
+			> div {
+				padding: .2rem .5rem;
+				border-bottom: 1px solid $dark-highlight;
+				&:first-child {
+					text-align: center;
+					background-color: $darker;
+					border-bottom: 1px solid $dark-highlight;
+				}
+
+				&.selected {
+					background-color: $fontaine-blue;
+				}
+			}
+		}
+
+		.tag-space {
+			padding: .5rem;
+			font-size: .9rem;
+			display: flex;
+			flex-wrap: wrap;
+			width: 100%;
+			overflow-y: auto;
+
+			.tag {
+				background-color: $fontaine-blue;
+				color: black;
+				padding: .2rem .4rem;
+				border-radius: 3px;
+				margin-bottom: 5px;
+				max-width: 100%;
+				margin-right: 5px;
+				word-wrap: break-word;
+			}
+		}
+	}
+
+	
+
+	/*.tag-input {
 		height: 100%;
 		display: grid;
 		grid-template-rows: 2rem 1fr;
+
+		.react-autosuggest__suggestions-container {
+			position: absolute;
+			z-index: 100;
+			background-color: $darker;
+			width: 99%;
+
+			ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				li {
+					padding: .4rem .4rem;
+					cursor: pointer;
+				}
+			}
+			
+			.react-autosuggest__suggestion--highlighted {
+				background-color: $fontaine-blue;
+				color: black;
+			}
+		}
+
+
 
 		.tag-input-input {
 			width: 100%;
@@ -81,6 +163,8 @@
 			color: $dark-text;
 			border: none;
 			border-bottom: 1px solid $dark-highlight;
+
+
 		}
 
 		.tags {
@@ -98,17 +182,18 @@
 			padding: .2rem .4rem;
 			border-radius: 3px;
 			margin-bottom: 5px;
-  margin-right: 5px;
+			max-width: 100%;
+			margin-right: 5px;
+			word-wrap: break-word;
+
+			a::before {
+				content: " ×";
+			}
 		}
 
 		.tag-input-remove {
-
 			cursor: pointer;
-  font-weight: bold;
+			font-weight: bold;
 		}
-
-		.tag-input-tag a::before {
-  content: " ×";
-}
-	}
+	}*/
 }
