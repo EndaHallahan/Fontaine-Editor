@@ -151,13 +151,15 @@ class TagInput extends Component {
 		});
 	}
 	submitTag(tag) {
-		this.props.addTag(tag);
-		this.setState({
-			...this.state,
-			value: "",
-			activeSuggestions: this.props.tagList || [],
-			highlightedSuggestion: 0
-		});
+		if (this.state.value.trim()) {
+			this.props.addTag(tag);
+			this.setState({
+				...this.state,
+				value: "",
+				activeSuggestions: this.props.tagList || [],
+				highlightedSuggestion: 0
+			});
+		}
 	}
 	componentDidUpdate(prevProps) {
 		if (
@@ -185,6 +187,7 @@ class TagInput extends Component {
 					/>
 					<KeyboardFocusableButton
 						onClick={() => this.submitTag(this.state.value)}
+						disabled={!this.state.value.trim()}
 						title="Add Tag"
 					><Icon icon={plusSquare} /></KeyboardFocusableButton>
 				</div>
