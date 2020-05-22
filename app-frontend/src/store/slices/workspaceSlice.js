@@ -95,7 +95,8 @@ function createInitialState(docIndex) {
 		let alph = a > b ? 1 : -1;
 		return (alph + aScore + bScore);
 	});
-	let metadataFields = getMetadataFields(projectTags)
+	let metadataFields = getMetadataFields(projectTags);
+	let threads = docIndex.threads || {};
 	if (curDocId !== null) {
 		[
 			curDocList,
@@ -142,6 +143,7 @@ function createInitialState(docIndex) {
 		splitDocList,
 		projectTags,
 		metadataFields,
+		threads,
 	};
 }
 
@@ -252,7 +254,17 @@ const workspaceSlice = createSlice({
 			if (tag.includes(":")) {
 				state.metadataFields = getMetadataFields(state.projectTags);
 			}
-		}
+		},
+		addProjectThread(state, action) {
+			const {thread, id} = action.payload;
+			state.threads = {
+				...state.threads,
+				[id]: thread,
+			}
+		},
+		removeProjectThread(state, action) {
+
+		},
 	}
 });
 
@@ -265,6 +277,8 @@ export const {
 	updateWorkingDoc,
 	updateDocTree,
 	addProjectTag,
+	addProjectThread,
+	removeProjectThread,
  } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;

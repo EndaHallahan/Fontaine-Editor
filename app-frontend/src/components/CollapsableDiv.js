@@ -4,7 +4,7 @@ class CollapsableDiv extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			open: this.props.defaultOpen || true
+			open: this.props.defaultOpen ? true : false
 		}
 		this.toggleOpen = this.toggleOpen.bind(this);
 	}

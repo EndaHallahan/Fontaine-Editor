@@ -45,9 +45,15 @@ let documentIndex = {
 		{type: "manuscript", title: "Manuscript", permanent: true, expanded: true, id:"d12d04aa-7f82-48d6-a39d-362eade665f9", children: [
 			{type: "folder", isDirectory: true, title: "Test Folder", id: "339b5bc4-6869-4f6b-802d-4179d1deab71", children: [
 				{type: "file", title: "File 0", id: "d53e22d3-b743-414d-beab-8ea40c56adef", summary: "Test summary."},
-				{type: "file", title: "File 1", id: "156989b0-ffff-4ff1-9228-23f0f5c414d8"}
+				{type: "file", title: "File 1", id: "156989b0-ffff-4ff1-9228-23f0f5c414d8", threads: {
+						"3da52b10-d982-4f30-8c02-7fbafb8a353d": {knot: "He is now implementing a feature that will later make him go bald."}
+					},
+				}
 			]},
-			{type: "file", title: "File 2", id: "f5bfb84b-7f56-4028-9bac-53f3e9b5af9b", summary: "Stay calm; this is just a test.", status: "Rough Draft"}
+			{type: "file", title: "File 2", id: "f5bfb84b-7f56-4028-9bac-53f3e9b5af9b", summary: "Stay calm; this is just a test.", status: "Rough Draft", threads: {
+					"3da52b10-d982-4f30-8c02-7fbafb8a353d": {knot: "He goes bald."}
+				},
+			}
 		]},
 		{type: "trash", title: "Trash", permanent: true, id:"04279288-7cdc-486c-a279-9c0f7a698a31"}
 	],
@@ -60,6 +66,14 @@ let documentIndex = {
 		"time:Afternoon",
 		"Needs Revising",
 	],
+	threads: {
+		"3da52b10-d982-4f30-8c02-7fbafb8a353d": {
+			name: "A befuddled programmer attempts to write a program that's way over his head."
+		},
+		"484039d5-b3d8-4e48-a2a7-36fb136c2630": {
+			name: "Second thread of arbitrary nature."
+		}
+	},
 }
 
 export {documents, documentIndex};

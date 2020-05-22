@@ -4,14 +4,17 @@ import SortableTree, {
 	changeNodeAtPath, 
 	find,
 } from 'react-sortable-tree';
+import { v4 as uuidv4 } from "uuid";
 import { Icon, InlineIcon } from '@iconify/react';
 import tagIcon from '@iconify/icons-feather/tag';
 import infoIcon from '@iconify/icons-feather/info';
+import trendingUp from '@iconify/icons-feather/trending-up';
 
 import { 
 	inspectDocument, 
 	updateDocTree,
 	addProjectTag,
+	addProjectThread,
 } from "../../store/slices/workspaceSlice";
 import { 
 	setInspectorTab,
@@ -21,6 +24,7 @@ import CollapsableDiv from "../CollapsableDiv";
 import TabularMenu from "../TabularMenu";
 import Tagger from "./Tagger";
 import MetaTagTable from "./MetaTagTable";
+import ThreadsEditor from "./ThreadsEditor";
 
 class InspectorChild extends Component {
 	constructor(props) {
@@ -37,7 +41,7 @@ class InspectorChild extends Component {
 		return (
 			<div className="inspector" key={this.props.inspRow.id}>
 				<TabularMenu
-	       			startTab={this.props.tab}
+	       			startTab={2/*this.props.tab*/}
 	       			onTabChange={this.props.setTab}
 	       			horizontal
 	       			windows={[
@@ -126,6 +130,26 @@ class InspectorChild extends Component {
 								</CollapsableDiv>
 	       					</Fragment>
 	       				},
+	       				{tabName:(<InlineIcon icon={trendingUp} />), render: () => 
+	       					<Fragment>
+	       						<CollapsableDiv
+									openHeight={null}
+									defaultOpen={true}
+									title="Threads"
+								>
+									<ThreadsEditor 
+										onChange={threads => {
+											this.onRowChange({...this.props.inspRow, threads});
+										}}
+										onNewThread={thread => {
+											this.props.addThread(thread);
+										}}
+										threads={this.props.inspRow.threads || []}
+										threadList={this.props.threads}
+									/>
+								</CollapsableDiv>
+	       					</Fragment>
+	       				},
 	       			]}
 	       		/>	
 			</div>
@@ -138,12 +162,17 @@ const Inspector = (props) => {
 	const docTree = useSelector(state => state.workspaceReducer.docTree);
 	const curInspRow = useSelector(state => state.workspaceReducer.inspectedDocRow);
 	const projTags = useSelector(state => state.workspaceReducer.projectTags);
+	const threads = useSelector(state => state.workspaceReducer.threads);
 	const inspectorTab = useSelector(state => state.uiReducer.inspectorTab);
 	const updateTree = (treeData) => {
 		dispatch(updateDocTree({tree: treeData}));
 	}
 	const addTag = (tag) => {
 		dispatch(addProjectTag({tag}));
+	}
+	const addThread = (thread) => {
+		const id = uuidv4();
+		dispatch(addProjectThread({thread, id}));
 	}
 	const replaceInspRow = (newRow) => {
 		let modifiedTree = changeNodeAtPath({
@@ -164,6 +193,8 @@ const Inspector = (props) => {
 				replaceInspRow={replaceInspRow}
 				projTags={projTags}
 				addTag={addTag}
+				threads={threads}
+				addThread={addThread}
 				tab={inspectorTab}
 				setTab={setInspTab}
 			/>
