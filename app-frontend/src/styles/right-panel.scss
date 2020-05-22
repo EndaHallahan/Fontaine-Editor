@@ -87,12 +87,16 @@
 			background-color: $dark;
 			border: 1px solid $dark-lowlight;
 			min-width: 10rem;
+			border-radius: 3px;
 			> div {
 				padding: .2rem .5rem;
-				border-bottom: 1px solid $dark-highlight;
+				
 				&:first-child {
 					text-align: center;
 					background-color: $darker;
+				}
+
+				&:not(:last-child) {
 					border-bottom: 1px solid $dark-highlight;
 				}
 

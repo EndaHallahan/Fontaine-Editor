@@ -10,7 +10,8 @@ import infoIcon from '@iconify/icons-feather/info';
 
 import { 
 	inspectDocument, 
-	updateDocTree 
+	updateDocTree,
+	addProjectTag,
 } from "../../store/slices/workspaceSlice";
 import { Input, TextArea, Select } from "../StatefulInputs";
 import CollapsableDiv from "../CollapsableDiv";
@@ -92,27 +93,22 @@ class InspectorChild extends Component {
 	       				},
 	       				{tabName:(<Icon icon={tagIcon} />), render: () => 
 	       					<Fragment>
-	       					<CollapsableDiv
+	       						<CollapsableDiv
 									openHeight={null}
 									defaultOpen={true}
 									title="Tags"
 								>
 									<Tagger 
 										onChange={tags => {
-											console.log(tags);
 					                    	this.onRowChange({...this.props.inspRow, tags});
 										}}
+										onNewTag={tag => {
+											this.props.addTag(tag);
+										}}
 										tags={this.props.inspRow.tags || []}
-										tagList={[
-											"argabarga",
-											"pov:Abigail",
-											"pov:John",
-											"pov:Benjamin",
-
-										]}
+										tagList={this.props.projTags}
 									/>
 								</CollapsableDiv>
-	       						
 	       					</Fragment>
 	       				},
 	       			]}
@@ -122,31 +118,16 @@ class InspectorChild extends Component {
 	}
 }
 
-/*
-<CollapsableDiv
-					openHeight="auto"
-				>
-					<div>Notes</div>
-					<TextArea
-						placeholder="Make a note..."
-						key={this.props.inspRow.notes}
-						onChange={e => {
-							const notes = e.target.value;
-	                    	this.onRowChange({...this.props.inspRow, notes});
-						}}
-					>{this.props.inspRow.notes}</TextArea>
-				</CollapsableDiv>
-*/
-
 const Inspector = (props) => {
 	const dispatch = useDispatch();
 	const docTree = useSelector(state => state.workspaceReducer.docTree);
 	const curInspRow = useSelector(state => state.workspaceReducer.inspectedDocRow);
-	const inspectDoc = (node, path, treeIndex) => {
-		
-	}
+	const projTags = useSelector(state => state.workspaceReducer.projectTags);
 	const updateTree = (treeData) => {
 		dispatch(updateDocTree({tree: treeData}));
+	}
+	const addTag = (tag) => {
+		dispatch(addProjectTag({tag}));
 	}
 	const replaceInspRow = (newRow) => {
 		let modifiedTree = changeNodeAtPath({
@@ -157,12 +138,13 @@ const Inspector = (props) => {
 		});
 		updateTree(modifiedTree);
 	}
-	//console.log("Fetched:", JSON.stringify(curInspRow))
 	if (curInspRow && curInspRow.node) {
 		return (
 			<InspectorChild 
 				inspRow={curInspRow.node}
 				replaceInspRow={replaceInspRow}
+				projTags={projTags}
+				addTag={addTag}
 			/>
 		);
 	} else {

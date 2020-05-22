@@ -74,6 +74,7 @@ function createInitialState(docIndex) {
 	let splitDocList = [];
 	let splitDocRow = {};
 	let inspectedDocRow = {};
+	let projectTags = docIndex.projectTags;
 	if (curDocId !== null) {
 		[
 			curDocList,
@@ -118,6 +119,7 @@ function createInitialState(docIndex) {
 		splitDocId,
 		splitDocRow,
 		splitDocList,
+		projectTags,
 	};
 }
 
@@ -216,6 +218,10 @@ const workspaceSlice = createSlice({
 				searchMethod: (rowData) => {return(rowData.node.id === state.inspectedDocRow.node.id)}
 			}).matches[0];
 			state.inspectedDocRow = inspRow;
+		},
+		addProjectTag(state, action) {
+			const {tag} = action.payload;
+			state.projectTags = [...state.projectTags, tag];
 		}
 	}
 });
@@ -228,6 +234,7 @@ export const {
 	queueDocumentChanges, 
 	updateWorkingDoc,
 	updateDocTree,
+	addProjectTag,
  } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;

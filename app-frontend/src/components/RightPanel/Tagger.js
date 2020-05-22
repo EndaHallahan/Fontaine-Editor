@@ -12,6 +12,9 @@ class Tagger extends Component {
 	addTag(tag) {
 		let newTags = [...this.props.tags, tag];
 		this.props.onChange(newTags);
+		if (!this.props.tagList.includes(tag)) {
+			this.props.onNewTag(tag);
+		}
 	}
 	removeTag(tagIndex) {
 		let newTags = [...this.props.tags];
@@ -73,9 +76,7 @@ class TagInput extends Component {
 						activeSuggestions: [],
 						highlightedSuggestion: 0
 					});
-			    	break;
-				default:
-					return;		
+			    	break;		
 			}
 		} else {
 			if (e.keyCode === 13){
@@ -152,6 +153,17 @@ class TagInput extends Component {
 			activeSuggestions: this.props.tagList || [],
 			highlightedSuggestion: 0
 		});
+	}
+	componentDidUpdate(prevProps) {
+		if (
+			prevProps.tagList !== this.props.tagList
+			&& this.state.activeSuggestions === prevProps.tagList 
+		) {
+			this.setState({
+				...this.state,
+				activeSuggestions: this.props.tagList || [],
+			});
+		}
 	}
 	render() {
 		return(
