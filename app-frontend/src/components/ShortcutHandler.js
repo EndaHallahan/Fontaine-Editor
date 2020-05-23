@@ -21,6 +21,7 @@ const ShortcutHandler = (props) => {
 		OPEN_EDITOR: "ctrl+1",
 		OPEN_CORKBOARD: "ctrl+2",
 		OPEN_OVERVIEW: "ctrl+3",
+		OPEN_STORY_MAP: "ctrl+4",
 		TOGGLE_NAVIGATOR: "ctrl+alt+b",
 		TOGGLE_INSPECTOR: "ctrl+alt+d",
 		TOGGLE_SPLIT_EDITOR: "ctrl+alt+s",
@@ -39,6 +40,10 @@ const ShortcutHandler = (props) => {
 		OPEN_OVERVIEW: e => {
 			e.preventDefault();
 			dispatch(setEditorMode({mode: "overview"}));
+		},
+		OPEN_STORY_MAP: e => {
+			e.preventDefault();
+			dispatch(setEditorMode({mode: "storymap"}));
 		},
 		TOGGLE_NAVIGATOR: e => {
 			e.preventDefault();

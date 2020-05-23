@@ -5,6 +5,8 @@ import { Icon, InlineIcon } from '@iconify/react';
 import gridIcon from '@iconify/icons-feather/grid';
 import edit3 from '@iconify/icons-feather/edit-3';
 import serverIcon from '@iconify/icons-feather/server';
+import mapIcon from '@iconify/icons-feather/map';
+
 
 
 import CustomDropdown from "../CustomDropdown";
@@ -40,6 +42,9 @@ const ModeSelector = (props) => {
 			break;
 		case "overview":
 			curModeIcon = (<Icon icon={serverIcon} />);
+			break;
+		case "storymap":
+			curModeIcon = (<Icon icon={mapIcon} />);
 			break;
 		default:
 			curModeIcon = (<Icon icon={edit3} />);
@@ -84,6 +89,11 @@ const ModeSelector = (props) => {
 				title="Overview (Ctrl+3)"
 				className={editorMode === "overview" ? "active" : null}
 			><Icon icon={serverIcon} /></KeyboardFocusableButton>
+			<KeyboardFocusableButton
+				onClick={()=>changeEditorMode("storymap")}
+				title="Story Map (Ctrl+4)"
+				className={editorMode === "storymap" ? "active" : null}
+			><Icon icon={mapIcon} /></KeyboardFocusableButton>
 		</span>
 	);
 }

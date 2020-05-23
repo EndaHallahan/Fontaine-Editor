@@ -27,7 +27,7 @@ class Overview extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			freeForm: false,
+			
 		}
 		this.onReorder = this.onReorder.bind(this);
 		this.onCardChange = this.onCardChange.bind(this);

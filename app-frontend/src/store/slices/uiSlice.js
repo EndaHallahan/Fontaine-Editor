@@ -5,15 +5,16 @@ Available Editor Modes:
 	"editor"
 	"corkboard"
 	"overview"
+	"storymap"
 */
 
 const uiSlice = createSlice({
 	name: "ui",
 	initialState: {
-		leftPanelOpen: true,
-		rightPanelOpen: true,
+		leftPanelOpen: false,
+		rightPanelOpen: false,
 
-		editorMode: "overview",
+		editorMode: "storymap",
 
 		splitEditorOpen: false,
 		splitEditorMode: "corkboard",

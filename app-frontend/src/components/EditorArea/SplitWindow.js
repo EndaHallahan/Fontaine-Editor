@@ -33,6 +33,7 @@ import {
 import MultiDocSlate from "./MultiDocSlate";
 import Corkboard from "./Corkboard";
 import Overview from "./Overview";
+import StoryMap from "./StoryMap";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
 const SplitWindow = (props) => {
@@ -50,6 +51,8 @@ const SplitWindow = (props) => {
 	const lastTreeUpdate = useSelector(state => state.workspaceReducer.docTreeLastUpdate);
 
 	const metadataFields = useSelector(state => state.workspaceReducer.metadataFields);
+
+	const threads = useSelector(state => state.workspaceReducer.threads);
 
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {
@@ -149,6 +152,22 @@ const SplitWindow = (props) => {
 							docList = {curDocList}
 							replaceCurRow={replaceCurRow}
 							mdFields={metadataFields}
+							split={true}
+						/>
+		          	),
+		          	"storymap": (
+		          		<StoryMap
+							treeData={docTree}
+							curDoc={curDocId}
+							curDocRow={curDocRow}
+							getDoc={getDoc}
+							inspectDoc={inspectDoc}
+							inspDocId={inspDocRow.node.id}
+							newDoc={newDoc}
+							onTreeChange={updateTree}
+							docList = {curDocList}
+							replaceCurRow={replaceCurRow}
+							threads={threads}
 							split={true}
 						/>
 		          	),
