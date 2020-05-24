@@ -36,8 +36,9 @@
 				//border-right: 1px solid black;
 				position: relative;
 				width: var(--story-map-zoom);
-
 				min-width: 1.3rem;
+				cursor: pointer;
+
 				&:first-child:before {
 					content: "";
 					position: absolute;
@@ -54,6 +55,9 @@
 					border-right: 1px dashed black;
 					height: 100%;
 				}
+				&.selected {
+					box-shadow: inset 0 0 5px $fontaine-blue;
+				}	
 			}
 
 			.rope, .empty {
@@ -68,7 +72,7 @@
 				top: 50%;
 				transform: translateY(-50%);
 
-				
+
 			}
 
 			.rope {
@@ -99,6 +103,10 @@
 					top: 50%;
 					transform: translateY(-50%) translatex(50%);
 					right: 50%;
+
+					&.selected {
+						background-color: $fontaine-blue;
+					}
 				}
 			}
 		}

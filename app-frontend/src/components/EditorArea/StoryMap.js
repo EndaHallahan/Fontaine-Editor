@@ -63,6 +63,8 @@ class StoryMap extends Component {
 										threadId={threadId}
 										colour={this.props.threads[threadId].colour}
 										flatTree={flatTree}
+										inspectDoc={this.props.inspectDoc}
+										inspectedDoc={this.props.inspDocId}
 									/>
 								);
 							})
@@ -121,7 +123,12 @@ const MapThread = (props) => {
 		>
 			{
 				rope.map((node, i) => {
-					let knot = node.knot ? <div className="knot"></div> : null;
+					let knot = node.knot ? (
+						<div 
+							className={props.inspectedDoc === node.docId ? "knot selected" : "knot"}
+						>
+						</div>
+					) : null;
 					let ropePosition = "empty";
 					let ropeStyle = {}
 					if (node.onThread) {
@@ -139,11 +146,12 @@ const MapThread = (props) => {
 						}
 					}
 					return (
-						<div className="rope-wrapper">
+						<div className={props.inspectedDoc === node.docId ? "rope-wrapper selected" : "rope-wrapper"}>
 							<div 
 								className={ropePosition}
 								dataDocTitle={node.title}
 								style={ropeStyle}
+								onClick={() => {props.inspectDoc(node.docId)}}
 							>
 								{knot}
 							</div>
