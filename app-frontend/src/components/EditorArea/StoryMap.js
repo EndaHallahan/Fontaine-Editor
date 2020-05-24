@@ -64,6 +64,21 @@ class StoryMap extends Component {
 			<div class="map-area">
 				<div className="map-wrapper">
 					<div className="map-scroll">
+						<div className="thread-wrapper">
+						{
+							flatTree.map((doc, i) => (
+								
+									<div 
+										className={
+											this.props.inspectedDoc === doc.id ? "title-wrapper selected" : "title-wrapper"
+										}
+									>
+										<div className="empty">{doc.title}</div>
+									</div>
+								
+							))
+						}
+						</div>
 						{
 							Object.keys(this.props.threads).map((threadId, i) => {
 								return(
