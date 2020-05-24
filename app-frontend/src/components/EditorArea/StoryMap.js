@@ -189,12 +189,14 @@ const MapThread = (props) => {
 						}
 					}
 					return (
-						<div className={props.inspectedDoc === node.docId ? "rope-wrapper selected" : "rope-wrapper"}>
+						<div 
+							className={props.inspectedDoc === node.docId ? "rope-wrapper selected" : "rope-wrapper"}
+							onClick={() => {props.inspectDoc(node.docId)}}
+						>
 							<div 
 								className={ropePosition}
 								dataDocTitle={node.title}
 								style={ropeStyle}
-								onClick={() => {props.inspectDoc(node.docId)}}
 							>
 								{knot}
 							</div>
