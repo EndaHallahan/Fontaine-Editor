@@ -10,7 +10,7 @@
 	overflow: hidden;
 	
 	.map-wrapper {
-		background-color: white;
+		background-color: var(--story-map-container-colour);
 		width: 100%;
 		overflow-x: auto;
 		overflow-y: auto;
@@ -23,6 +23,7 @@
 			width: max-content;
 			padding: 1rem;
 			margin-top: 2rem;
+			color: var(--story-map-text-colour);
 		}
 
 		.thread-wrapper {
@@ -41,7 +42,6 @@
 				min-width: 1.3rem;
 				cursor: pointer;
 
-				
 				&.selected {
 					box-shadow: inset 0 0 5px $fontaine-blue;
 				}	
@@ -53,7 +53,7 @@
 					position: absolute;
 					left: 0;
 					width: 3px;
-					border-left: 1px dashed black;
+					border-left: 1px dashed var(--story-map-text-colour);
 					height: 100%;
 				}
 				&:after {
@@ -61,7 +61,7 @@
 					position: absolute;
 					right: 0;
 					width: 3px;
-					border-right: 1px dashed black;
+					border-right: 1px dashed var(--story-map-text-colour);
 					height: 100%;
 				}
 			}
@@ -108,6 +108,7 @@
 					top: 50%;
 					transform: translateY(-50%) translatex(50%);
 					right: 50%;
+					box-shadow: var(--story-map-knot-drop-shadow);
 
 					&.selected {
 						background-color: $fontaine-blue;
@@ -115,9 +116,7 @@
 
 					&:hover {
 						background-color: $fontaine-blue;
-					}
-
-					
+					}	
 				}
 			}
 		}
@@ -126,11 +125,14 @@
 			width: 90%;
 			max-width: 40rem;
 			min-width: 10rem;
-			position: fixed;
+			position: sticky;
+			left: 0;
 			padding: 1rem;
 			margin: 0 auto;
-			border: 1px solid black;
+			border: 1px solid var(--story-map-legend-border-colour);
+			background-color: var(--story-map-legend-background-colour);
 			border-radius: 3px;
+			box-shadow: var(--story-map-legend-drop-shadow);
 
 			.knot-viewer {
 				width: 100%;
@@ -141,9 +143,8 @@
 		}
 
 		.map-legend {
-			
-			
 			display: grid;
+
 			.legend-row {
 				display: inline-grid;
 				grid-template-columns: 1rem 1fr;
