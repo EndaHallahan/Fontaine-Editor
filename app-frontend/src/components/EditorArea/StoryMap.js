@@ -22,8 +22,7 @@ import {
 	createNewDocument, 
 	updateDocTree 
 } from "../../store/slices/workspaceSlice";
-import OverviewItem from "./OverviewItem";
-import CorkboardFooter from "./CorkboardFooter";
+import StoryMapFooter from "./StoryMapFooter";
 
 class StoryMap extends Component {
 	constructor(props) {
@@ -93,7 +92,7 @@ class StoryMap extends Component {
 						/>
 					</div>
 				</div>
-				<CorkboardFooter split={this.props.split}/>
+				<StoryMapFooter split={this.props.split}/>
 			</div>
 		);
 	}

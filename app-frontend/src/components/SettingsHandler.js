@@ -28,13 +28,18 @@ const SettingsHandler = (props) => {
 	}
 
 	if (settings.editorDropShadow !== undefined) {
-		console.log(settings.editorDropShadow ? "10px 10px 8px black" : "none")
 		root.style.setProperty("--editor-drop-shadow", settings.editorDropShadow 
 			? "10px 10px 8px black"
 			: "none"
 		)
 	} else {
 		root.style.setProperty("--editor-drop-shadow", null)
+	}
+
+	if (settings.storyMapZoom !== undefined) {
+		root.style.setProperty("--story-map-zoom", settings.storyMapZoom + "rem")
+	} else {
+		root.style.setProperty("--story-map-zoom", null)
 	}
 
 	return null;
