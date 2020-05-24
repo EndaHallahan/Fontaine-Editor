@@ -58,6 +58,7 @@ class Corkboard extends Component {
 						onReorder={this.onReorder}
 						component="div"
 						holdTime={300}
+						autoScroll={false} // False *significantly* improves performance here—look into alternatives?
 					>
 						{
 							this.props.curDocRow.node.children 
