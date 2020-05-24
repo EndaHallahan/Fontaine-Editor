@@ -29,10 +29,12 @@ class StoryMap extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			
+			viewedKnotId: null,
+			viewedKnotContents: null,
 		}
+		this.flattenTree = this.flattenTree.bind(this);
+		this.setViewedKnot = this.setViewedKnot.bind(this);
 	}
-
 	flattenTree() {
 		let flatTree = [];
 		const manuscriptNode = find({
@@ -50,6 +52,13 @@ class StoryMap extends Component {
 		});
 		return flatTree;
 	}
+	setViewedKnot(docId, knotContents) {
+		this.setState({
+			...this.state,
+			viewedKnotId: docId,
+			viewedKnotContents: knotContents
+		});
+	}
 	render() {
 		let flatTree = this.flattenTree();
 		return (
@@ -65,9 +74,19 @@ class StoryMap extends Component {
 										flatTree={flatTree}
 										inspectDoc={this.props.inspectDoc}
 										inspectedDoc={this.props.inspDocId}
+										viewedKnotId={this.state.viewedKnotId}
+										setViewedKnot={this.setViewedKnot}
 									/>
 								);
 							})
+						}
+
+					</div>
+					<div className="legend-wrapper">
+						{
+							this.state.viewedKnotContents ? (
+								<div className="knot-viewer">{this.state.viewedKnotContents}</div>
+							) : null
 						}
 						<MapLegend
 							threads={this.props.threads}
@@ -86,7 +105,11 @@ const MapThread = (props) => {
 	let onThread = false;
 	props.flatTree.map((doc, i) => {
 		if (doc.threads && doc.threads[props.threadId]) {
-			knots.push(doc);
+			knots.push({
+				id: doc.id,
+				knotId: doc.id + "-" + props.threadId,
+				thread: doc.threads[props.threadId].knot,
+			});
 		}
 	})
 	props.flatTree.map((doc, i) => {
@@ -123,12 +146,18 @@ const MapThread = (props) => {
 		>
 			{
 				rope.map((node, i) => {
-					let knot = node.knot ? (
-						<div 
-							className={props.inspectedDoc === node.docId ? "knot selected" : "knot"}
-						>
-						</div>
-					) : null;
+					let knot = null;
+					if (node.knot) {
+						let knotViewed = props.viewedKnotId === node.knot.knotId;
+						knot = (
+							<div 
+								className={knotViewed ? "knot selected" : "knot"}
+								onClick={() => {props.setViewedKnot(node.knot.knotId, node.knot.thread)}}
+							>
+							</div>
+						);
+					}
+					
 					let ropePosition = "empty";
 					let ropeStyle = {}
 					if (node.onThread) {

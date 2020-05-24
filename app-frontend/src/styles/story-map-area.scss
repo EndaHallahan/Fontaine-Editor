@@ -16,11 +16,12 @@
 		overflow-y: auto;
 		min-width: 100%;
 		width: auto;	
+		padding: 1rem;
 
 		.map-scroll {
 			min-width: 100%;
 			width: max-content;
-			padding: 2rem;
+			padding: 1rem;
 		}
 
 		.thread-wrapper {
@@ -35,6 +36,7 @@
 				height: 100%;
 				//border-right: 1px solid black;
 				position: relative;
+				z-index: 0;
 				width: var(--story-map-zoom);
 				min-width: 1.3rem;
 				cursor: pointer;
@@ -72,24 +74,13 @@
 				top: 50%;
 				transform: translateY(-50%);
 
+				z-index: 0;
+
 
 			}
 
 			.rope {
 				background-color: red;
-
-				/*&.start {
-					background: linear-gradient(to right, transparent 50%, red 50%);
-					//border-right: 1px solid red;
-				}
-
-				&.end {
-					background: linear-gradient(to right, red 50%, transparent 50%);
-				}
-
-				&.start.end {
-					background-color: transparent;
-				}*/
 
 				.knot {
 					margin: 0 auto;
@@ -107,14 +98,37 @@
 					&.selected {
 						background-color: $fontaine-blue;
 					}
+
+					&:hover {
+						background-color: $fontaine-blue;
+					}
+
+					
 				}
 			}
 		}
 
-		.map-legend {
-			margin-top: 3rem;
+		.legend-wrapper {
+			width: 90%;
+			max-width: 40rem;
+			min-width: 10rem;
+			position: fixed;
 			padding: 1rem;
-			border-top: 1px solid black;
+			margin: 0 auto;
+			border: 1px solid black;
+			border-radius: 3px;
+
+			.knot-viewer {
+				width: 100%;
+				padding-bottom: .5rem;
+				border-bottom: 1px solid black;
+				margin-bottom: 1rem;
+			}
+		}
+
+		.map-legend {
+			
+			
 			display: grid;
 			.legend-row {
 				display: inline-grid;
