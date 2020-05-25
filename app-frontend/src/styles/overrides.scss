@@ -101,6 +101,13 @@ button.border {
 
 input {
 	font-family: #{$font-family-sans};
+	text-overflow: ellipsis;
+	width: 100%;
+	background-color: transparent;
+	border: none;
+	border-radius: 0;
+	color: $dark-text;
+	border-bottom: 1px solid $fontaine-blue;
 }
 
 textarea {

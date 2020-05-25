@@ -255,15 +255,19 @@ const workspaceSlice = createSlice({
 				state.metadataFields = getMetadataFields(state.projectTags);
 			}
 		},
+		updateProjectThreads(state, action) {
+			const {threads} = action.payload;
+			state.threads = threads;
+		},
 		addProjectThread(state, action) {
-			const {thread, id} = action.payload;
+			const {id} = action.payload;
 			state.threads = {
 				...state.threads,
-				[id]: thread,
+				[id]: {
+					name: "New Thread",
+					colour: "#ff0000"
+				}
 			}
-		},
-		removeProjectThread(state, action) {
-
 		},
 	}
 });
@@ -277,8 +281,8 @@ export const {
 	updateWorkingDoc,
 	updateDocTree,
 	addProjectTag,
+	updateProjectThreads,
 	addProjectThread,
-	removeProjectThread,
  } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;

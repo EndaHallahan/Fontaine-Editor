@@ -10,6 +10,7 @@ import LI from "./LI";
 import FileDropdown from "./FileDropdown";
 import EditDropdown from "./EditDropdown";
 import ViewDropdown from "./ViewDropdown";
+import ProjectDropdown from "./ProjectDropdown";
 import ToolsDropdown from "./ToolsDropdown";
 import HelpDropdown from "./HelpDropdown";
 
@@ -24,6 +25,7 @@ class HeaderAreaChild extends Component {
 				<FileDropdown/>
 				<EditDropdown/>
 				<ViewDropdown/>
+				<ProjectDropdown/>
 				<ToolsDropdown/>
 				<HelpDropdown/>
 			</div>

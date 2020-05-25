@@ -1,0 +1,42 @@
+.threads-modal {
+	display: grid;
+	grid-template-rows: 14rem 1fr;
+	padding: .5rem;
+	height: 100%;
+
+	button {
+		font-size: 1.5rem;
+		height: 1.5rem;
+		> div {
+			height: 1.5rem;
+		}
+	}
+
+	.scroll-wrapper {
+		overflow-y: auto;
+
+		& > div {
+			display: grid;
+			height: 2rem;
+			grid-template-columns: 2rem 1fr 2rem;
+			align-content: center;
+			align-items: center;
+			justify-items: center;
+			.colour-picker {
+				height: 1.5rem;
+				> button {
+					height: 1.5rem;
+					width: 1.5rem;
+				}
+			}
+			input {
+
+			}
+		}
+	}
+
+	& > div:last-child {
+		align-self: end;
+		margin: 0 auto;
+	}
+}

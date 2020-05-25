@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { closeModal } from "../store/slices/modalSlice";
 import SettingsModal from "./SettingsModal";
+import ThreadsModal from "./ThreadsModal";
 
 const modalComponents = {
-    SettingsModal
+    SettingsModal,
+    ThreadsModal
 };
 
 const ModalHandler = (props) => {
