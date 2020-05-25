@@ -54,6 +54,7 @@ class InspectorChild extends Component {
 									openHeight="auto"
 									title="Details"
 									className="details"
+									defaultOpen={true}
 								>
 									<div>Status:</div>
 									<Select
@@ -85,6 +86,7 @@ class InspectorChild extends Component {
 								<CollapsableDiv
 									openHeight="7rem"
 									title="Summary"
+									defaultOpen={true}
 								>
 									<TextArea
 										placeholder="Write a summary..."
@@ -100,6 +102,7 @@ class InspectorChild extends Component {
 									openHeight={null}
 									defaultOpen={true}
 									title="Notes"
+									defaultOpen={true}
 								>
 									<TextArea
 										placeholder="Make a note..."
