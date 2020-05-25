@@ -8,7 +8,8 @@ import { v4 as uuidv4 } from "uuid";
 import { Icon, InlineIcon } from '@iconify/react';
 import tagIcon from '@iconify/icons-feather/tag';
 import infoIcon from '@iconify/icons-feather/info';
-import trendingUp from '@iconify/icons-feather/trending-up';
+import gitCommit from '@iconify/icons-feather/git-commit';
+import editIcon from '@iconify/icons-feather/edit';
 
 import { 
 	inspectDocument, 
@@ -19,7 +20,9 @@ import {
 import { 
 	setInspectorTab,
 } from "../../store/slices/uiSlice";
+import { openModal } from "../../store/slices/modalSlice";
 import { Input, TextArea, Select } from "../StatefulInputs";
+import KeyboardFocusableButton from "../KeyboardFocusableButton";
 import CollapsableDiv from "../CollapsableDiv";
 import TabularMenu from "../TabularMenu";
 import Tagger from "./Tagger";
@@ -41,7 +44,7 @@ class InspectorChild extends Component {
 		return (
 			<div className="inspector" key={this.props.inspRow.id}>
 				<TabularMenu
-	       			startTab={2/*this.props.tab*/}
+	       			startTab={this.props.tab}
 	       			onTabChange={this.props.setTab}
 	       			horizontal
 	       			windows={[
@@ -112,42 +115,39 @@ class InspectorChild extends Component {
 	       				},
 	       				{tabName:(<Icon icon={tagIcon} />), render: () => 
 	       					<Fragment>
-	       						<CollapsableDiv
-									openHeight={null}
-									defaultOpen={true}
-									title="Tags"
-								>
-									<Tagger 
-										onChange={tags => {
-					                    	this.onRowChange({...this.props.inspRow, tags});
-										}}
-										onNewTag={tag => {
-											this.props.addTag(tag);
-										}}
-										tags={this.props.inspRow.tags || []}
-										tagList={this.props.projTags}
-									/>
-								</CollapsableDiv>
+	       						<div className="header">Tags</div>
+								<Tagger 
+									onChange={tags => {
+				                    	this.onRowChange({...this.props.inspRow, tags});
+									}}
+									onNewTag={tag => {
+										this.props.addTag(tag);
+									}}
+									tags={this.props.inspRow.tags || []}
+									tagList={this.props.projTags}
+								/>
 	       					</Fragment>
 	       				},
-	       				{tabName:(<InlineIcon icon={trendingUp} />), render: () => 
+	       				{tabName:(<InlineIcon icon={gitCommit} />), render: () => 
 	       					<Fragment>
-	       						<CollapsableDiv
-									openHeight={null}
-									defaultOpen={true}
-									title="Threads"
-								>
-									<ThreadsEditor 
-										onChange={threads => {
-											this.onRowChange({...this.props.inspRow, threads});
-										}}
-										onNewThread={thread => {
-											this.props.addThread(thread);
-										}}
-										threads={this.props.inspRow.threads || []}
-										threadList={this.props.threads}
-									/>
-								</CollapsableDiv>
+	       						<div className="header">Threads 
+	       							<span className="right">
+	       								<KeyboardFocusableButton
+											onClick={this.props.openThreadsModal}
+											title="Edit Threads"
+										><Icon icon={editIcon} /></KeyboardFocusableButton>
+	       							</span>
+	       						</div>
+								<ThreadsEditor 
+									onChange={threads => {
+										this.onRowChange({...this.props.inspRow, threads});
+									}}
+									onNewThread={thread => {
+										this.props.addThread(thread);
+									}}
+									threads={this.props.inspRow.threads || []}
+									threadList={this.props.threads}
+								/>
 	       					</Fragment>
 	       				},
 	       			]}
@@ -186,6 +186,9 @@ const Inspector = (props) => {
 	const setInspTab = (tab) => {
 		dispatch(setInspectorTab({tab}));
 	}
+	const openThreadsModal = () => {
+		dispatch(openModal({modalType: "ThreadsModal", modalProps: null}));
+	}
 	if (curInspRow && curInspRow.node) {
 		return (
 			<InspectorChild 
@@ -197,6 +200,7 @@ const Inspector = (props) => {
 				addThread={addThread}
 				tab={inspectorTab}
 				setTab={setInspTab}
+				openThreadsModal={openThreadsModal}
 			/>
 		);
 	} else {

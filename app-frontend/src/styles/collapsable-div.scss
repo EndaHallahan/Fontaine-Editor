@@ -6,12 +6,14 @@
 
 	.collapsable-header {
 		background-color: $darker;
-		padding: .1rem .5rem;
+		padding: .1rem 2rem .1rem .5rem;
 		position: relative;
 		font-size: .9rem;
 		cursor: pointer;
 		user-select: none;
 		border-bottom: 1px solid $dark-lowlight;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 
 		&::after {
 			content: "";

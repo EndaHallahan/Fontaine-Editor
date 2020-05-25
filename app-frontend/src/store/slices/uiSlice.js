@@ -12,7 +12,7 @@ const uiSlice = createSlice({
 	name: "ui",
 	initialState: {
 		leftPanelOpen: false,
-		rightPanelOpen: false,
+		rightPanelOpen: true,
 
 		editorMode: "storymap",
 
