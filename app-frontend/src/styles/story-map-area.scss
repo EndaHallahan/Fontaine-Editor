@@ -150,11 +150,12 @@
 			.legend-row {
 				display: inline-grid;
 				grid-template-columns: 1rem 1fr;
-				align-items: center;
+				align-items: start;
 				div {
 					display: inline-block;
 
 					&:first-child {
+						margin-top: .2rem;
 						width: 1rem;
 						height: 1rem;
 						justify-self: center;
