@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useEffect, useMemo, useState, useCallback} from 'react';
+import React, { Component, Fragment, useEffect, useMemo, useState, useCallback } from 'react';
 import { createEditor } from 'slate'
 import { Slate, Editable, withReact } from 'slate-react'
 import { useSelector, useDispatch } from 'react-redux'
@@ -11,10 +11,10 @@ import EditorToolbar from "./EditorToolbar";
 import EditorFooter from "./EditorFooter";
 
 const keyMap = {
-  	//INDENT: "tab"
+  	
 };
 
-const SlateInstance = React.forwardRef((props, ref) => {
+const SlateInstance = React.memo((props) => {
 	const editor = useMemo(() => withReact(createEditor()), []);
 	props.createHoistedEditor(props.docId, editor);
 	const defaultContents = [{
@@ -26,21 +26,18 @@ const SlateInstance = React.forwardRef((props, ref) => {
   		if (inValue !== value) {
   			props.updateDoc(props.docId, inValue);
   		}
+  		props.touchToolbar();
   	}
   	const renderElement = useCallback(props => <Element {...props} />, []);
   	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 
   	const handlers = {
-  		INDENT: e => {
-			e.preventDefault();
-			editor.insertText("\t")
-		},
+  		
   	}
   	return (
   		<HotKeys keyMap={keyMap} handlers={handlers}>
 	  		<div 
 	  			className="slate-wrapper" 
-	  			ref={ref}
 	  			onFocus={() => props.setActive(props.docId)}
 	    	>
 		    	<Slate 

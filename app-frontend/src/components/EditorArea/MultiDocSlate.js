@@ -15,11 +15,12 @@ class MultiDocSlate extends Component {
 		super(props);
 		this.editors = {}; // Mutable references! Keep out of state! 
 		this.state = {
-			activeEditor: null
+			activeEditor: null,
+			toolbarTouch: false, // Workaround to rerender the toolbar on minor editor changes (like selections).
 		}
 		this.setActiveEditor = this.setActiveEditor.bind(this);
 		this.createHoistedEditor = this.createHoistedEditor.bind(this);
-		this.activeEditorRef = React.createRef();
+		this.touchToolbar = this.touchToolbar.bind(this);
 	}
 	setActiveEditor(id) {
 		this.setState({
@@ -30,6 +31,12 @@ class MultiDocSlate extends Component {
 	}
 	createHoistedEditor(id, editor) {
 		this.editors[id] = editor;
+	}
+	touchToolbar() {
+		this.setState({
+			...this.state,
+			toolbarTouch: !this.state.toolbarTouch
+		})
 	}
 	componentDidUpdate(prevProps) {
 		if (prevProps.docId !== this.props.docId) {
@@ -44,14 +51,13 @@ class MultiDocSlate extends Component {
 			<div className="editor-area">
 				<EditorToolbar 
 					editor={this.editors[this.state.activeEditor]}
-					editorEle={this.activeEditorRef.current ? this.activeEditorRef.current.firstChild: null}
+					touch={this.state.toolbartouch}
 				/>
 				<div className="editor-body">
 					{
 						this.props.docList.map((id, i) => {
 							return(
 								<SlateInstance
-									ref={id === this.state.activeEditor ? this.activeEditorRef : null}
 									createHoistedEditor = {this.createHoistedEditor}
 									key = {id}
 									docId = {id}
@@ -61,6 +67,7 @@ class MultiDocSlate extends Component {
 									active={id === this.state.activeEditor}
 									setActive={this.setActiveEditor}
 									split={this.props.split}
+									touchToolbar={this.touchToolbar}
 								/>
 							);
 						})

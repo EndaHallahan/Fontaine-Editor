@@ -24,7 +24,7 @@ const MarkButton = (props) => {
   return (
     <button
       	className={Helpers.isMarkActive(props.editor, props.format) ? "active" : null}
-      	onClick={event => {
+      	onMouseDown={event => {
         	Helpers.toggleMark(props.editor, props.format);
         	ReactEditor.focus(props.editor);
       	}}
@@ -58,7 +58,6 @@ const EditorToolbar = (props) => {
 						<MarkButton 
 							format="bold" 
 							editor={editor} 
-							editorEle={props.editorEle}
 						>
 							<Icon icon={formatBold} />
 						</MarkButton>
@@ -66,7 +65,6 @@ const EditorToolbar = (props) => {
 						<MarkButton 
 							format="italic" 
 							editor={editor} 
-							editorEle={props.editorEle}
 						>
 							<Icon icon={formatItalic} />
 						</MarkButton>
@@ -74,7 +72,6 @@ const EditorToolbar = (props) => {
 						<MarkButton 
 							format="underline" 
 							editor={editor} 
-							editorEle={props.editorEle}
 						>
 							<Icon icon={formatUnderline} />
 						</MarkButton>
@@ -82,7 +79,6 @@ const EditorToolbar = (props) => {
 						<MarkButton 
 							format="strikethrough" 
 							editor={editor} 
-							editorEle={props.editorEle}
 						>
 							<Icon icon={formatStrikethrough} />
 						</MarkButton>
@@ -92,7 +88,6 @@ const EditorToolbar = (props) => {
 						<MarkButton
 							format="superscript" 
 							editor={editor} 
-							editorEle={props.editorEle}
 						>
 							<Icon icon={formatSuperscript} />
 						</MarkButton>
@@ -100,7 +95,6 @@ const EditorToolbar = (props) => {
 						<MarkButton
 							format="subscript" 
 							editor={editor} 
-							editorEle={props.editorEle}
 						>
 							<Icon icon={formatSubscript} />
 						</MarkButton>
@@ -110,7 +104,6 @@ const EditorToolbar = (props) => {
 						<BlockButton
 							format="numbered-list" 
 							editor={editor} 
-							editorEle={props.editorEle}
 						>
 							<Icon icon={formatListNumbered} />
 						</BlockButton>
@@ -118,7 +111,6 @@ const EditorToolbar = (props) => {
 						<BlockButton
 							format="bulleted-list" 
 							editor={editor} 
-							editorEle={props.editorEle}
 						>
 							<Icon icon={formatListBulleted} />
 						</BlockButton>
@@ -128,7 +120,6 @@ const EditorToolbar = (props) => {
 						<BlockButton
 							format="align-center" 
 							editor={editor} 
-							editorEle={props.editorEle}
 						>
 							<Icon icon={formatAlignCenter} />
 						</BlockButton>
@@ -136,7 +127,6 @@ const EditorToolbar = (props) => {
 						<BlockButton
 							format="align-right" 
 							editor={editor} 
-							editorEle={props.editorEle}
 						>
 							<Icon icon={formatAlignRight} />
 						</BlockButton>
@@ -144,7 +134,6 @@ const EditorToolbar = (props) => {
 						<BlockButton
 							format="align-justify" 
 							editor={editor} 
-							editorEle={props.editorEle}
 						>
 							<Icon icon={formatAlignJustify} />
 						</BlockButton>
