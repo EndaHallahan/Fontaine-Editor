@@ -25,6 +25,7 @@ const MarkButton = (props) => {
     <button
       	className={Helpers.isMarkActive(props.editor, props.format) ? "active" : null}
       	onMouseDown={event => {
+      		event.preventDefault();
         	Helpers.toggleMark(props.editor, props.format);
         	ReactEditor.focus(props.editor);
       	}}
@@ -38,7 +39,8 @@ const BlockButton = (props) => {
 	return (
 		<button
 			className={Helpers.isBlockActive(props.editor, props.format) ? "active" : null}
-			onClick={event => {
+			onMouseDown={event => {
+				event.preventDefault();
 	        	Helpers.toggleBlock(props.editor, props.format);
 	        	ReactEditor.focus(props.editor);
 	      	}}

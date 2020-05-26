@@ -19,11 +19,13 @@ const SlateInstance = React.memo((props) => {
 	props.createHoistedEditor(props.docId, editor);
 	const defaultContents = [{
 	  	type: 'paragraph',
-	  	children: [{ text: '' }],
+	  	children: [{ text: ''}],
 	}];
   	let value = props.value && props.value.ops ? props.value.ops : defaultContents;
+  	let [val, setVal] = useState(value);
   	const updateDocument = (inValue) => {
   		if (inValue !== value) {
+  			setVal(inValue);
   			props.updateDoc(props.docId, inValue);
   		}
   		props.touchToolbar();
@@ -42,7 +44,7 @@ const SlateInstance = React.memo((props) => {
 	    	>
 		    	<Slate 
 		    		editor={editor} 
-		    		value={value} 
+		    		value={val} 
 		    		onChange={updateDocument}
 		    	>
 		      		<Editable 
