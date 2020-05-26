@@ -36,6 +36,12 @@ const SettingsHandler = (props) => {
 		root.style.setProperty("--editor-drop-shadow", null)
 	}
 
+	if (settings.corkBoardZoom !== undefined) {
+		root.style.setProperty("--corkboard-card-width", settings.corkBoardZoom + "rem")
+	} else {
+		root.style.setProperty("--corkboard-card-width", null)
+	}
+
 	if (settings.storyMapZoom !== undefined) {
 		root.style.setProperty("--story-map-zoom", settings.storyMapZoom + "rem")
 	} else {

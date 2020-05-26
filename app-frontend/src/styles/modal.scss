@@ -18,7 +18,7 @@
     overflow: auto;
     border-radius: 3px;
     outline: none;
-    margin: 0;
+    margin: 0 auto;
     background-color: $dark;
     color: $dark-text;
     border: 1px solid $dark-highlight;
@@ -72,4 +72,5 @@
 .subwindow {
     box-shadow: 2px 2px 8px black;
     border: 1px solid $dark-lowlight;
+    margin: 0;
 }
