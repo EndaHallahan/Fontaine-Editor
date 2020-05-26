@@ -8,8 +8,9 @@
 	z-index: 1000000000;
 }
 
-.modal {
+.modal, .subwindow {
     position: absolute;
+    z-index: 1000000001;
     top: 40px;
     left: 40px;
     right: 40px;
@@ -17,14 +18,13 @@
     overflow: auto;
     border-radius: 3px;
     outline: none;
-    margin: 0 auto;
+    margin: 0;
     background-color: $dark;
     color: $dark-text;
     border: 1px solid $dark-highlight;
     display: grid;
     grid-template-rows: 2rem 1fr;
-
-    overflow: visible;
+    overflow: hidden;
 
     .modal-header {
     	background-color: $darker;
@@ -34,6 +34,7 @@
     	display: inline-flex;
     	padding: 0 .5rem;
     	border-bottom: 1px solid $dark-lowlight;
+        user-select: none;
     	
     	.close-button {
 	    	flex-grow: 1;
@@ -66,4 +67,9 @@
     &.tall {
     	max-height: 40rem;
     }
+}
+
+.subwindow {
+    box-shadow: 2px 2px 8px black;
+    border: 1px solid $dark-lowlight;
 }

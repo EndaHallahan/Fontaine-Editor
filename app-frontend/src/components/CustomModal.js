@@ -16,7 +16,7 @@ const CustomModal = (props) => {
 	      	overlayClassName="modal-overlay"
 	      	{...props}
 	    >
-	    	<div class="modal-header">
+	    	<div className="modal-header">
 	    		{props.title}
 	    		<span className="close-button" >
 	      		<KeyboardFocusableButton 

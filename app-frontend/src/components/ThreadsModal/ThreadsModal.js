@@ -10,7 +10,7 @@ import { addProjectThread, updateProjectThreads } from "../../store/slices/works
 import ColourPicker from "../ColourPicker"; 
 import { Input } from "../StatefulInputs"; 
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
-import CustomModal from "../CustomModal";
+import CustomSubwindow from "../CustomSubwindow";
 
 const ThreadsModal = (props) => {
 	const dispatch = useDispatch();
@@ -48,16 +48,16 @@ class ThreadsModalChild extends Component {
 	}
 	render() {
 		return(
-			<CustomModal
+			<CustomSubwindow
 				modalClass="small"
 				onRequestClose={this.props.onRequestClose}
 	          	onAfterOpen={this.props.afterOpenModal}
 	          	contentLabel="Threads Popup"
 	          	title="Project Threads"
-	          	style={{content:{
+	          	style={{
 	          		width: "20rem",
 	          		height: "auto",
-	          	}}}
+	          	}}
 	        >
 	       		<div class="threads-modal">
 	       			<div class="scroll-wrapper">
@@ -102,7 +102,7 @@ class ThreadsModalChild extends Component {
 						><Icon icon={plusSquare} /></KeyboardFocusableButton>
 	       			</div>
 	       		</div>
-	        </CustomModal>
+	        </CustomSubwindow>
 		);
 	}
 }
