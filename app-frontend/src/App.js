@@ -20,7 +20,9 @@ class App extends Component {
 					<ShortcutHandler />
 					<DistractionFree />
 					<main>
-						<Workspace />
+						<Workspace 
+							documentInterface={this.props.documentInterface}
+						/>
 					</main>
 					<footer>
 					</footer>

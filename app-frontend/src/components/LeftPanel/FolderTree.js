@@ -280,7 +280,7 @@ const FolderTree = (props) => {
 	const dispatch = useDispatch();
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {
-			dispatch(switchDocument({id: node.node.id}));
+			dispatch(switchDocument(node.node.id, props.documentInterface));
 		}
 	}
 	const getSplitDoc = (node, path, treeIndex) => {
@@ -288,7 +288,7 @@ const FolderTree = (props) => {
 			if (!splitOpen) {
 				dispatch(setSplitEditorOpen({open: true}));
 			}
-			dispatch(switchSplitDocument({id: node.node.id}));
+			dispatch(switchSplitDocument(node.node.id, props.documentInterface));
 		}
 	}
 	const newDoc = (id) => {

@@ -3,19 +3,16 @@ import { find, walk } from 'react-sortable-tree';
 
 import { documents, documentIndex } from "../../testDocs"; //Remove me eventually!
 
-function getDocument(id) {
-	const doc = documents[id];
-	return doc;
-}
+import Interface from "../../Interface";
 
-function getFullChildContents(docList, docCache) {
+async function getFullChildContents(docList, docCache, getDoc) {
 	const fullContents = {}
-	docList.forEach(docId => {
+	docList.forEach(async (docId) => {
 		let docContents;
 		if (docCache[docId]) {
 			docContents = docCache[docId]
 		} else {
-			docContents = getDocument(docId);
+			docContents = await getDoc(docId);
 		}
 		fullContents[docId] = docContents;
 	});
@@ -31,7 +28,7 @@ function getDocRow(docTree, curDocId) {
 	return selRow;
 }
 
-function getListRowFor(docId, docList, docRow, docTree, docCache) {
+async function getListRowFor(docId, docList, docRow, docTree, docCache, getDoc) {
 	let outList = [];
 	let outRow = {};
 	let outCache = {...docCache};
@@ -51,7 +48,7 @@ function getListRowFor(docId, docList, docRow, docTree, docCache) {
 			ignoreCollapsed: false
 		});
 	}
-	newWorkingDocs = getFullChildContents(newDocList, docCache);
+	newWorkingDocs = await getFullChildContents(newDocList, docCache, getDoc);
 	newDocList.forEach(id => {
 		outCache[id] = newWorkingDocs[id];
 	});
@@ -79,7 +76,7 @@ function getMetadataFields(tagList) {
 	return fields;
 }
 
-function createInitialState(docIndex) {
+async function loadInitialState(docIndex, getDoc) {
 	let docTree = docIndex.documents;
 	let curDocId = docIndex.lastDocument || null;
 	let splitDocId = docIndex.lastSplitDocument || null;
@@ -102,12 +99,13 @@ function createInitialState(docIndex) {
 			curDocList,
 			curDocRow,
 			docCache
-		] = getListRowFor(
+		] = await getListRowFor(
 			curDocId, 
 			curDocList, 
 			curDocRow, 
 			docTree, 
-			docCache
+			docCache,
+			getDoc
 		);
 		inspectedDocRow = curDocRow;
 	}
@@ -116,12 +114,13 @@ function createInitialState(docIndex) {
 			splitDocList,
 			splitDocRow,
 			docCache
-		] = getListRowFor(
+		] = await getListRowFor(
 			splitDocId, 
 			splitDocList, 
 			splitDocRow, 
 			docTree, 
-			docCache
+			docCache,
+			getDoc
 		);
 	} else {
 		splitDocId = curDocId;
@@ -144,43 +143,59 @@ function createInitialState(docIndex) {
 		projectTags,
 		metadataFields,
 		threads,
+		loaded: true
 	};
+}
+
+const initialState = {
+	loaded: false,
+	docTree: {},
+	curDocId: null,
+	splitDocId: null,
+	docCache: {},
+	curDocList: [],
+	curDocRow: {},
+	splitDocList: [],
+	splitDocRow: {},
+	inspectedDocRow: {},
+	projectTags: [],
+	metadataFields: [],
+	threads: [],
 }
 
 const workspaceSlice = createSlice({
 	name: "workspace",
-	initialState: createInitialState(documentIndex),
+	initialState,
 	reducers: {
-		switchDocument(state, action) {
-			const curDocId = action.payload.id;
-			state.curDocId = curDocId;
-			[
-				state.curDocList,
-				state.curDocRow,
-				state.docCache
-			] = getListRowFor(
-				state.curDocId, 
-				state.curDocList, 
-				state.curDocRow, 
-				state.docTree, 
-				state.docCache
-			);
-			state.inspectedDocRow = state.curDocRow;
+		setAllState(state, action) {
+			const {newState} = action.payload;
+			state.curDocId = newState.curDocId;
+			state.docTree = newState.docTree;
+			state.splitDocId = newState.splitDocId;
+			state.docCache = newState.docCache;
+			state.curDocList = newState.curDocList;
+			state.curDocRow = newState.curDocRow;
+			state.splitDocList = newState.splitDocList;
+			state.splitDocRow = newState.splitDocRow;
+			state.inspectedDocRow = newState.inspectedDocRow;
+			state.projectTags = newState.projectTags;
+			state.metadataFields = newState.metadataFields;
+			state.threads = newState.threads;
 		},
-		switchSplitDocument(state, action) {
-			const splitDocId = action.payload.id;
-			state.splitDocId = splitDocId;
-			[
-				state.splitDocList,
-				state.splitDocRow,
-				state.docCache
-			] = getListRowFor(
-				state.splitDocId, 
-				state.splitDocList, 
-				state.splitDocRow, 
-				state.docTree, 
-				state.docCache
-			);
+		switchDocumentComplete(state, action) {
+			const {curDocList, curDocRow, docCache, curDocId} = action.payload;
+			state.curDocList = curDocList;
+			state.curDocRow = curDocRow;
+			state.docCache = docCache;
+			state.curDocId = curDocId;
+			state.inspectedDocRow = curDocRow;
+		},
+		switchSplitDocumentComplete(state, action) {
+			const {curDocList, curDocRow, docCache, curDocId} = action.payload;
+			state.splitDocList = curDocList;
+			state.splitDocRow = curDocRow;
+			state.docCache = docCache;
+			state.splitDocId = curDocId;
 		},
 		inspectDocument(state, action) {
 			const inspDocId = action.payload.id;
@@ -273,8 +288,9 @@ const workspaceSlice = createSlice({
 });
 
 export const { 
-	switchDocument,
-	switchSplitDocument, 
+	setAllState,
+	switchDocumentComplete,
+	switchSplitDocumentComplete, 
 	inspectDocument,
 	createNewDocument,
 	queueDocumentChanges, 
@@ -286,3 +302,70 @@ export const {
  } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;
+
+/* Thunks */
+
+export const loadState = (interfaceObj) => async (dispatch, getState) => {
+	try {
+		console.log("Loading state!")
+		const index = await interfaceObj.getIndex();
+		const newState = await loadInitialState(index, interfaceObj.getDocument);
+		dispatch(setAllState({newState}));
+	} catch (err) {
+		console.error(err)
+	}
+}
+
+export const switchDocument = (id, interfaceObj) => async (dispatch, getState) => {
+	try {
+		const state = getState().workspaceReducer;
+		const curDocId = id;
+		let [
+			curDocList,
+			curDocRow,
+			docCache
+		] = await getListRowFor(
+			curDocId, 
+			state.curDocList, 
+			state.curDocRow, 
+			state.docTree, 
+			state.docCache,
+			interfaceObj.getDocument
+		);
+		dispatch(switchDocumentComplete({
+			curDocId,
+			curDocList,
+			curDocRow,
+			docCache,
+		}))
+	} catch (err) {
+		console.error(err)
+	}
+}
+
+export const switchSplitDocument = (id, interfaceObj) => async (dispatch, getState) => {
+	try {
+		const state = getState().workspaceReducer;
+		const curDocId = id;
+		let [
+			curDocList,
+			curDocRow,
+			docCache
+		] = await getListRowFor(
+			curDocId, 
+			state.splitDocList, 
+			state.splitDocRow, 
+			state.docTree, 
+			state.docCache,
+			interfaceObj.getDocument
+		);
+		dispatch(switchSplitDocumentComplete({
+			curDocId,
+			curDocList,
+			curDocRow,
+			docCache,
+		}))
+	} catch (err) {
+		console.error(err)
+	}
+}

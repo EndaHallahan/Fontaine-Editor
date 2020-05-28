@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-
 import * as serviceWorker from './serviceWorker';
+
+import Interface from "./Interface";
 
 ReactDOM.render(
   	<React.StrictMode>
-		<App />
+		<App 
+			documentInterface={Interface}
+		/>
   	</React.StrictMode>,
   	document.getElementById('root')
 );

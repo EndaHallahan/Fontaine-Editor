@@ -56,7 +56,7 @@ const SplitWindow = (props) => {
 
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {
-			dispatch(switchSplitDocument({id: node.node.id}));
+			dispatch(switchSplitDocument(node.node.id, props.documentInterface));
 		}
 	}
 	const newDoc = (id) => {

@@ -48,7 +48,7 @@ const MainWindow = (props) => {
 
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {
-			dispatch(switchDocument({id: node.node.id}));
+			dispatch(switchDocument(node.node.id, props.documentInterface));
 		}
 	}
 	const newDoc = (id) => {
@@ -78,7 +78,7 @@ const MainWindow = (props) => {
 	return(
 		<div className="editor-window main-window">
 			<div className="info-bar">
-				<span><span>{curDocRow.node.title}</span></span>
+				<span><span>{curDocRow.node ? curDocRow.node.title : ""}</span></span>
 				<span></span>
 			</div>
 			<div className="area-wrapper">
@@ -102,7 +102,7 @@ const MainWindow = (props) => {
 							curDocRow={curDocRow}
 							getDoc={getDoc}
 							inspectDoc={inspectDoc}
-							inspDocId={inspDocRow.node.id}
+							inspDocId={inspDocRow.node ? inspDocRow.node.id : null}
 							newDoc={newDoc}
 							onTreeChange={updateTree}
 							docList = {curDocList}
@@ -116,7 +116,7 @@ const MainWindow = (props) => {
 							curDocRow={curDocRow}
 							getDoc={getDoc}
 							inspectDoc={inspectDoc}
-							inspDocId={inspDocRow.node.id}
+							inspDocId={inspDocRow.node ? inspDocRow.node.id : null}
 							newDoc={newDoc}
 							onTreeChange={updateTree}
 							docList = {curDocList}
@@ -131,7 +131,7 @@ const MainWindow = (props) => {
 							curDocRow={curDocRow}
 							getDoc={getDoc}
 							inspectDoc={inspectDoc}
-							inspDocId={inspDocRow.node.id}
+							inspDocId={inspDocRow.node ? inspDocRow.node.id : null}
 							newDoc={newDoc}
 							onTreeChange={updateTree}
 							docList = {curDocList}
