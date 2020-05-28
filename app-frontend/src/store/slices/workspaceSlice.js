@@ -224,7 +224,27 @@ const workspaceSlice = createSlice({
 				state.docChangeQueues[docId] = state.docChangeQueues[docId].concat(changes);
 			}*/
 		},
-		updateDocTree(state, action) {
+		updateDocTreeComplete(state, action) {
+			const {treeData, curDocList, curDocRow, docCache, splitDocRow, splitDocList} = action.payload;
+			state.docTree = treeData;
+			state.docCache = docCache;
+			state.curDocList = curDocList;
+			state.curDocRow = curDocRow;
+			if (splitDocList) {
+				state.splitDocList = splitDocList;
+				state.splitDocRow = splitDocRow;
+			}
+			
+			
+
+			const inspRow = find({
+				getNodeKey: ({treeIndex}) => {return treeIndex;},
+				treeData: state.docTree,
+				searchMethod: (rowData) => {return(rowData.node.id === state.inspectedDocRow.node.id)}
+			}).matches[0];
+			state.inspectedDocRow = inspRow;
+		},
+		/*updateDocTree(state, action) {
 			const {tree} = action.payload;
 			state.docTree = tree;
 			[
@@ -257,7 +277,7 @@ const workspaceSlice = createSlice({
 				searchMethod: (rowData) => {return(rowData.node.id === state.inspectedDocRow.node.id)}
 			}).matches[0];
 			state.inspectedDocRow = inspRow;
-		},
+		},*/
 		addProjectTag(state, action) {
 			const {tag} = action.payload;
 			state.projectTags = [...state.projectTags, tag].sort((a, b) => {
@@ -295,7 +315,7 @@ export const {
 	createNewDocument,
 	queueDocumentChanges, 
 	updateWorkingDoc,
-	updateDocTree,
+	updateDocTreeComplete,
 	addProjectTag,
 	updateProjectThreads,
 	addProjectThread,
@@ -311,6 +331,52 @@ export const loadState = (interfaceObj) => async (dispatch, getState) => {
 		const index = await interfaceObj.getIndex();
 		const newState = await loadInitialState(index, interfaceObj.getDocument);
 		dispatch(setAllState({newState}));
+	} catch (err) {
+		console.error(err)
+	}
+}
+
+export const updateDocTree = (treeData, interfaceObj) => async (dispatch, getState) => {
+	try {
+		const state = getState().workspaceReducer;
+		let [
+			curDocList,
+			curDocRow,
+			docCache
+		] = await getListRowFor(
+			state.curDocId, 
+			state.curDocList, 
+			state.curDocRow, 
+			treeData,
+			state.docCache,
+			interfaceObj.getDocument
+		);
+
+		let splitDocList;
+		let splitDocRow;
+		if (state.splitDocId) {
+			[
+				splitDocList,
+				splitDocRow,
+				docCache
+			] = await getListRowFor(
+				state.splitDocId, 
+				state.splitDocList, 
+				state.splitDocRow, 
+				treeData,
+				docCache,
+				interfaceObj.getDocument
+			);
+		}
+
+		dispatch(updateDocTreeComplete({
+			treeData,
+			curDocList,
+			curDocRow,
+			docCache,
+			splitDocList,
+			splitDocRow,
+		}))
 	} catch (err) {
 		console.error(err)
 	}

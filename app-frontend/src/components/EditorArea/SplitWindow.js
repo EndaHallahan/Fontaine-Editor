@@ -63,7 +63,7 @@ const SplitWindow = (props) => {
 		dispatch(createNewDocument({id}));
 	}
 	const updateTree = (treeData) => {
-		dispatch(updateDocTree({tree: treeData}));
+		dispatch(updateDocTree(treeData, props.documentInterface));
 	}
 	const replaceCurRow = (newRow) => {
 		let reorderedTree = changeNodeAtPath({
