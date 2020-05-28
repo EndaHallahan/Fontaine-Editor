@@ -7,6 +7,7 @@ import { HotKeys } from 'react-hotkeys';
 import { queueDocumentChanges, updateWorkingDoc } from "../../store/slices/workspaceSlice";
 import { Element, Leaf } from "../../utils/editor/renderElement";
 import Helpers from "../../utils/editor/Helpers";
+import PopupToolbar from "./PopupToolbar";
 
 const keyMap = {
   	//INDENT: "tab"
@@ -46,6 +47,7 @@ const SlateInstance = React.forwardRef((props, ref) => {
 		    		value={value} 
 		    		onChange={updateDocument}
 		    	>
+		    		<PopupToolbar />
 		      		<Editable 
 		      			renderElement={renderElement}
 	        			renderLeaf={renderLeaf}

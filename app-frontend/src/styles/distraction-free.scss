@@ -97,6 +97,68 @@
 				&::-webkit-scrollbar {
 					display: none;
 				}
+
+				.popup-editor-toolbar {
+					padding: 8px 7px 6px;
+					position: fixed;
+					z-index: 1;
+					top: -10000px;
+					left: -10000px;
+					margin-top: -6px;
+					opacity: 0;
+					box-sizing: content-box;
+					background-color: var(--distraction-free-paper-color);
+					border: 1px solid var(--distraction-free-text-color);
+					border-radius: 3px;
+					transition: opacity 0.75s;
+
+					button {
+						font-size: 1.7rem;
+						height: 2rem;
+						width: 2rem;
+						//height: $dim;
+						//width: $dim;
+						color: inherit;
+						//border: 1px solid $light;
+						border-radius: 0;
+						padding: 0;
+						box-sizing: border-box;
+						//margin-left: 2px;
+						border: 1px dashed var(--distraction-free-paper-color);
+
+						&:not(:first-child) {
+							margin-left: .3rem;
+						}
+
+						&.active {
+							
+							border-bottom: 2px solid var(--distraction-free-text-color);
+							//border-top: 1px solid var(--distraction-free-text-color);
+						}
+
+						&:hover {
+							border: 1px dashed var(--distraction-free-text-color);
+							//background-color: var(--distraction-free-text-color);
+						}
+
+						svg {
+							vertical-align: text-top;
+							/*width: $dim;
+							height: $dim;*/
+						}
+					}
+
+					&:after {
+						content: "";
+					    position: absolute;
+					    right: 45%;
+					    bottom: -1.5rem;
+					    border: solid transparent 10px;
+					    border-left-width: 7px;
+					    border-right-width: 7px;
+					    border-top-color: var(--distraction-free-text-color);
+					}
+				}
 			}
 		}
 	}
