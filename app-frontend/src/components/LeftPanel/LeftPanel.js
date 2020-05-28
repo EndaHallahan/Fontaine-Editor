@@ -36,7 +36,9 @@ class LeftPanelChild extends Component {
 				className={this.props.open ? "panel" : "panel closed"}
 				id="left-panel"
 			>
-				<FolderTree />
+				<FolderTree 
+					documentInterface={this.props.documentInterface}
+				/>
 			</Resizable>
 		);
 		
@@ -48,6 +50,7 @@ const LeftPanel = (props) => {
 	return(
 		<LeftPanelChild
 			open={panelOpen}
+			documentInterface={props.documentInterface}
 		/>
 	);
 }

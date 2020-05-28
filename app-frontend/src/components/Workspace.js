@@ -7,7 +7,7 @@ import SortableTree, {
 	removeNodeAtPath
 } from 'react-sortable-tree';
 
-import { switchDocument } from "../store/slices/workspaceSlice";
+import { switchDocument, loadState } from "../store/slices/workspaceSlice";
 
 import EditorArea from "./EditorArea";
 import LeftPanel from "./LeftPanel";
@@ -16,18 +16,23 @@ import AppBar from "./AppBar";
 import AppToolBar from "./AppToolBar";
 
 const Workspace = (props) => {
-	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
+	const isLoaded = useSelector(state => state.workspaceReducer.loaded);
 	const dispatch = useDispatch();
+	const loadProject = () => dispatch(loadState(props.documentInterface));
 	useEffect(() => {
-		if (curDocId !== null) {dispatch(switchDocument({id: curDocId}));}
+		if (!isLoaded) {loadProject()}
 	}, []);
-	return(
+	return (
 		<div id="workspace">
 			<AppBar />
 			<AppToolBar />
 			<div id="work-area">
-				<LeftPanel />
-				<EditorArea />
+				<LeftPanel 
+					documentInterface={props.documentInterface}
+				/>
+				<EditorArea 
+					documentInterface={props.documentInterface}
+				/>
 				<RightPanel />
 			</div>
 			<div id="bottom-panel">
@@ -35,6 +40,7 @@ const Workspace = (props) => {
 			</div>
 		</div>
 	);
+	
 }
 
 export default Workspace;

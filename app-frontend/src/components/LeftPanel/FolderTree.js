@@ -40,9 +40,6 @@ const keyMap = {
 class FolderTreeChild extends Component {
 	constructor(props) {
 	    super(props);
-	    this.state = {
-	      	currentlySelectedNode: null,
-	    };
 	    this.addNewNodeUnderCurrent = this.addNewNodeUnderCurrent.bind(this);
 	    this.moveNodeToTarget = this.moveNodeToTarget.bind(this);
 	    this.selectNode = this.selectNode.bind(this);
@@ -67,7 +64,7 @@ class FolderTreeChild extends Component {
 		const id = uuidv4();
 		this.props.newDoc(id);
 		const newNode = {type: nodeType, title: "Untitled", id}
-		const path = this.state.currentlySelectedNode.path;
+		const path = this.props.curDocRow.path;
 		let {treeData} = find({
 			getNodeKey: this.getNodeKey,
 			treeData: this.props.treeData,
@@ -115,16 +112,8 @@ class FolderTreeChild extends Component {
 		});
 		this.selectNode(selRow.matches[0]);
 		this.props.onTreeChange(selRow.treeData);
-		this.setState({
-			...this.state,
-			currentlySelectedNode: selRow.matches[0]
-		});	
 	}
 	selectNode(rowInfo, e) {
-		this.setState({
-			...this.state,
-			currentlySelectedNode: rowInfo
-		});
 		if (e && e.ctrlKey) {
 			this.props.getSplitDoc(rowInfo);
 		} else {
@@ -133,7 +122,7 @@ class FolderTreeChild extends Component {
 		
 	}
 	trashSelectedNode() {
-		if (this.state.currentlySelectedNode.node.permanent) {
+		if (this.props.curDocRow.node.permanent) {
 			return;
 		}
 		const trashNode = find({
@@ -142,34 +131,13 @@ class FolderTreeChild extends Component {
 			searchMethod: (rowData) => {return(rowData.node.type === "trash")}
 		});
 		this.moveNodeToTarget(
-			this.state.currentlySelectedNode,
+			this.props.curDocRow,
 			trashNode.matches[0],
 			this.props.treeData
 		);
 	}
 	getNodeKey({treeIndex}) {
 		return treeIndex;
-	}
-	componentDidMount() {
-		if (this.props.curDoc !== null) {
-			const selRow = find({
-				getNodeKey: this.getNodeKey,
-				treeData: this.props.treeData,
-				searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
-			});
-			this.setState({
-				...this.state,
-				currentlySelectedNode: selRow.matches[0]
-			});
-		}
-  	}
-  	UNSAFE_componentWillReceiveProps(nextProps) {
-		if (!_.isEqual(nextProps.treeData, this.props.treeData)) {
-			this.setState({
-				...this.state,
-				treeData: nextProps.treeData
-			})
-		}
 	}
 	render() {
 		return(
@@ -181,14 +149,14 @@ class FolderTreeChild extends Component {
 						onClick={(e) => this.addNewNodeUnderCurrent("file", e)}
 						title="New File (Ctrl+Click to jump)"
 						className="new-file"
-						disabled={this.state.currentlySelectedNode === null}
+						disabled={this.props.curDocRow === null}
 					/>
 					<KeyboardFocusableButton 
 						value={<Icon icon={folderPlus} />}
 						onClick={(e) => this.addNewNodeUnderCurrent("folder", e)}
 						title="New Folder (Ctrl+Click to jump)"
 						className="new-folder"
-						disabled={this.state.currentlySelectedNode === null}
+						disabled={this.props.curDocRow === null}
 					/>
 					<span className="right">
 						<KeyboardFocusableButton 
@@ -196,7 +164,7 @@ class FolderTreeChild extends Component {
 							onClick={() => this.trashSelectedNode()}
 							title="Move to Trash"
 							className="trash"
-							disabled={this.state.currentlySelectedNode === null}
+							disabled={this.props.curDocRow === null}
 						/>
 					</span>
 				</div>
@@ -210,10 +178,6 @@ class FolderTreeChild extends Component {
 									getNodeKey: this.getNodeKey,
 									treeData,
 									searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
-								});
-								this.setState({
-									...this.state,
-									currentlySelectedNode: selRow.matches[0]
 								});
 								this.props.onTreeChange(treeData);
 			          		}
@@ -274,13 +238,14 @@ class FolderTreeChild extends Component {
 const FolderTree = (props) => {
 	const docTree = useSelector(state => state.workspaceReducer.docTree);
 	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
+	const curDocRow = useSelector(state => state.workspaceReducer.curDocRow);
 	const splitOpen = useSelector(state => state.uiReducer.splitEditorOpen);
 	const splitDocId = useSelector(state => state.workspaceReducer.splitDocId);
 	const lastTreeUpdate = useSelector(state => state.workspaceReducer.docTreeLastUpdater);
 	const dispatch = useDispatch();
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {
-			dispatch(switchDocument({id: node.node.id}));
+			dispatch(switchDocument(node.node.id, props.documentInterface));
 		}
 	}
 	const getSplitDoc = (node, path, treeIndex) => {
@@ -288,19 +253,20 @@ const FolderTree = (props) => {
 			if (!splitOpen) {
 				dispatch(setSplitEditorOpen({open: true}));
 			}
-			dispatch(switchSplitDocument({id: node.node.id}));
+			dispatch(switchSplitDocument(node.node.id, props.documentInterface));
 		}
 	}
 	const newDoc = (id) => {
 		dispatch(createNewDocument({id}));
 	}
 	const updateTree = (treeData) => {
-		dispatch(updateDocTree({tree: treeData}));
+		dispatch(updateDocTree(treeData, props.documentInterface));
 	}
 	return(
 		<FolderTreeChild
 			treeData={docTree}
 			curDoc={curDocId}
+			curDocRow={curDocRow}
 			splitDoc={splitOpen ? splitDocId : null}
 			getDoc={getDoc}
 			getSplitDoc={getSplitDoc}

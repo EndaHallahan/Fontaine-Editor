@@ -11,10 +11,10 @@ Available Editor Modes:
 const uiSlice = createSlice({
 	name: "ui",
 	initialState: {
-		leftPanelOpen: false,
+		leftPanelOpen: true,
 		rightPanelOpen: true,
 
-		editorMode: "storymap",
+		editorMode: "editor",
 
 		splitEditorOpen: false,
 		splitEditorMode: "corkboard",

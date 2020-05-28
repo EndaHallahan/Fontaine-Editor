@@ -1,8 +1,9 @@
-import {configureStore} from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import rootReducer from './slices';
 
 const store = configureStore({
-	reducer: rootReducer
+	reducer: rootReducer,
+	middleware: [...getDefaultMiddleware()]
 });
 
 export default store;
