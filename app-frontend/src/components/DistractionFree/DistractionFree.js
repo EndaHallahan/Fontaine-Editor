@@ -30,7 +30,7 @@ const DistractionFree = (props) => {
 
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {
-			dispatch(switchDocument({id: node.node.id}));
+			dispatch(switchDocument(node.node.id, props.documentInterface));
 		}
 	}
 	const newDoc = (id) => {

@@ -18,7 +18,7 @@ class App extends Component {
 					<SettingsHandler />
 					<ModalHandler />
 					<ShortcutHandler />
-					<DistractionFree />
+					<DistractionFree documentInterface={this.props.documentInterface} />
 					<main>
 						<Workspace 
 							documentInterface={this.props.documentInterface}
