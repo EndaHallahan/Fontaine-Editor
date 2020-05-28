@@ -10,10 +10,10 @@ import Helpers from "../../utils/editor/Helpers";
 import PopupToolbar from "./PopupToolbar";
 
 const keyMap = {
-  	//INDENT: "tab"
+  	
 };
 
-const SlateInstance = React.forwardRef((props, ref) => {
+const SlateInstance = React.memo((props) => {
 	const editor = useMemo(() => withReact(createEditor()), []);
 	props.createHoistedEditor(props.docId, editor);
 	const defaultContents = [{
@@ -30,16 +30,12 @@ const SlateInstance = React.forwardRef((props, ref) => {
   	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 
   	const handlers = {
-  		INDENT: e => {
-			e.preventDefault();
-			editor.insertText("\t")
-		},
+  		
   	}
   	return (
   		<HotKeys keyMap={keyMap} handlers={handlers}>
 	  		<div 
-	  			className="slate-wrapper" 
-	  			ref={ref}
+	  			className="slate-wrapper"
 	  			onFocus={() => props.setActive(props.docId)}
 	    	>
 		    	<Slate 
