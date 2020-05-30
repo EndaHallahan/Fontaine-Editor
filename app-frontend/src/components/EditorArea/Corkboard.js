@@ -53,7 +53,7 @@ class Corkboard extends Component {
 					<Reorder 
 						reorderId= {this.props.split ? "split-corkboard" : "corkboard"}
 						itemKey="id"
-						list={this.props.curDocRow.node.children}
+						list={this.props.curDocRow.node ? this.props.curDocRow.node.children : []}
 						template={IndexCard}
 						onReorder={this.onReorder}
 						component="div"
@@ -61,7 +61,7 @@ class Corkboard extends Component {
 						autoScroll={false} // False *significantly* improves performance here—look into alternatives?
 					>
 						{
-							this.props.curDocRow.node.children 
+							this.props.curDocRow.node && this.props.curDocRow.node.children 
 							? (
 								this.props.curDocRow.node.children.map((item, i) => (
 							      	<IndexCard 

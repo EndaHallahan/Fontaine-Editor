@@ -66,14 +66,15 @@ class Overview extends Component {
 						<Reorder 
 							reorderId= {this.props.split ? "split-overview" : "overview"}
 							itemKey="id"
-							list={this.props.curDocRow.node.children}
+							list={this.props.curDocRow.node ? this.props.curDocRow.node.children : []}
 							template={OverviewItem}
 							onReorder={this.onReorder}
 							component="tbody"
 							holdTime={300}
+							autoScroll={false} // False *significantly* improves performance here—look into alternatives?
 						>
 							{
-								this.props.curDocRow.node.children 
+								this.props.curDocRow.node && this.props.curDocRow.node.children
 								? (
 									this.props.curDocRow.node.children.map((item, i) => (
 								      	<OverviewItem

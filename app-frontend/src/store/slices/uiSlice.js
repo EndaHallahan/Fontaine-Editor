@@ -14,7 +14,7 @@ const uiSlice = createSlice({
 		leftPanelOpen: true,
 		rightPanelOpen: true,
 
-		editorMode: "editor",
+		editorMode: "storymap",
 
 		splitEditorOpen: false,
 		splitEditorMode: "corkboard",

@@ -41,14 +41,16 @@ class StoryMap extends Component {
 			treeData: this.props.treeData,
 			searchMethod: (rowData) => {return(rowData.node.type === "manuscript")}
 		}).matches[0];
-		walk({
-			treeData: manuscriptNode.node.children,
-			getNodeKey: ({treeIndex}) => {return treeIndex;},
-			ignoreCollapsed: false,
-			callback: (node => {
-				flatTree.push(node.node);
-			})
-		});
+		if (manuscriptNode) {
+			walk({
+				treeData: manuscriptNode.node.children,
+				getNodeKey: ({treeIndex}) => {return treeIndex;},
+				ignoreCollapsed: false,
+				callback: (node => {
+					flatTree.push(node.node);
+				})
+			});
+		}
 		return flatTree;
 	}
 	setViewedKnot(docId, knotContents) {
