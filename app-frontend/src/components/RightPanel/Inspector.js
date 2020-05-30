@@ -38,6 +38,7 @@ class InspectorChild extends Component {
 		this.onRowChange = this.onRowChange.bind(this);
 	}
 	onRowChange(newRow) {
+		console.log(newRow)
 		this.props.replaceInspRow(newRow);
 	}
 	render() {
@@ -72,6 +73,17 @@ class InspectorChild extends Component {
 					                    	this.onRowChange({...this.props.inspRow, status});
 										}}
 									/>
+									<label>
+										Include in compile
+										<input 
+											type="checkbox" 
+											checked={!this.props.inspRow.ignore}
+											onChange={e => {
+												const ignore = !e.target.checked;
+						                    	this.onRowChange({...this.props.inspRow, ignore});
+											}}
+										/>
+									</label>
 									<MetaTagTable 
 										/*onChange={tags => {
 					                    	this.onRowChange({...this.props.inspRow, tags});
@@ -168,7 +180,7 @@ const Inspector = (props) => {
 	const threads = useSelector(state => state.workspaceReducer.threads);
 	const inspectorTab = useSelector(state => state.uiReducer.inspectorTab);
 	const updateTree = (treeData) => {
-		dispatch(updateDocTree({tree: treeData}));
+		dispatch(updateDocTree(treeData, props.documentInterface));
 	}
 	const addTag = (tag) => {
 		dispatch(addProjectTag({tag}));

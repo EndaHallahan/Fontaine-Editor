@@ -36,7 +36,9 @@ class RightPanelChild extends Component {
 				className={this.props.open ? "panel" : "panel closed"}
 				id="right-panel"
 			>
-				<Inspector />
+				<Inspector 
+					documentInterface={this.props.documentInterface}
+				/>
 			</Resizable>
 		);
 	}
@@ -47,6 +49,7 @@ const RightPanel = (props) => {
 	return(
 		<RightPanelChild
 			open={panelOpen}
+			documentInterface={props.documentInterface}
 		/>
 	);
 }

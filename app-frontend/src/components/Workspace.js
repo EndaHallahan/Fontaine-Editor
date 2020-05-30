@@ -33,7 +33,9 @@ const Workspace = (props) => {
 				<EditorArea 
 					documentInterface={props.documentInterface}
 				/>
-				<RightPanel />
+				<RightPanel 
+					documentInterface={props.documentInterface}
+				/>
 			</div>
 			<div id="bottom-panel">
 
