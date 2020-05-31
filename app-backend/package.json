@@ -1,0 +1,53 @@
+{
+  "name": "@fontaine/app-backend",
+  "description": "The desktop application backend for Fontaine.",
+  "author": "EndaHallahan",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fontaine/app-frontend": "link:../app-frontend",
+    "cross-env": "6.0.2",
+    "electron-is-dev": "1.1.0",
+    "electron-log": "^3.0.8",
+    "react": "link:../app-frontend/node_modules/react",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "concurrently": "4.1.2",
+    "customize-cra": "^1.0.0",
+    "electron": "6.0.11",
+    "electron-builder": "^21.2.0",
+    "react-app-rewired": "^2.1.6",
+    "react-scripts": "3.1.2",
+    "wait-on": "3.3.0"
+  },
+  "build": {
+    "publish": {
+      "provider": "github"
+    }
+  },
+  "main": "public/electron.js",
+  "homepage": "./",
+  "scripts": {
+    "react-start": "react-app-rewired start",
+    "react-build": "react-app-rewired build",
+    "react-test": "react-app-rewired test --env=jsdom",
+    "react-eject": "react-scripts eject",
+    "electron-build": "electron-builder",
+    "release": "yarn react-build && electron-builder --publish=always",
+    "build": "yarn react-build && yarn electron-build",
+    "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

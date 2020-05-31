@@ -1,7 +1,10 @@
 {
-  "name": "app-frontend",
+  "name": "@fontaine/app-frontend",
+  "description": "The frontend for Fontaine.",
+  "author": "EndaHallahan",
   "version": "0.1.0",
   "private": true,
+  "main": "src/App.js",
   "dependencies": {
     "@iconify/icons-feather": "^1.0.9",
     "@iconify/icons-mdi": "^1.0.103",
