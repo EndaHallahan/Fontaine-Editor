@@ -2,9 +2,7 @@ var path = require ('path');
 var fs = require ('fs');
 const {
     override,
-    addDecoratorsLegacy,
     babelInclude,
-    disableEsLint,
 } = require("customize-cra");
 
 module.exports = function (config, env) {

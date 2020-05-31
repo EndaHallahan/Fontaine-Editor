@@ -22,8 +22,11 @@
     "wait-on": "3.3.0"
   },
   "build": {
-    "publish": {
-      "provider": "github"
+    "productName": "Fontaine",
+    "appId": "org.Fontaine.app",
+    "directories": {
+      "buildResources": "build-assets",
+      "output": "dist"
     }
   },
   "main": "public/electron.js",

@@ -1,7 +1,7 @@
 # Fontaine
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/EndaHallahan/Fontaine-Editor/master/Fontaine-Icon.svg" width="200px" height="200px">
+  <img src="https://raw.githubusercontent.com/EndaHallahan/Fontaine-Editor/master/assets/Fontaine-Icon.svg" width="200px" height="200px">
 </p>
 <p align="center">
   <a href="https://github.com/EndaHallahan/Fontaine-Editor">Website Coming Soon!</a>
