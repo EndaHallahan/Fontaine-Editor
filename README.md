@@ -5,6 +5,8 @@
 </p>
 <p align="center">
   <a href="https://github.com/EndaHallahan/Fontaine-Editor">Website Coming Soon!</a>
+  |
+  <a href="https://docs.google.com/spreadsheets/d/1GTWAjLHLYGKWDISHGuxgt9Kis45DEAMI0161KG0S4yY/edit?usp=sharing">Progress Tracker</a>
 </p>
 
 A modern manuscript editor for all platforms and (eventually) the web. **This project is still in its very early stages**, and we are not looking for contributions at this time. Come back later!
