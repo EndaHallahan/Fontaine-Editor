@@ -1,0 +1,14 @@
+{
+  "name": "r-fs",
+  "version": "0.1.0",
+  "description": "Rust-backed file i/o operations.",
+  "main": "lib/index.js",
+  "author": "EndaHallahan",
+  "license": "MIT",
+  "dependencies": {
+    "neon-cli": "^0.4.0"
+  },
+  "scripts": {
+    "install": "neon build"
+  }
+}

@@ -4,7 +4,7 @@ const {app, BrowserWindow, Menu} = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 
-require("./main/documentAPI");
+require("./documentAPI");
 
 let mainWindow;
 
@@ -27,12 +27,9 @@ function createWindow() {
 	mainWindow.once('ready-to-show', () => {
 		mainWindow.show()
 	})
-	return mainWindow;
 }
 
-app.on("ready", () => {
-	let win = createWindow();
-});
+app.on("ready", createWindow);
 
 app.on("window-all-closed", () => {
 	if (process.platform !== "darwin") {

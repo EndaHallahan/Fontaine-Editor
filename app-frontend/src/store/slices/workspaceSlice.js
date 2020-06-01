@@ -3,7 +3,7 @@ import { find, walk } from 'react-sortable-tree';
 
 import { documents, documentIndex } from "../../testDocs"; //Remove me eventually!
 
-import Interface from "../../Interface";
+import Interface from "../../Interface"; //Probably also remove this
 
 async function getFullChildContents(docList, docCache, getDoc) {
 	const fullContents = {}
