@@ -38,6 +38,7 @@
     "react-build": "react-app-rewired build",
     "react-test": "react-app-rewired test --env=jsdom",
     "react-eject": "react-scripts eject",
+    "regenerate-test-project": "robocopy test-project-clean ./test-project /s & exit 0",
     "native-build": "cd public/main/native/r-fs && electron-build-env --electron 9.0.0 -- neon build --release",
     "electron-build": "electron-builder",
     "release": "yarn react-build && electron-builder --publish=always",
