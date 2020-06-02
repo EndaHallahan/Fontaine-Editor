@@ -10,6 +10,9 @@ import {
 	toggleSplitOrientation,
 	toggleDistractionFree,
 } from "../store/slices/uiSlice";
+import { 
+	saveAllChanges 
+} from "../store/slices/workspaceSlice";
 
 configure({
 	ignoreEventsCondition: () => false
@@ -27,6 +30,8 @@ const ShortcutHandler = (props) => {
 		TOGGLE_SPLIT_EDITOR: "ctrl+alt+s",
 		TOGGLE_SPLIT_ORIENTATION: "ctrl+'",
 		OPEN_DISTRACTION_FREE: "alt+f11",
+
+		SAVE: "ctrl+s",
 	}
 	const defHandlers = {
 		OPEN_EDITOR: e => {
@@ -64,6 +69,10 @@ const ShortcutHandler = (props) => {
 		OPEN_DISTRACTION_FREE: e => {
 			e.preventDefault();
 			dispatch(toggleDistractionFree()); 
+		},
+		SAVE: e => {
+			e.preventDefault();
+			dispatch(saveAllChanges(props.documentInterface));
 		},
 	}
 

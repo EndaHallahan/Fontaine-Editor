@@ -22,7 +22,7 @@ class HeaderAreaChild extends Component {
 		return(
 			<div id="appbar">
 				<h1>Fontaine</h1>
-				<FileDropdown/>
+				<FileDropdown documentInterface={this.props.documentInterface}/>
 				<EditDropdown/>
 				<ViewDropdown/>
 				<ProjectDropdown/>
@@ -35,7 +35,7 @@ class HeaderAreaChild extends Component {
 
 const HeaderArea = (props) => {
 	return(
-		<HeaderAreaChild />
+		<HeaderAreaChild documentInterface={props.documentInterface} />
 	);
 }
 

@@ -14,3 +14,8 @@ ipcMain.handle("doc_api_location", async (event, ...args) => {
 ipcMain.handle("doc_api_fetch", async (event, ...args) => {
 	return rfs.getFile(args[0]) || null;
 });
+
+ipcMain.handle("doc_api_write", async (event, ...args) => {
+	let result = rfs.writeFile(args[0], args[1]);
+	return result;
+});

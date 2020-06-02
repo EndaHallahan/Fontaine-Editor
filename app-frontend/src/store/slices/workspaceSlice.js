@@ -7,7 +7,7 @@ import Interface from "../../Interface"; //Probably also remove this
 
 async function getFullChildContents(docList, docCache, getDoc) {
 	const fullContents = {}
-	docList.forEach(async (docId) => {
+	for (const docId of docList) {
 		let docContents;
 		if (docCache[docId]) {
 			docContents = docCache[docId]
@@ -15,7 +15,7 @@ async function getFullChildContents(docList, docCache, getDoc) {
 			docContents = await getDoc(docId);
 		}
 		fullContents[docId] = docContents;
-	});
+	}
 	return fullContents;
 }
 
@@ -53,7 +53,6 @@ async function getListRowFor(docId, docList, docRow, docTree, docCache, getDoc) 
 		outCache[id] = newWorkingDocs[id];
 	});
 	outList = newDocList;
-
 	return [outList, outRow, outCache];
 }
 
@@ -74,6 +73,17 @@ function getMetadataFields(tagList) {
 		}
 	}
 	return fields;
+}
+
+function regenIndex(docIndex, documents, projectTags, threads, lastDocument) {
+	let newIndex = {
+		...docIndex,
+		documents,
+		projectTags,
+		threads,
+		lastDocument
+	};
+	return newIndex;
 }
 
 async function loadInitialState(docIndex, getDoc) {
@@ -128,10 +138,11 @@ async function loadInitialState(docIndex, getDoc) {
 		splitDocRow = curDocRow;
 	}
 	return {
+		docIndex,
 		docTree,
 		docCache,
 		inspectedDocRow,
-		docChangeQueues: {},
+		changedFiles: {},
 		//Main editor
 		curDocId,
 		curDocRow,
@@ -149,6 +160,7 @@ async function loadInitialState(docIndex, getDoc) {
 
 const initialState = {
 	loaded: false,
+	docIndex: {},
 	docTree: {},
 	curDocId: null,
 	splitDocId: null,
@@ -161,6 +173,8 @@ const initialState = {
 	projectTags: [],
 	metadataFields: [],
 	threads: [],
+	changedFiles: {},
+	autoSaving: true,
 }
 
 const workspaceSlice = createSlice({
@@ -210,19 +224,13 @@ const workspaceSlice = createSlice({
 		updateWorkingDoc(state, action) {
 			const {id, newDoc} = action.payload;
 			state.docCache[id] = {ops:newDoc};
+			state.changedFiles[id] = Date.now();
 		},
 		createNewDocument(state, action) {
 			const {id} = action.payload;
 			state.docCache[id] = {};
 			state.curDocRow = getDocRow(state.docTree, state.curDocId);
-		},
-		queueDocumentChanges(state, action) {
-			const {docId, changes} = action.payload;
-			/*if (!state.docChangeQueues[docId]) {
-				state.docChangeQueues[docId] = changes;
-			} else {
-				state.docChangeQueues[docId] = state.docChangeQueues[docId].concat(changes);
-			}*/
+			state.changedFiles[id] = Date.now();
 		},
 		updateDocTreeComplete(state, action) {
 			const {treeData, curDocList, curDocRow, docCache, splitDocRow, splitDocList} = action.payload;
@@ -234,50 +242,14 @@ const workspaceSlice = createSlice({
 				state.splitDocList = splitDocList;
 				state.splitDocRow = splitDocRow;
 			}
-			
-			
-
 			const inspRow = find({
 				getNodeKey: ({treeIndex}) => {return treeIndex;},
 				treeData: state.docTree,
 				searchMethod: (rowData) => {return(rowData.node.id === state.inspectedDocRow.node.id)}
 			}).matches[0];
 			state.inspectedDocRow = inspRow;
+			state.changedFiles.index = Date.now();
 		},
-		/*updateDocTree(state, action) {
-			const {tree} = action.payload;
-			state.docTree = tree;
-			[
-				state.curDocList,
-				state.curDocRow,
-				state.docCache
-			] = getListRowFor(
-				state.curDocId, 
-				state.curDocList, 
-				state.curDocRow, 
-				state.docTree, 
-				state.docCache
-			);
-			if (state.splitDocId) {
-				[
-					state.splitDocList,
-					state.splitDocRow,
-					state.docCache
-				] = getListRowFor(
-					state.splitDocId, 
-					state.splitDocList, 
-					state.splitDocRow, 
-					state.docTree, 
-					state.docCache
-				);
-			}
-			const inspRow = find({
-				getNodeKey: ({treeIndex}) => {return treeIndex;},
-				treeData: state.docTree,
-				searchMethod: (rowData) => {return(rowData.node.id === state.inspectedDocRow.node.id)}
-			}).matches[0];
-			state.inspectedDocRow = inspRow;
-		},*/
 		addProjectTag(state, action) {
 			const {tag} = action.payload;
 			state.projectTags = [...state.projectTags, tag].sort((a, b) => {
@@ -289,10 +261,12 @@ const workspaceSlice = createSlice({
 			if (tag.includes(":")) {
 				state.metadataFields = getMetadataFields(state.projectTags);
 			}
+			state.changedFiles.index = Date.now();
 		},
 		updateProjectThreads(state, action) {
 			const {threads} = action.payload;
 			state.threads = threads;
+			state.changedFiles.index = Date.now();
 		},
 		addProjectThread(state, action) {
 			const {id} = action.payload;
@@ -303,6 +277,11 @@ const workspaceSlice = createSlice({
 					colour: "#ff0000"
 				}
 			}
+			state.changedFiles.index = Date.now();
+		},
+		updateChangedFiles(state, action) {
+			const {changedFiles} = action.payload;
+			state.changedFiles = changedFiles;
 		},
 	}
 });
@@ -319,6 +298,7 @@ export const {
 	addProjectTag,
 	updateProjectThreads,
 	addProjectThread,
+	updateChangedFiles,
  } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;
@@ -327,7 +307,6 @@ export default workspaceSlice.reducer;
 
 export const loadState = (interfaceObj) => async (dispatch, getState) => {
 	try {
-		console.log("Loading state!")
 		const index = await interfaceObj.getIndex();
 		const newState = await loadInitialState(index, interfaceObj.getDocument);
 		dispatch(setAllState({newState}));
@@ -431,6 +410,65 @@ export const switchSplitDocument = (id, interfaceObj) => async (dispatch, getSta
 			curDocRow,
 			docCache,
 		}))
+	} catch (err) {
+		console.error(err)
+	}
+}
+
+export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
+	try {
+		const state = getState().workspaceReducer;
+		const docCache = state.docCache;
+		const docIndex = state.docIndex;
+		const docTree = state.docTree;
+		let changedFiles = Object.assign({}, state.changedFiles);
+		let changedFilesList = Object.keys(state.changedFiles);
+		let totalTasks = changedFilesList.length;
+		let completeTasks = 0;
+		const saveFileTask = async (key) => {
+			try {
+				let success = false;
+				if (key === "index") {
+					let newIndex = regenIndex(
+						state.docIndex, 
+						state.docTree, 
+						state.projectTags, 
+						state.threads, 
+						state.curDocId
+					);
+					success = await interfaceObj.saveIndex(newIndex);
+				} else {
+					success = await interfaceObj.saveDocument(key, docCache[key]);
+				}
+				if (success) {
+					delete changedFiles[key];
+				} else {
+					console.error("failed to save document " + key + "!" );
+				}
+				completeTasks++;
+				console.log("Save tasks: " + completeTasks + " out of " + totalTasks);
+			} catch(err) {
+				throw err;
+			}
+			
+		}
+		const waitForTasks = () => {
+			if (completeTasks !== totalTasks) {
+				console.log("Waiting...")
+				setTimeout(waitForTasks, 500);
+			} else {
+				tasksComplete();
+			}
+		}
+		const tasksComplete = () => {
+			console.log("All tasks complete!");
+			dispatch(updateChangedFiles({changedFiles}));
+		}
+		for (const key of changedFilesList) {
+			saveFileTask(key);
+		}
+		waitForTasks();
+		
 	} catch (err) {
 		console.error(err)
 	}

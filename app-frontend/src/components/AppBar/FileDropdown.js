@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useDispatch } from 'react-redux'; 
 import { openModal } from "../../store/slices/modalSlice";
+import { saveAllChanges } from "../../store/slices/workspaceSlice";
 
 import { Icon, InlineIcon } from '@iconify/react';
 import saveIcon from '@iconify/icons-feather/save';
@@ -12,6 +13,7 @@ import CustomDropdown from "../CustomDropdown";
 import LI from "./LI";
 
 const FileDropdown = (props) => {
+	const dispatch = useDispatch();
 	return (
 		<CustomDropdown
 			title="File"
@@ -29,6 +31,9 @@ const FileDropdown = (props) => {
 				icon={saveIcon}
 				title="Save"
 				shortcut="Ctrl+S"
+				onItemChosen={e => {
+					dispatch(saveAllChanges(props.documentInterface));
+				}}
 			/>
 			<LI>Save As...</LI>
 			<hr/>

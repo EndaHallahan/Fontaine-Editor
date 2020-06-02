@@ -24,7 +24,7 @@ const Workspace = (props) => {
 	}, []);
 	return (
 		<div id="workspace">
-			<AppBar />
+			<AppBar documentInterface={props.documentInterface}/>
 			<AppToolBar />
 			<div id="work-area">
 				<LeftPanel 
