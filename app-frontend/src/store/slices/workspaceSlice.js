@@ -427,7 +427,7 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 		let completeTasks = 0;
 		const saveFileTask = async (key) => {
 			try {
-				let success = false;
+				let err = "";
 				if (key === "index") {
 					let newIndex = regenIndex(
 						state.docIndex, 
@@ -436,14 +436,14 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 						state.threads, 
 						state.curDocId
 					);
-					success = await interfaceObj.saveIndex(newIndex);
+					err = await interfaceObj.saveIndex(newIndex);
 				} else {
-					success = await interfaceObj.saveDocument(key, docCache[key]);
+					err = await interfaceObj.saveDocument(key, docCache[key]);
 				}
-				if (success) {
+				if (!err) {
 					delete changedFiles[key];
 				} else {
-					console.error("failed to save document " + key + "!" );
+					console.error("failed to save document " + key + ": " + err);
 				}
 				completeTasks++;
 				console.log("Save tasks: " + completeTasks + " out of " + totalTasks);
@@ -452,10 +452,14 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 			}
 			
 		}
-		const waitForTasks = () => {
+		const waitForTasks = (tries) => {
 			if (completeTasks !== totalTasks) {
 				console.log("Waiting...")
-				setTimeout(waitForTasks, 500);
+				if (tries > 15) {
+					throw "Tasks did not complete within limit!";
+				}
+				tries++;
+				setTimeout(() => waitForTasks(tries + 1), 500);
 			} else {
 				tasksComplete();
 			}
@@ -467,7 +471,7 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 		for (const key of changedFilesList) {
 			saveFileTask(key);
 		}
-		waitForTasks();
+		waitForTasks(0);
 		
 	} catch (err) {
 		console.error(err)
