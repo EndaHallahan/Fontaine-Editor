@@ -42,7 +42,7 @@
     "native-build": "cd public/main/native/r-fs && electron-build-env --electron 9.0.0 -- neon build --release",
     "electron-build": "electron-builder",
     "release": "yarn react-build && electron-builder --publish=always",
-    "build": "yarn react-build && yarn electron-build",
+    "build": "yarn native-build && yarn react-build && yarn electron-build",
     "start": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "browserslist": {
