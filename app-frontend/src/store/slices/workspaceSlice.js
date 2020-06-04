@@ -195,6 +195,7 @@ const workspaceSlice = createSlice({
 			state.projectTags = newState.projectTags;
 			state.metadataFields = newState.metadataFields;
 			state.threads = newState.threads;
+			state.loaded = newState.loaded;
 		},
 		switchDocumentComplete(state, action) {
 			const {curDocList, curDocRow, docCache, curDocId} = action.payload;
@@ -224,13 +225,13 @@ const workspaceSlice = createSlice({
 		updateWorkingDoc(state, action) {
 			const {id, newDoc} = action.payload;
 			state.docCache[id] = {ops:newDoc};
-			state.changedFiles[id] = Date.now();
+			state.changedFiles[id] = {lastModified: Date.now(), locked: false};
 		},
 		createNewDocument(state, action) {
 			const {id} = action.payload;
 			state.docCache[id] = {};
 			state.curDocRow = getDocRow(state.docTree, state.curDocId);
-			state.changedFiles[id] = Date.now();
+			state.changedFiles[id] = {lastModified: Date.now(), locked: false};
 		},
 		updateDocTreeComplete(state, action) {
 			const {treeData, curDocList, curDocRow, docCache, splitDocRow, splitDocList} = action.payload;
@@ -248,7 +249,7 @@ const workspaceSlice = createSlice({
 				searchMethod: (rowData) => {return(rowData.node.id === state.inspectedDocRow.node.id)}
 			}).matches[0];
 			state.inspectedDocRow = inspRow;
-			state.changedFiles.index = Date.now();
+			state.changedFiles.index = {lastModified: Date.now(), locked: false};
 		},
 		addProjectTag(state, action) {
 			const {tag} = action.payload;
@@ -261,12 +262,12 @@ const workspaceSlice = createSlice({
 			if (tag.includes(":")) {
 				state.metadataFields = getMetadataFields(state.projectTags);
 			}
-			state.changedFiles.index = Date.now();
+			state.changedFiles.index = {lastModified: Date.now(), locked: false};
 		},
 		updateProjectThreads(state, action) {
 			const {threads} = action.payload;
 			state.threads = threads;
-			state.changedFiles.index = Date.now();
+			state.changedFiles.index = {lastModified: Date.now(), locked: false};
 		},
 		addProjectThread(state, action) {
 			const {id} = action.payload;
@@ -277,11 +278,32 @@ const workspaceSlice = createSlice({
 					colour: "#ff0000"
 				}
 			}
-			state.changedFiles.index = Date.now();
+			state.changedFiles.index = {lastModified: Date.now(), locked: false};
 		},
 		updateChangedFiles(state, action) {
 			const {changedFiles} = action.payload;
 			state.changedFiles = changedFiles;
+		},
+		removeChangedFile(state, action) {
+			const {key} = action.payload;
+			delete state.changedFiles[key];
+		},
+		lockChangedFile(state, action) {
+			const {key} = action.payload;
+			if (state.changedFiles.key !== undefined) {
+				state.changedFiles = {
+					...state.changedFiles, 
+					[key]: {...state.changedFiles[key], locked: true}
+				};
+			}
+			
+		},
+		unlockChangedFile(state, action) {
+			const {key} = action.payload;
+			state.changedFiles = {
+				...state.changedFiles, 
+				[key]: {...state.changedFiles[key], locked: false}
+			};
 		},
 	}
 });
@@ -299,6 +321,9 @@ export const {
 	updateProjectThreads,
 	addProjectThread,
 	updateChangedFiles,
+	removeChangedFile,
+	lockChangedFile,
+	unlockChangedFile,
  } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;
@@ -428,6 +453,9 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 		const saveFileTask = async (key) => {
 			try {
 				let err = "";
+				if (changedFiles[key].locked) {
+					return;
+				}
 				if (key === "index") {
 					let newIndex = regenIndex(
 						state.docIndex, 
@@ -441,6 +469,7 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 					err = await interfaceObj.saveDocument(key, docCache[key]);
 				}
 				if (!err) {
+					console.log(changedFiles)
 					delete changedFiles[key];
 				} else {
 					console.error("failed to save document " + key + ": " + err);
@@ -450,7 +479,6 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 			} catch(err) {
 				throw err;
 			}
-			
 		}
 		const waitForTasks = (tries) => {
 			if (completeTasks !== totalTasks) {
@@ -472,6 +500,38 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 			saveFileTask(key);
 		}
 		waitForTasks(0);
+		
+	} catch (err) {
+		console.error(err)
+	}
+}
+
+export const saveSingleDocument = (key, interfaceObj) => async (dispatch, getState) => {
+	try {
+		const state = getState().workspaceReducer;
+		const docCache = state.docCache;
+		const docIndex = state.docIndex;
+		const docTree = state.docTree;
+		let changedFiles = Object.assign({}, state.changedFiles);
+		let err = "";
+		if (key === "index") {
+			let newIndex = regenIndex(
+				state.docIndex, 
+				state.docTree, 
+				state.projectTags, 
+				state.threads, 
+				state.curDocId
+			);
+			err = await interfaceObj.saveIndex(newIndex);
+		} else {
+			err = await interfaceObj.saveDocument(key, docCache[key]);
+		}
+		if (!err) {
+			dispatch(removeChangedFile({key}));
+		} else {
+			console.error("failed to save document " + key + ": " + err);
+			dispatch(unlockChangedFile({key}));
+		}
 		
 	} catch (err) {
 		console.error(err)

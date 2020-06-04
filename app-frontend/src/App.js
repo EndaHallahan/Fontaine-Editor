@@ -7,6 +7,7 @@ import Workspace from "./components/Workspace";
 import SettingsHandler from "./components/SettingsHandler";
 import ShortcutHandler from "./components/ShortcutHandler";
 import DistractionFree from "./components/DistractionFree";
+import AutoSaveHandler from "./components/AutoSaveHandler";
 
 import "./styles/index.scss";
 
@@ -19,6 +20,7 @@ class App extends Component {
 					<ModalHandler />
 					<ShortcutHandler documentInterface={this.props.documentInterface} />
 					<DistractionFree documentInterface={this.props.documentInterface} />
+					<AutoSaveHandler documentInterface={this.props.documentInterface} />
 					<main>
 						<Workspace 
 							documentInterface={this.props.documentInterface}
