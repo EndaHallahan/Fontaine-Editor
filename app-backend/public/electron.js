@@ -10,7 +10,6 @@ require("./main/documentAPI");
 let mainWindow;
 
 function createWindow() {
-	console.log(path.join(__dirname, "./preload.js"))
 	mainWindow = new BrowserWindow({ 
 		width: 900, 
 		height: 680, 
