@@ -1,5 +1,6 @@
 const electron = require("electron");
 const {app, BrowserWindow, Menu} = require("electron");
+const electronLocalshortcut = require('electron-localshortcut');
 
 const path = require("path");
 const isDev = require("electron-is-dev");
@@ -23,7 +24,10 @@ function createWindow() {
 			: `file://${path.join(__dirname, "../build/index.html")}`
 	);
 	mainWindow.on("closed", () => (mainWindow = null));
-	//Menu.setApplicationMenu(null);
+	Menu.setApplicationMenu(null);
+	electronLocalshortcut.register(mainWindow, 'Ctrl+Shift+I', () => {
+        mainWindow.webContents.toggleDevTools();
+    });
 	mainWindow.once('ready-to-show', () => {
 		mainWindow.show()
 	})

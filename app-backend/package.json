@@ -8,6 +8,7 @@
     "@fontaine/app-frontend": "link:../app-frontend",
     "cross-env": "6.0.2",
     "electron-is-dev": "1.1.0",
+    "electron-localshortcut": "^3.2.1",
     "electron-log": "^3.0.8",
     "react": "link:../app-frontend/node_modules/react",
     "react-dom": "^16.13.1"
