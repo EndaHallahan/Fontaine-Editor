@@ -5,6 +5,8 @@ import { documents, documentIndex } from "../../testDocs"; //Remove me eventuall
 
 import Interface from "../../Interface"; //Probably also remove this
 
+import { setMessage, setStatus } from "./statusSlice";
+
 async function getFullChildContents(docList, docCache, getDoc) {
 	const fullContents = {}
 	for (const docId of docList) {
@@ -335,8 +337,11 @@ export const loadState = (interfaceObj) => async (dispatch, getState) => {
 		const index = await interfaceObj.getIndex();
 		const newState = await loadInitialState(index, interfaceObj.getDocument);
 		dispatch(setAllState({newState}));
+		dispatch(setStatus({status: "okay"}));
 	} catch (err) {
-		console.error(err)
+		console.error(err);
+		dispatch(setMessage({message: "An error occurred: " + err}));
+		dispatch(setStatus({status: "error"}));
 	}
 }
 
@@ -469,13 +474,12 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 					err = await interfaceObj.saveDocument(key, docCache[key]);
 				}
 				if (!err) {
-					console.log(changedFiles)
 					delete changedFiles[key];
 				} else {
-					console.error("failed to save document " + key + ": " + err);
+					throw "Failed to save document " + key + ": " + err;
 				}
 				completeTasks++;
-				console.log("Save tasks: " + completeTasks + " out of " + totalTasks);
+				dispatch(setMessage({message: `Saved ${completeTasks}/${totalTasks}`}));
 			} catch(err) {
 				throw err;
 			}
@@ -493,16 +497,21 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 			}
 		}
 		const tasksComplete = () => {
-			console.log("All tasks complete!");
+			dispatch(setMessage({message: "Save complete!"}));
+			dispatch(setStatus({status: "okay"}));
 			dispatch(updateChangedFiles({changedFiles}));
 		}
+		dispatch(setMessage({message: "Saving..."}));
+		dispatch(setStatus({status: "loading"}));
 		for (const key of changedFilesList) {
 			saveFileTask(key);
 		}
 		waitForTasks(0);
 		
 	} catch (err) {
-		console.error(err)
+		console.error(err);
+		dispatch(setMessage({message: "An error occurred: " + err}));
+		dispatch(setStatus({status: "error"}));
 	}
 }
 
@@ -514,6 +523,8 @@ export const saveSingleDocument = (key, interfaceObj) => async (dispatch, getSta
 		const docTree = state.docTree;
 		let changedFiles = Object.assign({}, state.changedFiles);
 		let err = "";
+		dispatch(setMessage({message: "Autosaving..."}));
+		dispatch(setStatus({status: "loading"}));
 		if (key === "index") {
 			let newIndex = regenIndex(
 				state.docIndex, 
@@ -528,12 +539,15 @@ export const saveSingleDocument = (key, interfaceObj) => async (dispatch, getSta
 		}
 		if (!err) {
 			dispatch(removeChangedFile({key}));
+			dispatch(setMessage({message: "Autosave complete!"}));
+			dispatch(setStatus({status: "okay"}));
 		} else {
-			console.error("failed to save document " + key + ": " + err);
 			dispatch(unlockChangedFile({key}));
-		}
-		
+			throw "Failed to save document " + key + ": " + err;
+		}	
 	} catch (err) {
-		console.error(err)
+		console.error(err);
+		dispatch(setMessage({message: "An error occurred: " + err}));
+		dispatch(setStatus({status: "error"}));
 	}
 }

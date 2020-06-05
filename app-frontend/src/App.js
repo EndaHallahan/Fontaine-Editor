@@ -8,6 +8,7 @@ import SettingsHandler from "./components/SettingsHandler";
 import ShortcutHandler from "./components/ShortcutHandler";
 import DistractionFree from "./components/DistractionFree";
 import AutoSaveHandler from "./components/AutoSaveHandler";
+import StatusDisplay from "./components/StatusDisplay";
 
 import "./styles/index.scss";
 
@@ -27,6 +28,7 @@ class App extends Component {
 						/>
 					</main>
 					<footer>
+						<StatusDisplay />
 					</footer>
 				</div>
 			</Provider>
