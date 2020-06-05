@@ -1,5 +1,4 @@
-const electron = window.require('electron');
-const ipcRenderer  = electron.ipcRenderer;
+const ipcInterface  = window.ipcInterface;
 
 class Interface {
 	constructor() {
@@ -11,7 +10,7 @@ class Interface {
 	}
 	async getLocation() {
 		try {
-			const fetchedLocation = await ipcRenderer.invoke("doc_api_location");
+			const fetchedLocation = await ipcInterface.fetchLoc();
 			this.location = fetchedLocation;
 		} catch(err) {
 			throw err;
@@ -22,8 +21,7 @@ class Interface {
 			if (!this.location) {
 				await this.getLocation();
 			}
-			const fetchedDocumentIndex = await ipcRenderer.invoke(
-				"doc_api_fetch", 
+			const fetchedDocumentIndex = await ipcInterface.fetchDoc(
 				this.location + "\\index.ftne"
 			);
 			return JSON.parse(fetchedDocumentIndex);
@@ -33,8 +31,7 @@ class Interface {
 	}
 	async getDocument(id) {
 		try {
-			const fetchedDocument = await ipcRenderer.invoke(
-				"doc_api_fetch", 
+			const fetchedDocument = await ipcInterface.fetchDoc(
 				this.location + "\\Files\\Documents\\" + id + ".json"
 			);
 			return JSON.parse(fetchedDocument);
@@ -44,10 +41,9 @@ class Interface {
 	} 
 	async saveIndex(contents) {
 		try {
-			const result = await ipcRenderer.invoke(
-				"doc_api_write", 
-				this.location + "\\index.ftne", 
-				JSON.stringify(contents)
+			const result = await ipcInterface.writeDoc(
+				this.location + "\\index.ftne",
+				contents
 			);
 			return result;
 		} catch(err) {
@@ -56,10 +52,9 @@ class Interface {
 	}
 	async saveDocument(id, contents) {
 		try {
-			const result = await ipcRenderer.invoke(
-				"doc_api_write", 
+			const result = await ipcInterface.writeDoc(
 				this.location + "\\Files\\Documents\\" + id + ".json",
-				JSON.stringify(contents)
+				contents
 			);
 			return result;
 		} catch(err) {

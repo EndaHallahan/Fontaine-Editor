@@ -10,13 +10,19 @@ require("./main/documentAPI");
 let mainWindow;
 
 function createWindow() {
+	console.log(path.join(__dirname, "./preload.js"))
 	mainWindow = new BrowserWindow({ 
 		width: 900, 
 		height: 680, 
 		show: false,
 		title: "Fontaine",
 		//icon: "/build-assets/icon.ico",
-		webPreferences: { nodeIntegration: true }
+		webPreferences: { 
+			sandbox: true,
+			enableRemoteModule: false,
+			contextIsolation: true,
+			preload: `${path.join(__dirname, "./preload.js")}`,
+		}
 	});
 	mainWindow.loadURL(
 		isDev
@@ -28,6 +34,7 @@ function createWindow() {
 	electronLocalshortcut.register(mainWindow, 'Ctrl+Shift+I', () => {
         mainWindow.webContents.toggleDevTools();
     });
+    mainWindow.webContents.on("will-navigate", function(e) {e.preventDefault();}); 
 	mainWindow.once('ready-to-show', () => {
 		mainWindow.show()
 	})
