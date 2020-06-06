@@ -29,7 +29,7 @@ function createWindow() {
 			: `file://${path.join(__dirname, "../build/index.html")}`
 	);
 	mainWindow.on("closed", () => (mainWindow = null));
-	Menu.setApplicationMenu(null);
+	//Menu.setApplicationMenu(null);
 	electronLocalshortcut.register(mainWindow, 'Ctrl+Shift+I', () => {
         mainWindow.webContents.toggleDevTools();
     });
