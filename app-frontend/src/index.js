@@ -5,6 +5,8 @@ import * as serviceWorker from './serviceWorker';
 
 import Interface from "./Interface";
 
+import "./indexStyles.css";
+
 ReactDOM.render(
   	<React.StrictMode>
 		<App 
