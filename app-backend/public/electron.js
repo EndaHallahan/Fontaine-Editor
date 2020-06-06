@@ -18,6 +18,7 @@ function createWindow() {
 		//icon: "/build-assets/icon.ico",
 		webPreferences: { 
 			sandbox: true,
+			nodeIntegration: false,
 			enableRemoteModule: false,
 			contextIsolation: true,
 			preload: `${path.join(__dirname, "./preload.js")}`,
