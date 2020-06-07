@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { find, walk } from 'react-sortable-tree';
+import { find, walk, addNodeUnderParent } from 'react-sortable-tree';
 
 import { documents, documentIndex } from "../../testDocs"; //Remove me eventually!
 
@@ -233,7 +233,7 @@ const workspaceSlice = createSlice({
 			const {id} = action.payload;
 			state.docCache[id] = {};
 			state.curDocRow = getDocRow(state.docTree, state.curDocId);
-			state.changedFiles[id] = {lastModified: Date.now(), locked: false};
+			//state.changedFiles[id] = {lastModified: Date.now(), locked: false};
 		},
 		updateDocTreeComplete(state, action) {
 			const {treeData, curDocList, curDocRow, docCache, splitDocRow, splitDocList} = action.payload;
@@ -545,6 +545,43 @@ export const saveSingleDocument = (key, interfaceObj) => async (dispatch, getSta
 			dispatch(unlockChangedFile({key}));
 			throw "Failed to save document " + key + ": " + err;
 		}	
+	} catch (err) {
+		console.error(err);
+		dispatch(setMessage({message: "An error occurred: " + err}));
+		dispatch(setStatus({status: "error"}));
+	}
+}
+
+function newNodeUnderTarget(node, destination, treeData) {
+	treeData = addNodeUnderParent({
+		treeData,
+		newNode: node,
+		parentKey: destination.path[destination.path.length - 1],
+		getNodeKey: ({treeIndex}) => {return treeIndex;},
+		ignoreCollapsed: true,
+		expandParent: true,
+	}).treeData;
+	return treeData;
+}
+
+export const importFiles = (interfaceObj) => async (dispatch, getState) => {
+	try {
+		console.log("Importing!")
+		const state = getState().workspaceReducer;
+		let docTree = [...state.docTree];
+		const fileNames = await interfaceObj.importFile();
+		console.log("result", fileNames);
+		const fileboxNode = find({
+			getNodeKey: ({treeIndex}) => {return treeIndex;},
+			treeData: docTree,
+			searchMethod: (rowData) => {return(rowData.node.type === "filebox")},
+		}).matches[0];
+		console.log(fileboxNode)
+		for (let fileName of fileNames) {
+			const newNode = {type: "import", title: fileName, fileName}
+			docTree = newNodeUnderTarget(newNode, fileboxNode, docTree);
+		}
+		dispatch(updateDocTree(docTree, interfaceObj));
 	} catch (err) {
 		console.error(err);
 		dispatch(setMessage({message: "An error occurred: " + err}));

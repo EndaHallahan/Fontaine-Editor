@@ -61,6 +61,12 @@
 			]
 		},
 		{
+			"type":"filebox",
+			"title":"File Box",
+			"permanent":true,
+			"id":"25671fcc-4b61-470a-aa0a-2167c7d5bfa6"
+		},
+		{
 			"type":"trash",
 			"title":"Trash",
 			"permanent":true,

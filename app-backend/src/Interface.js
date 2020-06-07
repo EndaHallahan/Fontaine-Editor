@@ -61,6 +61,14 @@ class Interface {
 			throw err;
 		}
 	}
+	async importFile() {
+		try {
+			const result = await ipcInterface.importFile();
+			return result;
+		} catch(err) {
+			throw err;
+		}
+	}
 }
 
 export default new Interface();

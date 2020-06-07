@@ -2,5 +2,6 @@ var addon = require('../native');
 
 module.exports = {
 	getFile: addon.getFile,
-	writeFile: addon.writeFile
+	writeFile: addon.writeFile,
+	copyFile: addon.copyFile,
 }

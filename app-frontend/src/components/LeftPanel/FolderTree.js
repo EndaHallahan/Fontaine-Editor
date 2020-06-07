@@ -18,6 +18,8 @@ import filePlus from '@iconify/icons-feather/file-plus';
 import folder from '@iconify/icons-feather/folder';
 import folderPlus from '@iconify/icons-feather/folder-plus';
 import trash2 from '@iconify/icons-feather/trash-2';
+import archiveIcon from '@iconify/icons-feather/archive';
+
 
 import { 
 	switchDocument, 
@@ -60,6 +62,7 @@ class FolderTreeChild extends Component {
 			},
 		}
 	}
+	// Move most of these to workspaceSlice?
 	addNewNodeUnderCurrent(nodeType, e) {
 		const id = uuidv4();
 		this.props.newDoc(id);
@@ -91,6 +94,8 @@ class FolderTreeChild extends Component {
 		}
 	}
 	moveNodeToTarget(node, destination, treeData) {
+		console.log("tdest", destination)
+		console.log("ttree", treeData)
 		treeData = addNodeUnderParent({
 			treeData,
 			newNode: node.node,
@@ -222,6 +227,7 @@ class FolderTreeChild extends Component {
 				                  			'manuscript': <Icon icon={bookOpen} />,
 								          	'file': <Icon icon={file} />,
 								          	'folder': <Icon icon={folder} />,
+								          	'filebox': <Icon icon={archiveIcon} />,
 								          	'trash': <Icon icon={trash2} />,
 								        }[rowInfo.node.type]
 				                  	}

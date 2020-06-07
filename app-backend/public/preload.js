@@ -21,6 +21,12 @@ const ipcInterface = {
 			JSON.stringify(contents)
 		);
 	},
+
+	importFile: async () => {
+		return await ipcRenderer.invoke(
+			"doc_api_import"
+		);
+	},
 }
 
 contextBridge.exposeInMainWorld('ipcInterface', ipcInterface);

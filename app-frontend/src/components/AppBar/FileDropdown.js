@@ -2,12 +2,14 @@ import React from 'react';
 
 import { useSelector, useDispatch } from 'react-redux'; 
 import { openModal } from "../../store/slices/modalSlice";
-import { saveAllChanges } from "../../store/slices/workspaceSlice";
+import { saveAllChanges, importFiles } from "../../store/slices/workspaceSlice";
 import { setSetting } from "../../store/slices/settingsSlice";
 
 import { Icon, InlineIcon } from '@iconify/react';
 import saveIcon from '@iconify/icons-feather/save';
 import check from '@iconify/icons-feather/check';
+import logIn from '@iconify/icons-feather/log-in';
+
 
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 import CustomDropdown from "../CustomDropdown";
@@ -44,6 +46,14 @@ const FileDropdown = (props) => {
 				title="Autosave"
 				onItemChosen={e => {
 					dispatch(setSetting({setting: "autoSaveDisabled", newValue: autoSaveEnabled}));
+				}}
+			/>
+			<hr/>
+			<LI
+				icon={logIn}
+				title="Import File"
+				onItemChosen={e => {
+					dispatch(importFiles(props.documentInterface));
 				}}
 			/>
 			<hr/>

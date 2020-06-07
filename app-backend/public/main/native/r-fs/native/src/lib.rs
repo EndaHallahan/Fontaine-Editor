@@ -97,25 +97,24 @@ fn write_file(mut cx: FunctionContext) -> JsResult<JsString> {
 	}
 }
 
-/*fn write_file(mut cx: FunctionContext) -> JsResult<JsBoolean> {
-	let file_loc = cx.argument::<JsString>(0)?.value();
-	let file_con = cx.argument::<JsString>(1)?.value();
-	let result = match fs::write(file_loc, file_con) {
-		Ok(_) => cx.boolean(true),
-		Err(_) => cx.boolean(false),
-	};
-	Ok(result)
-}*/
+fn copy_file(mut cx: FunctionContext) -> JsResult<JsString> {
+	let file_from = cx.argument::<JsString>(0)?.value();
+	let file_to = cx.argument::<JsString>(1)?.value();
+	return match fs::copy(&file_from, &file_to) {
+		Ok(_) => Ok(cx.string("")),
+		Err(_err) => Ok(cx.string(format!("Failed to copy file '{}' to '{}'", file_from, file_to)))
+	}
+}
 
 register_module!(mut cx, {
     cx.export_function("getFile", get_file)?;
     cx.export_function("writeFile", write_file)?;
+    cx.export_function("copyFile", copy_file)?;
     Ok(())
 });
 
 #[cfg(test)]
 mod tests {
-    // Note this useful idiom: importing names from outer (for mod tests) scope.
     use super::*;
     #[test]
     fn write_file_test() {
