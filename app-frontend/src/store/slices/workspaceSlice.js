@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { find, walk, addNodeUnderParent } from 'react-sortable-tree';
+import { v4 as uuidv4 } from "uuid";
 
 import { documents, documentIndex } from "../../testDocs"; //Remove me eventually!
 
@@ -578,7 +579,7 @@ export const importFiles = (interfaceObj) => async (dispatch, getState) => {
 		}).matches[0];
 		console.log(fileboxNode)
 		for (let fileName of fileNames) {
-			const newNode = {type: "import", title: fileName, fileName}
+			const newNode = {type: "import", title: fileName, fileName, id: uuidv4()}
 			docTree = newNodeUnderTarget(newNode, fileboxNode, docTree);
 		}
 		dispatch(updateDocTree(docTree, interfaceObj));
