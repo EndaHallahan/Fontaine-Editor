@@ -70,10 +70,15 @@ class Interface {
 			throw err;
 		}
 	}
-	getImportUrl(importFileName) {
-		let url = ("file:///" + this.location + "\\Files\\FileBox\\" + importFileName).replace(/\\/g, "/");
-		console.log(url)
-		return url;
+	async getImport(importFileName) {
+		try {
+			const result = await ipcInterface.fetchDoc(
+				this.location + "\\Files\\FileBox\\" + importFileName + ".b64"
+			);
+			return result;
+		} catch(err) {
+			throw err;
+		}
 	}
 }
 

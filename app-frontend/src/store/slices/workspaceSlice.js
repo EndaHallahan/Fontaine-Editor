@@ -565,10 +565,10 @@ function newNodeUnderTarget(node, destination, treeData) {
 	return treeData;
 }
 
-function extMatch(ext) {
+function extToMime(ext) {
 	switch(ext) {
 		case "pdf":
-			return "pdf";
+			return {mimeType: "application/pdf", importType: "pdf"};
 		case "png":
 		case "jpg":
 		case "jpeg":
@@ -584,13 +584,13 @@ function extMatch(ext) {
 		case "apng":
 		case "ico":
 		case "cur":
-			return "image";
+			return {mimeType: "image/" + ext, importType: "image"};
 		case "mp4":
 		case "webm":
 		case "ogg":
-			return "video";
+			return {mimeType:"video/" + ext, importType: "video"};
 		default:
-			return "raw";
+			return {importType: "raw"};
 	}
 }
 
@@ -614,7 +614,7 @@ export const importFiles = (interfaceObj) => async (dispatch, getState) => {
 			dispatch(setMessage({message: `Importing file ${fileName}...`}));
 			dispatch(setStatus({status: "loading"}));
 			const [name, ext] = fileName.split(".");
-			const newNode = {type: "import", title: name, fileName, id: uuidv4(), importType: extMatch(ext)}
+			const newNode = {type: "import", title: name, fileName, id: uuidv4(), ...extToMime(ext)}
 			console.log("newNode", newNode)
 			docTree = newNodeUnderTarget(newNode, fileboxNode, docTree);
 		}

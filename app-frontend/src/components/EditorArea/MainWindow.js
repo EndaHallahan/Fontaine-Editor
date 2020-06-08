@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Resizable } from "re-resizable";
 
@@ -110,23 +110,10 @@ const MainWindow = (props) => {
 const EditorDisplay = (props) => {
 	if (props.nodeIn && props.nodeIn.type === "import") {
 		return (
-			<div className="import-display">
-				{{
-					"image": (
-						<div>This is an image!</div>
-						//<img src={props.documentInterface.getImportUrl(props.nodeIn.fileName)} />
-					),
-					"video": (
-						<div>This is a video!</div>
-					),
-					"pdf": (
-						<div>This is a pdf!</div>
-					),
-					"raw": (
-						<div>no idea what this is!</div>
-					),
-				}[props.nodeIn.importType]}
-			</div>
+			<ImportDisplay 
+				nodeIn={props.nodeIn}
+				documentInterface={props.documentInterface}
+			/>
 		);
 	} else if (props.nodeIn) {
 		return (
@@ -189,6 +176,41 @@ const EditorDisplay = (props) => {
 		          	),
 		        }[props.editorMode]}
 		    </Fragment>
+		);
+	} else {
+		return null;
+	}
+}
+
+const ImportDisplay = (props) => {
+	const [importCont, setImportCont] = useState("");
+	const getImportFile = async () => {
+		let cont = await props.documentInterface.getImport(props.nodeIn.fileName);
+		setImportCont(cont);
+	}
+	useEffect(() => {
+		getImportFile();
+	})
+	if (importCont) {
+		return (
+			<div className="import-display">
+				{{
+					"image": (
+						<img src={
+							`data:${props.nodeIn.mimeType};base64, ${importCont}`
+						} />
+					),
+					"video": (
+						<div>This is a video!</div>
+					),
+					"pdf": (
+						<div>This is a pdf!</div>
+					),
+					"raw": (
+						<div>no idea what this is!</div>
+					),
+				}[props.nodeIn.importType]}
+			</div>
 		);
 	} else {
 		return null;
