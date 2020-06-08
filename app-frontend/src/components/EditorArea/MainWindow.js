@@ -82,68 +82,117 @@ const MainWindow = (props) => {
 				<span></span>
 			</div>
 			<div className="area-wrapper">
-			{
-				{
+				<EditorDisplay 
+					nodeIn={curDocRow.node}
+					editorMode={editorMode}
+					treeData={docTree}
+					docCache={docCache}
+					curDocId={curDocId}
+					curDocRow={curDocRow}
+					getDoc={getDoc}
+					inspectDoc={inspectDoc}
+					inspDocId={inspDocRow.node ? inspDocRow.node.id : null}
+					newDoc={newDoc}
+					onTreeChange={updateTree}
+					curDocList = {curDocList}
+					replaceCurRow={replaceCurRow}
+					mdFields={metadataFields}
+					updateDoc = {updateDoc}
+					inspectDoc={inspectDoc}
+					queueDocChanges = {queueDocChanges}
+					documentInterface = {props.documentInterface}
+				/>
+			</div>	
+		</div>
+	);
+}
+
+const EditorDisplay = (props) => {
+	if (props.nodeIn && props.nodeIn.type === "import") {
+		return (
+			<div className="import-display">
+				{{
+					"image": (
+						<div>This is an image!</div>
+						//<img src={props.documentInterface.getImportUrl(props.nodeIn.fileName)} />
+					),
+					"video": (
+						<div>This is a video!</div>
+					),
+					"pdf": (
+						<div>This is a pdf!</div>
+					),
+					"raw": (
+						<div>no idea what this is!</div>
+					),
+				}[props.nodeIn.importType]}
+			</div>
+		);
+	} else if (props.nodeIn) {
+		return (
+			<Fragment>
+				{{
 		          	"editor": (
 		          		<MultiDocSlate 
-							doc = {docCache[curDocId]}
-							docSet = {docCache}
-							docList = {curDocList}
-							docId = {curDocId}
-							updateDoc = {updateDoc}
-							inspectDoc={inspectDoc}
-							queueDocChanges = {queueDocChanges}
+							doc = {props.docCache[props.curDocId]}
+							docSet = {props.docCache}
+							docList = {props.curDocList}
+							docId = {props.curDocId}
+							updateDoc = {props.updateDoc}
+							inspectDoc={props.inspectDoc}
+							queueDocChanges = {props.queueDocChanges}
 						/>
 		          	),
 		          	"corkboard": (
 		          		<Corkboard
-							treeData={docTree}
-							curDoc={curDocId}
-							curDocRow={curDocRow}
-							getDoc={getDoc}
-							inspectDoc={inspectDoc}
-							inspDocId={inspDocRow.node ? inspDocRow.node.id : null}
-							newDoc={newDoc}
-							onTreeChange={updateTree}
-							docList = {curDocList}
-							replaceCurRow={replaceCurRow}
+							treeData={props.docTree}
+							curDoc={props.curDocId}
+							curDocRow={props.curDocRow}
+							getDoc={props.getDoc}
+							inspectDoc={props.inspectDoc}
+							inspDocId={props.inspDocId}
+							newDoc={props.newDoc}
+							onTreeChange={props.updateTree}
+							docList = {props.curDocList}
+							replaceCurRow={props.replaceCurRow}
 						/>
 		          	),
 		          	"overview": (
 		          		<Overview
-							treeData={docTree}
-							curDoc={curDocId}
-							curDocRow={curDocRow}
-							getDoc={getDoc}
-							inspectDoc={inspectDoc}
-							inspDocId={inspDocRow.node ? inspDocRow.node.id : null}
-							newDoc={newDoc}
-							onTreeChange={updateTree}
-							docList = {curDocList}
-							replaceCurRow={replaceCurRow}
-							mdFields={metadataFields}
+							treeData={props.docTree}
+							curDoc={props.curDocId}
+							curDocRow={props.curDocRow}
+							getDoc={props.getDoc}
+							inspectDoc={props.inspectDoc}
+							inspDocId={props.inspDocId}
+							newDoc={props.newDoc}
+							onTreeChange={props.updateTree}
+							docList = {props.curDocList}
+							replaceCurRow={props.replaceCurRow}
+							mdFields={props.metadataFields}
 						/>
 		          	),
 		          	"storymap": (
 		          		<StoryMap
-							treeData={docTree}
-							curDoc={curDocId}
-							curDocRow={curDocRow}
-							getDoc={getDoc}
-							inspectDoc={inspectDoc}
-							inspDocId={inspDocRow.node ? inspDocRow.node.id : null}
-							newDoc={newDoc}
-							onTreeChange={updateTree}
-							docList = {curDocList}
-							replaceCurRow={replaceCurRow}
-							threads={threads}
+							treeData={props.docTree}
+							curDoc={props.curDocId}
+							curDocRow={props.curDocRow}
+							getDoc={props.getDoc}
+							inspectDoc={props.inspectDoc}
+							inspDocId={props.inspDocId}
+							newDoc={props.newDoc}
+							onTreeChange={props.updateTree}
+							docList = {props.curDocList}
+							replaceCurRow={props.replaceCurRow}
+							threads={props.threads}
 						/>
 		          	),
-		        }[editorMode]
-			}
-			</div>	
-		</div>
-	);
+		        }[props.editorMode]}
+		    </Fragment>
+		);
+	} else {
+		return null;
+	}
 }
 
 export default MainWindow;

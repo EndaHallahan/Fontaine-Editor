@@ -12,6 +12,7 @@ class Interface {
 		try {
 			const fetchedLocation = await ipcInterface.fetchLoc();
 			this.location = fetchedLocation;
+			return fetchedLocation;
 		} catch(err) {
 			throw err;
 		}
@@ -68,6 +69,11 @@ class Interface {
 		} catch(err) {
 			throw err;
 		}
+	}
+	getImportUrl(importFileName) {
+		let url = ("file:///" + this.location + "\\Files\\FileBox\\" + importFileName).replace(/\\/g, "/");
+		console.log(url)
+		return url;
 	}
 }
 

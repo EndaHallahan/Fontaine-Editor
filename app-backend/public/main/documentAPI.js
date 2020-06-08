@@ -34,13 +34,15 @@ ipcMain.handle("doc_api_import", async (event, ...args) => {
 			console.log(files);
 			for (let filePath of files.filePaths) {
 				let fileName = path.basename(filePath);
-				let res = rfs.copyFile(filePath, fileboxLoc + fileName);
-				if (res) {throw res;}
+				let rescopy = rfs.copyFile(filePath, fileboxLoc + fileName);
+				if (rescopy) {throw rescopy;}
+				let res64 = rfs.copyBase64(filePath, fileboxLoc + fileName + ".b64");
+				if (res64) {throw res64;}
 				result.push(fileName);
 			}
 		} 
-		return result;
+		return {ok: true, fileNames: result};
 	} catch(err) {
-		return err;
+		return {ok: false, error: err};
 	}
 });

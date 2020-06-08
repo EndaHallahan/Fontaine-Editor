@@ -4,6 +4,7 @@ use neon::prelude::*;
 use serde_json::{Value, json, to_writer};
 use chrono::{Utc};
 use tempfile::{Builder};
+use base64::{encode};
 
 //Async me?
 
@@ -106,10 +107,24 @@ fn copy_file(mut cx: FunctionContext) -> JsResult<JsString> {
 	}
 }
 
+fn copy_base64(mut cx: FunctionContext) -> JsResult<JsString> {
+	let file_from = cx.argument::<JsString>(0)?.value();
+	let file_to = cx.argument::<JsString>(1)?.value();
+	let encoded_file_cont = match fs::read(&file_from) {
+		Ok(file_cont) => encode(file_cont),
+		Err(err) => panic!(err)
+	};
+	return match fs::write(&file_to, encoded_file_cont) {
+		Ok(_) => Ok(cx.string("")),
+		Err(_err) => Ok(cx.string(format!("Failed to encode file '{}' to '{}'", file_from, file_to)))
+	};
+}
+
 register_module!(mut cx, {
     cx.export_function("getFile", get_file)?;
     cx.export_function("writeFile", write_file)?;
     cx.export_function("copyFile", copy_file)?;
+    cx.export_function("copyBase64", copy_base64)?;
     Ok(())
 });
 

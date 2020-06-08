@@ -565,24 +565,62 @@ function newNodeUnderTarget(node, destination, treeData) {
 	return treeData;
 }
 
+function extMatch(ext) {
+	switch(ext) {
+		case "pdf":
+			return "pdf";
+		case "png":
+		case "jpg":
+		case "jpeg":
+		case "jfif":
+		case "pjpeg":
+		case "pjp":
+		case "svg":
+		case "tif":
+		case "tiff":
+		case "webp":
+		case "gif":
+		case "bmp":
+		case "apng":
+		case "ico":
+		case "cur":
+			return "image";
+		case "mp4":
+		case "webm":
+		case "ogg":
+			return "video";
+		default:
+			return "raw";
+	}
+}
+
 export const importFiles = (interfaceObj) => async (dispatch, getState) => {
 	try {
 		console.log("Importing!")
 		const state = getState().workspaceReducer;
 		let docTree = [...state.docTree];
-		const fileNames = await interfaceObj.importFile();
-		console.log("result", fileNames);
+		const result = await interfaceObj.importFile();
+		console.log("result", result);
+		if (!result.ok) {
+			throw result.error;
+		}
+		let fileNames = result.fileNames;
 		const fileboxNode = find({
 			getNodeKey: ({treeIndex}) => {return treeIndex;},
 			treeData: docTree,
 			searchMethod: (rowData) => {return(rowData.node.type === "filebox")},
 		}).matches[0];
-		console.log(fileboxNode)
 		for (let fileName of fileNames) {
-			const newNode = {type: "import", title: fileName, fileName, id: uuidv4()}
+			dispatch(setMessage({message: `Importing file ${fileName}...`}));
+			dispatch(setStatus({status: "loading"}));
+			const [name, ext] = fileName.split(".");
+			const newNode = {type: "import", title: name, fileName, id: uuidv4(), importType: extMatch(ext)}
+			console.log("newNode", newNode)
 			docTree = newNodeUnderTarget(newNode, fileboxNode, docTree);
 		}
 		dispatch(updateDocTree(docTree, interfaceObj));
+		dispatch(setMessage({message: "Import complete!"}));
+		dispatch(setStatus({status: "okay"}));
 	} catch (err) {
 		console.error(err);
 		dispatch(setMessage({message: "An error occurred: " + err}));
