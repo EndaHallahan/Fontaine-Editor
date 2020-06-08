@@ -185,23 +185,29 @@ const EditorDisplay = (props) => {
 const ImportDisplay = (props) => {
 	const [importCont, setImportCont] = useState("");
 	const getImportFile = async () => {
+		setImportCont("")
 		let cont = await props.documentInterface.getImport(props.nodeIn.fileName);
 		setImportCont(cont);
 	}
 	useEffect(() => {
 		getImportFile();
-	})
+	}, [props.nodeIn])
 	if (importCont) {
 		return (
 			<div className="import-display">
-				{{
+				{{ // Probably should move the url stuff to the Interface. Won't need encoding on the web (hopefully).
 					"image": (
 						<img src={
 							`data:${props.nodeIn.mimeType};base64, ${importCont}`
 						} />
 					),
 					"video": (
-						<div>This is a video!</div>
+						<video controls>
+							<source type={props.nodeIn.mimeType} src={
+								`data:${props.nodeIn.mimeType};base64, ${importCont}`
+							} />
+							Your browser is older than video! Please update your browser, you absolute dinosaur!
+						</video>
 					),
 					"pdf": (
 						<div>This is a pdf!</div>
