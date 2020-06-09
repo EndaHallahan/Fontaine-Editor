@@ -76,6 +76,7 @@ class Interface {
 			const path = this.location + "\\Files\\FileBox\\" + importFileName;
 			if (importFileType !== "raw") {
 				result = await ipcInterface.fetchBase64(path);
+				//result = await ipcInterface.fetchDoc(path);
 			} else {
 				result = await ipcInterface.fetchDoc(path);
 			}
