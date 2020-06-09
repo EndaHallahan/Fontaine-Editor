@@ -589,6 +589,11 @@ function extToMime(ext) {
 		case "webm":
 		case "ogg":
 			return {mimeType:"video/" + ext, importType: "video"};
+		case "mp3":
+			return {mimeType:"audio/mpeg", importType: "audio"};
+		case "wav":
+		case "ogg":
+			return {mimeType:"audio/" + ext, importType: "audio"};
 		default:
 			return {importType: "raw"};
 	}

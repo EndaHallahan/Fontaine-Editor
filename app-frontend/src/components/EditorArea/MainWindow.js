@@ -186,7 +186,7 @@ const ImportDisplay = (props) => {
 	const [importCont, setImportCont] = useState("");
 	const getImportFile = async () => {
 		setImportCont("")
-		let cont = await props.documentInterface.getImport(props.nodeIn.fileName);
+		let cont = await props.documentInterface.getImport(props.nodeIn.fileName, props.nodeIn.importType);
 		setImportCont(cont);
 	}
 	useEffect(() => {
@@ -208,6 +208,14 @@ const ImportDisplay = (props) => {
 							} />
 							Your browser is older than video! Please update your browser, you absolute dinosaur!
 						</video>
+					),
+					"audio": (
+						<audio controls>
+							<source type={props.nodeIn.mimeType} src={
+								`data:${props.nodeIn.mimeType};base64, ${importCont}`
+							} />
+							Your browser is older than audio! Please update your browser, you absolute dinosaur!
+						</audio>
 					),
 					"pdf": (
 						<div>This is a pdf!</div>

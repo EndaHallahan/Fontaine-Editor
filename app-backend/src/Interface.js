@@ -70,11 +70,15 @@ class Interface {
 			throw err;
 		}
 	}
-	async getImport(importFileName) {
+	async getImport(importFileName, importFileType) {
 		try {
-			const result = await ipcInterface.fetchBase64(
-				this.location + "\\Files\\FileBox\\" + importFileName
-			);
+			let result;
+			const path = this.location + "\\Files\\FileBox\\" + importFileName;
+			if (importFileType !== "raw") {
+				result = await ipcInterface.fetchBase64(path);
+			} else {
+				result = await ipcInterface.fetchDoc(path);
+			}
 			return result;
 		} catch(err) {
 			throw err;
