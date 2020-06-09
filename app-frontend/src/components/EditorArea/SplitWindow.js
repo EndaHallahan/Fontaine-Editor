@@ -36,6 +36,8 @@ import Overview from "./Overview";
 import StoryMap from "./StoryMap";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
+import EditorDisplay from "./EditorDisplay";
+
 const SplitWindow = (props) => {
 	const dispatch = useDispatch();
 	const editorMode = useSelector(state => state.uiReducer.splitEditorMode);
@@ -110,69 +112,27 @@ const SplitWindow = (props) => {
 				</span>
 			</div>
 			<div className="area-wrapper">
-			{
-				{
-		          	"editor": (
-		          		<MultiDocSlate 
-							doc = {docCache[curDocId]}
-							docSet = {docCache}
-							docList = {curDocList}
-							docId = {curDocId}
-							updateDoc = {updateDoc}
-							inspectDoc={inspectDoc}
-							queueDocChanges = {queueDocChanges}
-							split={true}
-						/>
-		          	),
-		          	"corkboard": (
-		          		<Corkboard
-							treeData={docTree}
-							curDoc={curDocId}
-							curDocRow={curDocRow}
-							getDoc={getDoc}
-							inspectDoc={inspectDoc}
-							inspDocId={inspDocRow.node.id}
-							newDoc={newDoc}
-							onTreeChange={updateTree}
-							docList = {curDocList}
-							replaceCurRow={replaceCurRow}
-							split={true}
-						/>
-		          	),
-		          	"overview": (
-		          		<Overview
-							treeData={docTree}
-							curDoc={curDocId}
-							curDocRow={curDocRow}
-							getDoc={getDoc}
-							inspectDoc={inspectDoc}
-							inspDocId={inspDocRow.node.id}
-							newDoc={newDoc}
-							onTreeChange={updateTree}
-							docList = {curDocList}
-							replaceCurRow={replaceCurRow}
-							mdFields={metadataFields}
-							split={true}
-						/>
-		          	),
-		          	"storymap": (
-		          		<StoryMap
-							treeData={docTree}
-							curDoc={curDocId}
-							curDocRow={curDocRow}
-							getDoc={getDoc}
-							inspectDoc={inspectDoc}
-							inspDocId={inspDocRow.node.id}
-							newDoc={newDoc}
-							onTreeChange={updateTree}
-							docList = {curDocList}
-							replaceCurRow={replaceCurRow}
-							threads={threads}
-							split={true}
-						/>
-		          	),
-		        }[editorMode]
-		    }
+				<EditorDisplay 
+					nodeIn={curDocRow.node}
+					editorMode={editorMode}
+					treeData={docTree}
+					docCache={docCache}
+					curDocId={curDocId}
+					curDocRow={curDocRow}
+					getDoc={getDoc}
+					inspectDoc={inspectDoc}
+					inspDocId={inspDocRow.node ? inspDocRow.node.id : null}
+					newDoc={newDoc}
+					onTreeChange={updateTree}
+					curDocList = {curDocList}
+					replaceCurRow={replaceCurRow}
+					mdFields={metadataFields}
+					updateDoc = {updateDoc}
+					inspectDoc={inspectDoc}
+					queueDocChanges = {queueDocChanges}
+					documentInterface = {props.documentInterface}
+					split={true}
+				/>
 		    </div>
 		</div>
 	);
