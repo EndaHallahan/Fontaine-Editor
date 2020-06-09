@@ -72,8 +72,8 @@ class Interface {
 	}
 	async getImport(importFileName) {
 		try {
-			const result = await ipcInterface.fetchDoc(
-				this.location + "\\Files\\FileBox\\" + importFileName + ".b64"
+			const result = await ipcInterface.fetchBase64(
+				this.location + "\\Files\\FileBox\\" + importFileName
 			);
 			return result;
 		} catch(err) {

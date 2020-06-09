@@ -22,6 +22,15 @@ fn get_file(mut cx: FunctionContext) -> JsResult<JsString> {
     Ok(file_contents)
 }
 
+fn get_as_base64(mut cx: FunctionContext) -> JsResult<JsString> {
+	let file_loc = cx.argument::<JsString>(0)?.value();
+	let encoded_file_cont = match fs::read(&file_loc) {
+		Ok(file_cont) => cx.string(encode(file_cont)),
+		Err(_err) => cx.string("")
+	};
+	Ok(encoded_file_cont)
+}
+
 fn atomic_write(file_loc: String, file_cont: String) -> Result<bool, &'static str> {
 	//Create temporary file!
 	let tmp: tempfile::NamedTempFile;
@@ -122,6 +131,7 @@ fn copy_base64(mut cx: FunctionContext) -> JsResult<JsString> {
 
 register_module!(mut cx, {
     cx.export_function("getFile", get_file)?;
+    cx.export_function("getAsBase64", get_as_base64)?;
     cx.export_function("writeFile", write_file)?;
     cx.export_function("copyFile", copy_file)?;
     cx.export_function("copyBase64", copy_base64)?;

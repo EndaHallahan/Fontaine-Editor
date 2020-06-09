@@ -14,6 +14,13 @@ const ipcInterface = {
 		);
 	},
 
+	fetchBase64: async (path) => {
+		return await ipcRenderer.invoke(
+			"doc_api_fetch_b64",
+			path
+		);
+	},
+
 	writeDoc: async (path, contents) => {
 		return await ipcRenderer.invoke(
 			"doc_api_write", 

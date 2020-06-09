@@ -20,6 +20,10 @@ ipcMain.handle("doc_api_fetch", async (event, ...args) => {
 	return rfs.getFile(args[0]) || null;
 });
 
+ipcMain.handle("doc_api_fetch_b64", async (event, ...args) => {
+	return rfs.getAsBase64(args[0]) || null;
+});
+
 ipcMain.handle("doc_api_write", async (event, ...args) => {
 	let result = rfs.writeFile(args[0], args[1]);
 	return result;
@@ -36,8 +40,8 @@ ipcMain.handle("doc_api_import", async (event, ...args) => {
 				let fileName = path.basename(filePath);
 				let rescopy = rfs.copyFile(filePath, fileboxLoc + fileName);
 				if (rescopy) {throw rescopy;}
-				let res64 = rfs.copyBase64(filePath, fileboxLoc + fileName + ".b64");
-				if (res64) {throw res64;}
+				/*let res64 = rfs.copyBase64(filePath, fileboxLoc + fileName + ".b64");
+				if (res64) {throw res64;}*/
 				result.push(fileName);
 			}
 		} 
