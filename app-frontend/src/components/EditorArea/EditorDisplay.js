@@ -35,7 +35,7 @@ const EditorDisplay = (props) => {
 		          	),
 		          	"corkboard": (
 		          		<Corkboard
-							treeData={props.docTree}
+							treeData={props.treeData}
 							curDoc={props.curDocId}
 							curDocRow={props.curDocRow}
 							getDoc={props.getDoc}
@@ -50,7 +50,7 @@ const EditorDisplay = (props) => {
 		          	),
 		          	"overview": (
 		          		<Overview
-							treeData={props.docTree}
+							treeData={props.treeData}
 							curDoc={props.curDocId}
 							curDocRow={props.curDocRow}
 							getDoc={props.getDoc}
@@ -60,13 +60,13 @@ const EditorDisplay = (props) => {
 							onTreeChange={props.updateTree}
 							docList = {props.curDocList}
 							replaceCurRow={props.replaceCurRow}
-							mdFields={props.metadataFields}
+							mdFields={props.mdFields}
 							split={props.split || false}
 						/>
 		          	),
 		          	"storymap": (
 		          		<StoryMap
-							treeData={props.docTree}
+							treeData={props.treeData}
 							curDoc={props.curDocId}
 							curDocRow={props.curDocRow}
 							getDoc={props.getDoc}

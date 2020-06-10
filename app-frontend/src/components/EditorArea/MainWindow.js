@@ -101,7 +101,8 @@ const MainWindow = (props) => {
 					mdFields={metadataFields}
 					updateDoc = {updateDoc}
 					inspectDoc={inspectDoc}
-					queueDocChanges = {queueDocChanges}
+					queueDocChanges={queueDocChanges}
+					threads={threads}
 					documentInterface = {props.documentInterface}
 				/>
 			</div>	

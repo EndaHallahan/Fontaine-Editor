@@ -130,6 +130,7 @@ const SplitWindow = (props) => {
 					updateDoc = {updateDoc}
 					inspectDoc={inspectDoc}
 					queueDocChanges = {queueDocChanges}
+					threads={threads}
 					documentInterface = {props.documentInterface}
 					split={true}
 				/>

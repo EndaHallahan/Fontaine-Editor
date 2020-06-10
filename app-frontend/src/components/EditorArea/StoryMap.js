@@ -36,11 +36,13 @@ class StoryMap extends Component {
 	}
 	flattenTree() {
 		let flatTree = [];
+		console.log(this.props.treeData)
 		const manuscriptNode = find({
 			getNodeKey: ({treeIndex}) => {return treeIndex;},
 			treeData: this.props.treeData,
-			searchMethod: (rowData) => {return(rowData.node.type === "manuscript")}
+			searchMethod: (rowData) => {return(rowData.node.type === "manuscript")},
 		}).matches[0];
+		console.log("MNODE", manuscriptNode)
 		if (manuscriptNode) {
 			walk({
 				treeData: manuscriptNode.node.children,
