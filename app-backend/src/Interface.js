@@ -73,7 +73,7 @@ class Interface {
 	async getImport(importFileName, importFileType, importFileMime) {
 		try {
 			let result;
-			const path = this.location + "\\Files\\FileBox\\" + importFileName;
+			const path = this.location + "\\Files\\Imports\\" + importFileName;
 			if (importFileType !== "raw") {
 				let bin = await ipcInterface.fetchBin(path);
 				let blobbo = new Blob([bin], {type: importFileMime});
