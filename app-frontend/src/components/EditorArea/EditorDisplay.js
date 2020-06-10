@@ -105,7 +105,7 @@ const ImportDisplay = (props) => {
 	}, [props.nodeIn])
 	if (imported.cont && imported.name === props.nodeIn.title) {
 		return (
-			<div className="import-display">
+			<div className="import-area">
 				{{
 					"image": (
 						<img src={imported.cont} />
