@@ -7,6 +7,8 @@ import Overview from "./Overview";
 import StoryMap from "./StoryMap";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
+import { setMessage, setStatus } from "../../store/slices/statusSlice";
+
 const EditorDisplay = (props) => {
 	if (props.nodeIn && props.nodeIn.type === "import") {
 		return (
@@ -87,10 +89,16 @@ const EditorDisplay = (props) => {
 }
 
 const ImportDisplay = (props) => {
+	const dispatch = useDispatch();
 	const [imported, setImported] = useState({name: null, cont: null});
 	const getImportFile = async () => {
-		let cont = await props.documentInterface.getImport(props.nodeIn.fileName, props.nodeIn.importType, props.nodeIn.mimeType);
-		setImported({name: props.nodeIn.title, cont});
+		try {
+			let cont = await props.documentInterface.getImport(props.nodeIn.fileName, props.nodeIn.importType, props.nodeIn.mimeType);
+			setImported({name: props.nodeIn.title, cont});
+		} catch(err) {
+			dispatch(setMessage({message: "An error has occurred: " + err}));
+			dispatch(setStatus({status: "error"}));
+		}
 	}
 	useEffect(() => {
 		URL.revokeObjectURL(imported.cont);

@@ -69,7 +69,7 @@ fn get_as_bin(mut cx: FunctionContext) -> JsResult<JsArrayBuffer> {
 	let file_loc = cx.argument::<JsString>(0)?.value();
 	let encoded_file_cont = match fs::read(&file_loc) {
 		Ok(file_cont) => slice_to_array_buffer!(file_cont.as_slice(), cx),
-		Err(_err) => cx.array_buffer(0).unwrap() //1!!!!!!!!!!!!!!!!!!111
+		Err(_err) => cx.array_buffer(0)?
 	};
 	Ok(encoded_file_cont)
 }

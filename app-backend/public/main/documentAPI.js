@@ -6,7 +6,7 @@ const rfs = require("./native/r-fs");
 
 function getLocation() {
 	if (!isDev) {
-		return process.argv[1].replace("\\index.ftne", ""); //Make me better please
+		return process.argv[1].replace("\\index.ftne", "");
 	} else {
 		return process.argv[0].replace("\\node_modules\\electron\\dist\\electron.exe", "\\test-project");
 	}
@@ -43,8 +43,6 @@ ipcMain.handle("doc_api_import", async (event, ...args) => {
 				let fileName = path.basename(filePath);
 				let rescopy = rfs.copyFile(filePath, fileboxLoc + fileName);
 				if (rescopy) {throw rescopy;}
-				/*let res64 = rfs.copyBase64(filePath, fileboxLoc + fileName + ".b64");
-				if (res64) {throw res64;}*/
 				result.push(fileName);
 			}
 		} 
