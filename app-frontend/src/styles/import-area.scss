@@ -24,4 +24,15 @@
 		height: 99%;
 	}
 
+	div.raw-text {
+		color: var(--editor-text-colour);
+		background-color: var(--editor-background-colour);
+		padding: 1rem;
+		width: 100%;
+		min-height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
 }

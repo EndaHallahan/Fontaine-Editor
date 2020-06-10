@@ -126,7 +126,7 @@ const ImportDisplay = (props) => {
 						<iframe src={imported.cont} sandbox></iframe>
 					),
 					"raw": (
-						<div>{imported.cont}</div>
+						<div class="raw-text">{imported.cont}</div>
 					),
 				}[props.nodeIn.importType]}
 			</div>
