@@ -76,9 +76,8 @@ class Interface {
 			const path = this.location + "\\Files\\Imports\\" + importFileName;
 			if (importFileType !== "raw") {
 				let bin = await ipcInterface.fetchBin(path);
-				console.log(bin.byteLength)
 				if (!bin.byteLength) {
-					throw `File '${importFileName}' was empty or could not be read. It may be missing or corrupted.`
+					throw `File '${importFileName}' was empty or could not be read. It may be missing or corrupted.`;
 				} else {
 					let blobbo = new Blob([bin], {type: importFileMime});
 					result = URL.createObjectURL(blobbo);
