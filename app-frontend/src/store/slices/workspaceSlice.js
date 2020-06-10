@@ -2,10 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { find, walk, addNodeUnderParent } from 'react-sortable-tree';
 import { v4 as uuidv4 } from "uuid";
 
-import { documents, documentIndex } from "../../testDocs"; //Remove me eventually!
-
-import Interface from "../../Interface"; //Probably also remove this
-
 import { sendMessage } from "./statusSlice";
 
 async function getFullChildContents(docList, docCache, getDoc) {
