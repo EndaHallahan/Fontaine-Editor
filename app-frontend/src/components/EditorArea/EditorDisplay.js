@@ -123,7 +123,7 @@ const ImportDisplay = (props) => {
 						</audio>
 					),
 					"pdf": (
-						<iframe src={imported.cont} ></iframe>
+						<iframe src={imported.cont} sandbox></iframe>
 					),
 					"raw": (
 						<div>{imported.cont}</div>
