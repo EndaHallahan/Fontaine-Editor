@@ -6,20 +6,17 @@ import alertOctagon from '@iconify/icons-feather/alert-octagon';
 import checkIcon from '@iconify/icons-feather/check';
 import alertCircle from '@iconify/icons-feather/alert-circle';
 
-//import { setMessage } from "../store/slices/statusSlice";
-
 const StatusDisplay = (props) => {
-	//const dispatch = useDispatch();
 	const messages = useSelector(state => state.statusReducer.messages);
 	const status = useSelector(state => state.statusReducer.status);
 
 	return (
 		<div 
 			className="status-display"
-			data-status={status}
+			data-status={messages[0] ? messages[0].status : "none"}
 			title={messages[0] || "Nothing to report."}
 		>
-			<span>{messages[0] || null}</span>
+			<span>{messages[0] ? messages[0].message : null}</span>
 			<span className="divider"></span>
 			<span>
 				{
@@ -29,7 +26,7 @@ const StatusDisplay = (props) => {
 						"error": <Icon icon={alertOctagon} />,
 						"alert": <Icon icon={alertCircle} />,
 						"none": null,
-					}[status]
+					}[messages[0] ? messages[0].status : "none"]
 				}
 			</span>
 			

@@ -7,7 +7,7 @@ import Overview from "./Overview";
 import StoryMap from "./StoryMap";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
-import { setMessage, setStatus } from "../../store/slices/statusSlice";
+import { sendMessage } from "../../store/slices/statusSlice";
 
 const EditorDisplay = (props) => {
 	if (props.nodeIn && props.nodeIn.type === "import") {
@@ -96,8 +96,7 @@ const ImportDisplay = (props) => {
 			let cont = await props.documentInterface.getImport(props.nodeIn.fileName, props.nodeIn.importType, props.nodeIn.mimeType);
 			setImported({name: props.nodeIn.title, cont});
 		} catch(err) {
-			dispatch(setMessage({message: "An error has occurred: " + err}));
-			dispatch(setStatus({status: "error"}));
+			dispatch(sendMessage({message: "An error has occurred: " + err, status: "error"}));
 		}
 	}
 	useEffect(() => {

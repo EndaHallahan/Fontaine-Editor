@@ -6,7 +6,7 @@ import { documents, documentIndex } from "../../testDocs"; //Remove me eventuall
 
 import Interface from "../../Interface"; //Probably also remove this
 
-import { setMessage, setStatus } from "./statusSlice";
+import { sendMessage } from "./statusSlice";
 
 async function getFullChildContents(docList, docCache, getDoc) {
 	const fullContents = {}
@@ -338,11 +338,10 @@ export const loadState = (interfaceObj) => async (dispatch, getState) => {
 		const index = await interfaceObj.getIndex();
 		const newState = await loadInitialState(index, interfaceObj.getDocument);
 		dispatch(setAllState({newState}));
-		dispatch(setStatus({status: "okay"}));
+		dispatch(sendMessage({message: null, status: "okay"}));
 	} catch (err) {
 		console.error(err);
-		dispatch(setMessage({message: "An error occurred: " + err}));
-		dispatch(setStatus({status: "error"}));
+		dispatch(sendMessage({message: "An error occurred: " + err, status: "error"}));
 	}
 }
 
@@ -480,7 +479,7 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 					throw "Failed to save document " + key + ": " + err;
 				}
 				completeTasks++;
-				dispatch(setMessage({message: `Saved ${completeTasks}/${totalTasks}`}));
+				dispatch(sendMessage({message: `Saved ${completeTasks}/${totalTasks}`, status: "loading"}));
 			} catch(err) {
 				throw err;
 			}
@@ -498,12 +497,10 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 			}
 		}
 		const tasksComplete = () => {
-			dispatch(setMessage({message: "Save complete!"}));
-			dispatch(setStatus({status: "okay"}));
+			dispatch(sendMessage({message: "Save complete!", status: "okay"}));
 			dispatch(updateChangedFiles({changedFiles}));
 		}
-		dispatch(setMessage({message: "Saving..."}));
-		dispatch(setStatus({status: "loading"}));
+		dispatch(sendMessage({message: "Saving...", staus: "loading"}));
 		for (const key of changedFilesList) {
 			saveFileTask(key);
 		}
@@ -511,8 +508,7 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 		
 	} catch (err) {
 		console.error(err);
-		dispatch(setMessage({message: "An error occurred: " + err}));
-		dispatch(setStatus({status: "error"}));
+		dispatch(sendMessage({message: "An error occurred: " + err, status: "error"}));
 	}
 }
 
@@ -524,8 +520,7 @@ export const saveSingleDocument = (key, interfaceObj) => async (dispatch, getSta
 		const docTree = state.docTree;
 		let changedFiles = Object.assign({}, state.changedFiles);
 		let err = "";
-		dispatch(setMessage({message: "Autosaving..."}));
-		dispatch(setStatus({status: "loading"}));
+		dispatch(sendMessage({message: "Autosaving...", status: "loading"}));
 		if (key === "index") {
 			let newIndex = regenIndex(
 				state.docIndex, 
@@ -540,16 +535,14 @@ export const saveSingleDocument = (key, interfaceObj) => async (dispatch, getSta
 		}
 		if (!err) {
 			dispatch(removeChangedFile({key}));
-			dispatch(setMessage({message: "Autosave complete!"}));
-			dispatch(setStatus({status: "okay"}));
+			dispatch(sendMessage({message: "Autosave complete!", status: "okay"}));
 		} else {
 			dispatch(unlockChangedFile({key}));
 			throw "Failed to save document " + key + ": " + err;
 		}	
 	} catch (err) {
 		console.error(err);
-		dispatch(setMessage({message: "An error occurred: " + err}));
-		dispatch(setStatus({status: "error"}));
+		dispatch(sendMessage({message: "An error occurred: " + err, status: "error"}));
 	}
 }
 
@@ -616,19 +609,16 @@ export const importFiles = (interfaceObj) => async (dispatch, getState) => {
 			searchMethod: (rowData) => {return(rowData.node.type === "filebox")},
 		}).matches[0];
 		for (let fileName of fileNames) {
-			dispatch(setMessage({message: `Importing file ${fileName}...`}));
-			dispatch(setStatus({status: "loading"}));
+			dispatch(sendMessage({message: `Importing file ${fileName}...`, status: "loading"}));
 			const [name, ext] = fileName.split(".");
 			const newNode = {type: "import", title: name, fileName, id: uuidv4(), ...extToMime(ext)}
 			console.log("newNode", newNode)
 			docTree = newNodeUnderTarget(newNode, fileboxNode, docTree);
 		}
 		dispatch(updateDocTree(docTree, interfaceObj));
-		dispatch(setMessage({message: "Import complete!"}));
-		dispatch(setStatus({status: "okay"}));
+		dispatch(sendMessage({message: "Import complete!", status: "okay"}));
 	} catch (err) {
 		console.error(err);
-		dispatch(setMessage({message: "An error occurred: " + err}));
-		dispatch(setStatus({status: "error"}));
+		dispatch(sendMessage({message: "An error occurred: " + err, status: "error"}));
 	}
 }
