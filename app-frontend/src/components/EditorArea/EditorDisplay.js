@@ -8,8 +8,6 @@ import StoryMap from "./StoryMap";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
 const EditorDisplay = (props) => {
-	console.log("split", props.split)
-	console.log("inNode", props.nodeIn)
 	if (props.nodeIn && props.nodeIn.type === "import") {
 		return (
 			<ImportDisplay 
@@ -95,6 +93,7 @@ const ImportDisplay = (props) => {
 		setImported({name: props.nodeIn.title, cont});
 	}
 	useEffect(() => {
+		URL.revokeObjectURL(imported.cont);
 		getImportFile();
 	}, [props.nodeIn])
 	if (imported.cont && imported.name === props.nodeIn.title) {
@@ -117,7 +116,7 @@ const ImportDisplay = (props) => {
 						</audio>
 					),
 					"pdf": (
-						<iframe src={imported.cont}></iframe>
+						<iframe src={imported.cont} ></iframe>
 					),
 					"raw": (
 						<div>{imported.cont}</div>
