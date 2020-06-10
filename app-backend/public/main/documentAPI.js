@@ -38,8 +38,7 @@ ipcMain.handle("doc_api_import", async (event, ...args) => {
 		const files = await dialog.showOpenDialog();
 		let result = [];
 		if (!files.canceled) {
-			let fileboxLoc = getLocation() + "\\Files\\FileBox\\";
-			console.log(files);
+			let fileboxLoc = getLocation() + "\\Files\\Imports\\";
 			for (let filePath of files.filePaths) {
 				let fileName = path.basename(filePath);
 				let rescopy = rfs.copyFile(filePath, fileboxLoc + fileName);
