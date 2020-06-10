@@ -19,9 +19,13 @@ ipcMain.handle("doc_api_location", async (event, ...args) => {
 ipcMain.handle("doc_api_fetch", async (event, ...args) => {
 	return rfs.getFile(args[0]) || null;
 });
-
+//This method is currently unused, but I'm keeping it in for now. Just in case.
 ipcMain.handle("doc_api_fetch_b64", async (event, ...args) => {
 	return rfs.getAsBase64(args[0]) || null;
+});
+
+ipcMain.handle("doc_api_fetch_bin", async (event, ...args) => {
+	return rfs.getAsBin(args[0]) || null;
 });
 
 ipcMain.handle("doc_api_write", async (event, ...args) => {

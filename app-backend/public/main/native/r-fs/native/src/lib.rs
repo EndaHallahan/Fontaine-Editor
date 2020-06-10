@@ -6,6 +6,40 @@ use chrono::{Utc};
 use tempfile::{Builder};
 use base64::{encode};
 
+/*
+The following macro was taken from 
+https://github.com/mattrglobal/node-bbs-signatures/blob/master/native/src/macros.rs
+and is licensed under its original Apache 2.0 license as follows. The name of the 
+macro has been changed from 'slice_to_js_array_buffer' to 'slice_to_array_buffer'.
+*/
+/* Should probably replace this with a function someday. */
+///////////////////////////////////////////////////////////////////////////////////
+/*
+ * Copyright 2020 - MATTR Limited
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+macro_rules! slice_to_array_buffer {
+    ($slice:expr, $cx:expr) => {{
+        let mut result = JsArrayBuffer::new(&mut $cx, $slice.len() as u32)?;
+        $cx.borrow_mut(&mut result, |d| {
+            let bytes = d.as_mut_slice::<u8>();
+            bytes.copy_from_slice($slice);
+        });
+        result
+    }};
+}
+
+///////////////////////////////////////////////////////////////////////////////////
+
 //Async me?
 
 fn get_unix_timestamp_ms() -> i64 {
@@ -21,12 +55,21 @@ fn get_file(mut cx: FunctionContext) -> JsResult<JsString> {
 	};
     Ok(file_contents)
 }
-
+//This method is currently unused, but I'm keeping it in for now. Just in case.
 fn get_as_base64(mut cx: FunctionContext) -> JsResult<JsString> {
 	let file_loc = cx.argument::<JsString>(0)?.value();
 	let encoded_file_cont = match fs::read(&file_loc) {
 		Ok(file_cont) => cx.string(encode(file_cont)),
 		Err(_err) => cx.string("")
+	};
+	Ok(encoded_file_cont)
+}
+
+fn get_as_bin(mut cx: FunctionContext) -> JsResult<JsArrayBuffer> {
+	let file_loc = cx.argument::<JsString>(0)?.value();
+	let encoded_file_cont = match fs::read(&file_loc) {
+		Ok(file_cont) => slice_to_array_buffer!(file_cont.as_slice(), cx),
+		Err(_err) => cx.array_buffer(0).unwrap() //1!!!!!!!!!!!!!!!!!!111
 	};
 	Ok(encoded_file_cont)
 }
@@ -54,7 +97,7 @@ fn atomic_write(file_loc: String, file_cont: String) -> Result<bool, &'static st
 	// Open, read, and parse existing file!
 
 	// Could also implement file locking here, maybe. I don't want to unless we need it, though,
-	// as it would be a bit messy what with the file replacement and such.
+	// as it could get a bit messy what with the file replacement and such.
 	match fs::File::open(&file_loc) {
 		Ok(mut file) => {
 			let mut contents = String::new();
@@ -116,25 +159,12 @@ fn copy_file(mut cx: FunctionContext) -> JsResult<JsString> {
 	}
 }
 
-fn copy_base64(mut cx: FunctionContext) -> JsResult<JsString> {
-	let file_from = cx.argument::<JsString>(0)?.value();
-	let file_to = cx.argument::<JsString>(1)?.value();
-	let encoded_file_cont = match fs::read(&file_from) {
-		Ok(file_cont) => encode(file_cont),
-		Err(err) => panic!(err)
-	};
-	return match fs::write(&file_to, encoded_file_cont) {
-		Ok(_) => Ok(cx.string("")),
-		Err(_err) => Ok(cx.string(format!("Failed to encode file '{}' to '{}'", file_from, file_to)))
-	};
-}
-
 register_module!(mut cx, {
     cx.export_function("getFile", get_file)?;
     cx.export_function("getAsBase64", get_as_base64)?;
+    cx.export_function("getAsBin", get_as_bin)?;
     cx.export_function("writeFile", write_file)?;
     cx.export_function("copyFile", copy_file)?;
-    cx.export_function("copyBase64", copy_base64)?;
     Ok(())
 });
 
@@ -146,7 +176,7 @@ mod tests {
 
         let file_loc = "./testout.txt".to_string();
 		let file_cont = json!(
-			{"lastModified":1691211527341i64, "ops":[{"type":"paragraph","children":[{"text":"Gandaaaaaaaaaaaaaaaaaalf","bold":true},{"text":" the "},{"text":"Grey","color":"#aaa"}]}]}
+			{"lastModified":1691211527341i64, "ops":[{"type":"paragraph","children":[{"text":"Gandalf","bold":true},{"text":" the "},{"text":"Grey","color":"#aaa"}]}]}
 		).to_string();
 
 		assert_eq!(atomic_write(file_loc, file_cont), Ok(true));

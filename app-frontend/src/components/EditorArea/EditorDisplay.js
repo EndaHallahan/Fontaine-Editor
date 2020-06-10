@@ -91,7 +91,7 @@ const EditorDisplay = (props) => {
 const ImportDisplay = (props) => {
 	const [imported, setImported] = useState({name: null, cont: null});
 	const getImportFile = async () => {
-		let cont = await props.documentInterface.getImport(props.nodeIn.fileName, props.nodeIn.importType);
+		let cont = await props.documentInterface.getImport(props.nodeIn.fileName, props.nodeIn.importType, props.nodeIn.mimeType);
 		setImported({name: props.nodeIn.title, cont});
 	}
 	useEffect(() => {
@@ -100,35 +100,24 @@ const ImportDisplay = (props) => {
 	if (imported.cont && imported.name === props.nodeIn.title) {
 		return (
 			<div className="import-display">
-				{{ // Probably should move the url stuff to the Interface. Won't need encoding on the web (hopefully).
+				{{
 					"image": (
-						<img src={
-							`data:${props.nodeIn.mimeType};base64, ${imported.cont}`
-						} />
+						<img src={imported.cont} />
 					),
 					"video": (
 						<video controls>
-							<source type={props.nodeIn.mimeType} src={
-								`data:${props.nodeIn.mimeType};base64, ${imported.cont}`
-							} />
+							<source type={props.nodeIn.mimeType} src={imported.cont} />
 							Your browser is older than video! Please update your browser, you absolute dinosaur!
 						</video>
 					),
 					"audio": (
 						<audio controls>
-							<source type={props.nodeIn.mimeType} src={
-								`data:${props.nodeIn.mimeType};base64, ${imported.cont}`
-							} />
+							<source type={props.nodeIn.mimeType} src={imported.cont} />
 							Your browser is older than audio! Please update your browser, you absolute dinosaur!
 						</audio>
 					),
 					"pdf": (
-						// This'll work for small PDFs, but not large ones b/c of length limits on data URLs.
-						// Look into using Blobs and URL.createObjectURL.
-						// May be best to switch everything to blobs.
-						<iframe src={
-							`data:${props.nodeIn.mimeType};base64, ${imported.cont}`
-						}></iframe>
+						<iframe src={imported.cont}></iframe>
 					),
 					"raw": (
 						<div>{imported.cont}</div>

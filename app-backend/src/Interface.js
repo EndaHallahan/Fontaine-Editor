@@ -70,13 +70,14 @@ class Interface {
 			throw err;
 		}
 	}
-	async getImport(importFileName, importFileType) {
+	async getImport(importFileName, importFileType, importFileMime) {
 		try {
 			let result;
 			const path = this.location + "\\Files\\FileBox\\" + importFileName;
 			if (importFileType !== "raw") {
-				result = await ipcInterface.fetchBase64(path);
-				//result = await ipcInterface.fetchDoc(path);
+				let bin = await ipcInterface.fetchBin(path);
+				let blobbo = new Blob([bin], {type: importFileMime});
+				result = URL.createObjectURL(blobbo);
 			} else {
 				result = await ipcInterface.fetchDoc(path);
 			}

@@ -13,10 +13,17 @@ const ipcInterface = {
 			path
 		);
 	},
-
+	//This method is currently unused, but I'm keeping it in for now. Just in case.
 	fetchBase64: async (path) => {
 		return await ipcRenderer.invoke(
 			"doc_api_fetch_b64",
+			path
+		);
+	},
+
+	fetchBin: async (path) => {
+		return await ipcRenderer.invoke(
+			"doc_api_fetch_bin",
 			path
 		);
 	},
