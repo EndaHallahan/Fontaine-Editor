@@ -207,6 +207,7 @@ const workspaceSlice = createSlice({
 			state.docCache = docCache;
 			state.curDocId = curDocId;
 			state.inspectedDocRow = curDocRow;
+			state.changedFiles.index = {lastModified: Date.now(), locked: false};
 		},
 		switchSplitDocumentComplete(state, action) {
 			const {curDocList, curDocRow, docCache, curDocId} = action.payload;
@@ -214,6 +215,7 @@ const workspaceSlice = createSlice({
 			state.splitDocRow = curDocRow;
 			state.docCache = docCache;
 			state.splitDocId = curDocId;
+			state.changedFiles.index = {lastModified: Date.now(), locked: false};
 		},
 		inspectDocument(state, action) {
 			const inspDocId = action.payload.id;
