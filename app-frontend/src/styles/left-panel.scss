@@ -5,22 +5,23 @@
 		height: 100%;
 		display: grid;
 		grid-template-rows: min-content auto;
-		background-color: $dark;
-		color: $dark-text;
+		color: var(--navigator-text-colour);
+		background-color: var(--navigator-colour);
 
 		*:focus {
 			outline: none;
 		}
 
 		.file-tree-head {
-			border-bottom: 1px solid $dark-lowlight;
+			border-bottom: 1px solid var(--navigator-header-border-colour);
 			padding: .2rem;
-			background-color: $dark;
 			margin-bottom: .3rem;
-			background-color: $darker;
+			color: var(--navigator-header-text-colour);
+			background-color: var(--navigator-header-colour);
 			min-height: 41px;
 			display: inline-flex;
 			align-items: center;
+			height: 3rem;
 
 			button.keyboard-focusable-button {
 				font-size: 1.3rem;
@@ -37,6 +38,10 @@
 					vertical-align: text-bottom;
 				}
 
+				&:hover {
+					color: var(--navigator-header-accent-colour);
+				}
+
 				&.new-folder {
 					svg {
 						vertical-align: -32%;
@@ -45,7 +50,7 @@
 
 				&.trash {
 					&:hover {
-						color: $warning-red;
+						color: var(--navigator-header-warning-colour);
 					}
 				}
 			}
@@ -76,17 +81,17 @@
 			border-radius: 3px;
 			padding-bottom: 1px;
 			&:hover {
-				color: $fontaine-blue;
-				background-color: $dark-select;
+				color: var(--navigator-accent-colour);
+				background-color: var(--navigator-hover-colour);
 			}
 
 			&.selected {
-				background-color: $fontaine-blue;
-				color: black;
+				background-color: var(--navigator-accent-colour);
+				color: var(--navigator-accent-colour-contrast);
 				font-style: italic;
 			}
 			&.selected-split {
-				border: 1px dashed $fontaine-blue;
+				border: 1px dashed var(--navigator-accent-colour);
 			}
 			.rstcustom__rowContents {
 				justify-content: flex-start;

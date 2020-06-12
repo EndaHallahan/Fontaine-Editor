@@ -23,8 +23,64 @@ $font-family-sans: "Open Sans", sans-serif;
 :root {
 	--app-toolbar-active: 0;
 
-	--editor-toolbar-text-colour: black;
-	--editor-toolbar-background-colour: white;
+	/* Global App Styles */
+	--accent-colour: #ADD8E6; // fontaine-blue
+	--accent-colour-contrast: #000000;
+
+	--primary-colour: #444444;
+	--primary-colour-contrast: #ffffff;
+	--primary-colour-highlight: #666666;
+	--primary-colour-lowlight: #222222;
+	--primary-colour-shade: #333333;
+
+	--secondary-colour: #ffffff;
+	--secondary-colour-contrast: #666666;
+	--secondary-colour-highlight: #eeeeee;
+	--secondary-colour-shade: #cccccc;
+
+	--dropdown-colour: grey;
+	--warning-colour: #EE0000;
+
+	/* Appbar Styles */
+	--appbar-colour: var(--primary-colour-shade);
+	--appbar-text-colour: var(--primary-colour-contrast);
+	--appbar-accent-colour: var(--accent-colour);
+	--appbar-border-colour: var(--primary-colour-highlight);
+
+	/* Navigator Styles */
+	--navigator-header-colour: var(--primary-colour-shade);
+	--navigator-header-text-colour: var(--primary-colour-contrast);
+	--navigator-header-accent-colour: var(--accent-colour);
+	--navigator-header-border-colour: var(--primary-colour-lowlight);
+	--navigator-header-warning-colour: var(--warning-colour);
+
+	--navigator-colour: var(--primary-colour);
+	--navigator-text-colour: var(--primary-colour-contrast);
+	--navigator-hover-colour: var(--primary-colour-shade);
+	--navigator-accent-colour: var(--accent-colour);
+	--navigator-accent-colour-contrast: var(--accent-colour-contrast);
+
+	/* Global Editor Styles*/
+	--editor-header-colour: var(--primary-colour-shade);
+	--editor-header-text-colour: var(--primary-colour-contrast);
+	--editor-header-border-colour: var(--primary-colour-lowlight);
+	--editor-header-accent-colour: var(--accent-colour);
+
+	--editor-footer-colour: var(--primary-colour);
+	--editor-footer-text-colour: var(--primary-colour-contrast);
+	--editor-footer-border-colour: var(--primary-colour-lowlight);
+	--editor-footer-inner-border-colour: var(--primary-colour-highlight);
+	--editor-footer-accent-colour: var(--accent-colour);
+
+	--split-editor-orientation: column; //'column' or 'row'
+
+	/* Text Editor Styles */
+	--editor-toolbar-colour: var(--secondary-colour);
+	--editor-toolbar-text-colour: var(--secondary-colour-contrast);
+	--editor-toolbar-border-colour: var(--primary-colour-lowlight);
+	--editor-toolbar-selection-colour: var(--secondary-colour-highlight);
+	--editor-toolbar-selection-border-colour: var(--secondary-colour-shade);
+
 	--editor-container-colour: #555555;
 	--editor-text-colour: black;
 	--editor-background-colour: white;
@@ -32,12 +88,12 @@ $font-family-sans: "Open Sans", sans-serif;
 	--editor-page-width: 900px;
 	--editor-default-font-size: 16px;
 
-	--split-editor-orientation: column; //'column' or 'row'
-
+	/* Corkboard Styles */
 	--corkboard-container-colour: #555555;
 	--corkboard-card-width: 15rem;
 	//--corkboard-card-colour: white;
 
+	/* Thread Map Styles */
 	--story-map-zoom: 5rem;
 	--story-map-container-colour: #555555;
 	--story-map-text-colour: white;
@@ -47,11 +103,36 @@ $font-family-sans: "Open Sans", sans-serif;
 	--story-map-legend-border-colour: black;
 	--story-map-legend-drop-shadow: 10px 10px 8px black;
 
+	/* Distraction-Free Mode Styles */
 	--distraction-free-background-color: black;
 	--distraction-free-paper-color: black;
 	--distraction-free-text-color: white;
 	--distraction-free-page-width: 60%;
 	--distraction-free-show-corners: 1;
+
+	/* Inspector Styles */
+
+	--inspector-tabbar-colour: var(--primary-colour-shade);
+	--inspector-tabbar-text-colour: var(--primary-colour-contrast);
+	--inspector-tabbar-border-colour: var(--primary-colour-lowlight);
+	--inspector-tabbar-inner-border-colour: var(--primary-colour-highlight);
+	--inspector-tabbar-accent-colour: var(--accent-colour);
+
+	--inspector-section-header-colour: var(--primary-colour-shade);
+	--inspector-section-header-text-colour: var(--primary-colour-contrast);
+	--inspector-section-header-border-colour: var(--primary-colour-lowlight);
+	--inspector-section-header-dropdown-colour: var(--dropdown-colour);
+	--inspector-section-header-accent-colour: var(--accent-colour);
+
+	--inspector-colour: var(--primary-colour);
+	--inspector-text-colour: var(--primary-colour-contrast);
+	--inspector-border-colour: var(--primary-colour-lowlight);
+	--inspector-inner-border-colour: var(--primary-colour-highlight);
+	--inspector-accent-colour: var(--accent-colour);
+
+	--inspector-metadata-colour: var(--primary-colour-shade);
+	--inspector-metadata-table-colour: var(--primary-colour-highlight);
+
 }
 
 @import "overrides";

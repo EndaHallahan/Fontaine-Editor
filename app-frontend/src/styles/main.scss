@@ -25,17 +25,17 @@ main {
 		#app-toolbar {
 			$icon-size: 1.5rem;
 			height: var(--toolbar-height);
-			background-color: $darker;
-			color: $dark-text;
-			border-bottom: 1px solid $dark-highlight;
+			color: var(--appbar-text-colour);
+			background-color: var(--appbar-colour);
+			border-bottom: 1px solid var(--appbar-border-colour);
 			padding: .2rem .3rem;
-			display: grid;
+			/*display: grid;
 			grid-auto-flow: column;
 			grid-template-columns: 1fr 8rem 1fr;
 			align-items: center;
-			overflow: hidden;
+			overflow: hidden;*/
 
-			button.keyboard-focusable-button {
+			/*button.keyboard-focusable-button {
 				font-size: $icon-size;
 				margin: .25rem;
 				border-radius: 3px;
@@ -63,7 +63,7 @@ main {
 				border-left: 1px solid $dark-highlight;
 				border-radius: 3px;
 				display: inline-flex;
-			}
+			}*/
 		}
 
 		#work-area {
@@ -104,15 +104,15 @@ main {
 					}
 
 					.info-bar {
-						background-color: $darker;
-						border-top: 1px solid $dark-lowlight;
-						border-bottom: 1px solid $dark-lowlight;
+						background-color: var(--editor-header-colour);
+						border-top: 1px solid var(--editor-header-border-colour);
+						border-bottom: 1px solid var(--editor-header-border-colour);
 						display: grid;
 						grid-auto-flow: column;
 						grid-template-columns: 1fr 1fr;
 						align-items: center;
 						padding: 0 .5rem;
-						color: $dark-text;
+						color: var(--editor-header-text-colour);
 						font-size: .9rem;
 
 						span {
@@ -128,6 +128,10 @@ main {
 
 						button {
 							margin-left: .2rem;
+
+							&:hover {
+								color: var(--editor-header-accent-colour);
+							}
 						}
 
 						svg {

@@ -63,7 +63,7 @@ let documentIndex = {
 		]},
 		{type: "trash", title: "Trash", permanent: true, id:"04279288-7cdc-486c-a279-9c0f7a698a31"}
 	],
-	lastDocument: "d12d04aa-7f82-48d6-a39d-362eade665f9",
+	lastDocument: "f5bfb84b-7f56-4028-9bac-53f3e9b5af9b",
 	projectTags: [
 		"pov:Abigail",
 		"pov:John",

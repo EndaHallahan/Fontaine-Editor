@@ -12,9 +12,9 @@
 	left: 0;
 
 	.editor-toolbar {
-		background-color: $light;
-		color: $light-text;
-		border-bottom: 1px solid $dark-lowlight;
+		background-color: var(--editor-toolbar-colour);
+		color: var(--editor-toolbar-text-colour);
+		border-bottom: 1px solid var(--editor-toolbar-border-colour);
 		min-height: 41px;
 		display: inline-flex;
 		flex-direction: row;
@@ -33,12 +33,12 @@
 			margin-left: 2px;
 
 			&.active {
-				background-color: $light-highlight;
-				border: 1px solid $light-higherlight;
+				background-color: var(--editor-toolbar-selection-colour);
+				border: 1px solid var(--editor-toolbar-selection-border-colour);
 			}
 
 			&:hover {
-				background-color: $light-highlight;
+				background-color: var(--editor-toolbar-selection-colour);
 			}
 
 			svg {

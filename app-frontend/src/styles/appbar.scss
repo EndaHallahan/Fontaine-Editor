@@ -1,7 +1,8 @@
 #appbar {
 	padding: 0 .5rem;
 	height: $header-height;
-	color: $dark-text;
+	color: var(--appbar-text-colour);
+	background-color: var(--appbar-colour);
 	display: inline-flex;
 	//z-index: 100;
 	position: relative;
@@ -11,7 +12,7 @@
 		margin-right: .5rem;
 		font-size: 1rem;
 		display: inline;
-		border-right: 1px solid $fontaine-blue;
+		border-right: 1px solid var(--appbar-accent-colour);
 	}
 	.keyboard-focusable-button {
 		font-size: .9rem;
@@ -20,6 +21,10 @@
 
 		& > div {
 			padding: 0 .5rem;
+		}
+
+		&:hover {
+			color: var(--appbar-accent-colour);
 		}
 	}
 	.right {
@@ -30,8 +35,8 @@
 
 	.dropdown-menu-button {
 		&.opened {
-			color: $fontaine-blue;
-			border-bottom: 1px solid $fontaine-blue;
+			color: var(--appbar-accent-colour);
+			border-bottom: 1px solid var(--appbar-accent-colour);
 		}
 	}
 }

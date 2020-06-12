@@ -1,23 +1,29 @@
 #right-panel {
-	background-color: $dark;
-	color: $dark-text;
-	border-left: 1px solid $dark-lowlight;
+	background-color: var(--inspector-colour);
+	color: var(--inspector-text-colour);
+	border-left: 1px solid var(--inspector-border-colour);
 
 	.tab-bar {
 		height: 1.5rem;
+		background-color: var(--inspector-tabbar-colour);
+		color: var(--inspector-tabbar-text-colour);
+		border-bottom: 1px solid var(--inspector-tabbar-border-colour);
 
 		.keyboard-focusable-button {
-
 			svg {
 				$dim: 1.1rem;
 				width: $dim;
 				height: $dim;
 			}
 
-			.tab {
+			&:hover {
+				color: var(--inspector-tabbar-accent-colour);
+			}
 
+			.tab {
+				border-right: 1px solid var(--inspector-tabbar-inner-border-colour);
 				&.active {
-					color: $fontaine-blue;
+					color: var(--inspector-tabbar-accent-colour);
 					background-color: transparent;
 				}
 			}
@@ -26,12 +32,13 @@
 
 	.header {
 		height: 1.5rem;
-		background-color: $darker;
+		background-color: var(--inspector-section-header-colour);
+		color: var(--inspector-section-header-text-colour);
 		padding: .1rem .5rem;
 		position: relative;
 		font-size: .9rem;
 		user-select: none;
-		border-bottom: 1px solid $dark-lowlight;
+		border-bottom: 1px solid var(--inspector-section-header-border-colour);
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		display: inline-flex;
@@ -41,6 +48,10 @@
 
 		button {
 			font-size: 1rem;
+
+			&:hover {
+				color: var(--inspector-section-header-accent-colour);
+			}
 		}
 
 		.right {
@@ -52,6 +63,8 @@
 	.collapsable-div {
 		margin-bottom: .1rem;
 		overflow: visible;
+		color: inherit;
+		background-color: inherit;
 
 		&:last-child {
 			flex-grow: 1;
@@ -63,12 +76,19 @@
 
 		.collapsable-header {
 			height: 1.5rem;
+			background-color: var(--inspector-section-header-colour);
+			color: var(--inspector-section-header-text-colour);
+			border-bottom: 1px solid var(--inspector-section-header-border-colour);
+
+			&::after {
+			    border-top-color: var(--inspector-section-header-dropdown-colour);
+			}
 		}
 	}
 
 	textarea {
-		color: $dark-text;
-		caret-color: $dark-text;
+		color: var(--inspector-text-colour);
+		caret-color: var(--inspector-text-colour);
 		height: 100%;
 		min-height: 7rem;
 	}
@@ -104,13 +124,13 @@
 
 				td {
 					border-collapse: collapse;
-					border: 1px solid $dark-highlight;
+					border: 1px solid var(--inspector-metadata-table-colour);
 					padding: .1rem .4rem;
 					text-overflow: ellipsis;
 
 					&:first-child {
 						text-align: center;
-						background-color: $darker;
+						background-color: var(--inspector-metadata-colour);
 					}
 				}
 			}
@@ -127,9 +147,9 @@
 				height: 2rem;
 				background-color: transparent;
 				border: none;
-				border-bottom: 1px solid $dark-highlight;
+				border-bottom: 1px solid var(--inspector-inner-border-colour);
 				font-size: 1rem;
-				color: $dark-text;
+				color: inherit;
 				display: inline;
 				width: 100%;
 				min-width: 100%;
@@ -138,7 +158,11 @@
 			button {
 				display: inline;
 				font-size: 1.5rem;
-				border: 1px solid $dark-highlight;
+				border: 1px solid var(--inspector-inner-border-colour);
+
+				&:hover {
+					color: var(--inspector-accent-colour);
+				}
 
 				svg {
 					vertical-align: -4px;

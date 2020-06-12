@@ -1,7 +1,7 @@
 .editor-area-footer {
-	background-color: $dark;
-	border-top: 1px solid $dark-lowlight;
-	border-left: 1px solid $dark-lowlight;
+	background-color: var(--editor-footer-colour);
+	border-top: 1px solid var(--editor-footer-border-colour);
+	border-left: 1px solid var(--editor-footer-border-colour);
 	height: 1.4rem;
 	font-size: 1.4rem;
 	display: grid;
@@ -9,7 +9,7 @@
 	grid-template-columns: 1fr 8rem 1fr;
 	align-items: center;
 	padding: 0 .1rem;
-	color: $dark-text;
+	color: var(--editor-footer-text-colour);
 
 	span {
 		display: inline-flex;
@@ -31,21 +31,26 @@
 		vertical-align: text-bottom;
 	}
 
+	button {
+		&:hover {
+			color: var(--editor-footer-accent-colour);
+		}
+	}
+
 	span.editor-mode {
-		border-right: 1px solid $dark-highlight;
-		border-left: 1px solid $dark-highlight;
+		border-right: 1px solid var(--editor-footer-inner-border-colour);
+		border-left: 1px solid var(--editor-footer-inner-border-colour);
 		border-radius: 3px;
 		display: inline-flex;
 		height: 100%;
 		vertical-align: text-top;
 
 		> button {
-			margin: 0 .2rem;
-
-
+			margin: 0 .2rem;		
 		}
+
 		.active {
-				color: $fontaine-blue;
-			}
+			color: var(--editor-footer-accent-colour);
+		}
 	}
 }
