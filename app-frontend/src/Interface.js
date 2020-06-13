@@ -1,4 +1,4 @@
-import { documents, documentIndex } from "./testDocs";
+import { documents, documentIndex, themes, themeIndex } from "./testDocs";
 
 const Interface = {
 	getIndex: async () => {
@@ -7,6 +7,12 @@ const Interface = {
 	getDocument: async (id) => {
 		const doc = documents[id];
 		return doc;
+	},
+	getThemeList: async () => {
+		return themeIndex;
+	},
+	getTheme: async (themeName) => {
+		return themes[themeName];
 	},
 }
 

@@ -3,10 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { closeModal } from "../store/slices/modalSlice";
 import SettingsModal from "./SettingsModal";
+import ThemesModal from "./ThemesModal";
 import ThreadsModal from "./ThreadsModal";
 
 const modalComponents = {
     SettingsModal,
+    ThemesModal,
     ThreadsModal
 };
 

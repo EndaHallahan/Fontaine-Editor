@@ -26,6 +26,13 @@ const ToolsDropdown = (props) => {
 					dispatch(openModal({modalType: "SettingsModal", modalProps: null}));
 				}}
 			/>
+			<LI
+				icon={settingsIcon}
+				title="Themes..."
+				onItemChosen={e => {
+					dispatch(openModal({modalType: "ThemesModal", modalProps: null}));
+				}}
+			/>
 		</CustomDropdown>
 	);
 }

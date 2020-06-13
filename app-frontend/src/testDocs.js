@@ -84,4 +84,15 @@ let documentIndex = {
 	},
 }
 
-export {documents, documentIndex};
+let themeIndex = ["LightTheme"];
+
+let themes = {
+	LightTheme: {
+		name: "Light Theme",
+		theme: {
+			"primary-colour": "white",
+		}
+	}
+}
+
+export {documents, documentIndex, themeIndex, themes};
