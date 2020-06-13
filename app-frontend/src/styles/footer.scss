@@ -1,7 +1,7 @@
 @mixin flashAlert($name, $colour) {
 	@keyframes #{$name} {
 	  	0% { background-color: transparent; }
-	  	100% { background-color: $colour; }
+	  	100% { background-color: #{$colour}; }
 	}
 }
 
@@ -9,9 +9,9 @@ footer {
 	display: inline-flex;
 	align-items: stretch;
 	height: $footer-height;
-	color: $dark-text;
-	background-color: $darker;
-	border-top: 1px solid $dark-lowlight;
+	color: var(--footer-text-colour);
+	background-color: var(--footer-colour);
+	border-top: 1px solid var(--footer-border-colour);
 	justify-content: flex-end;
 
 	.status-display {
@@ -33,8 +33,8 @@ footer {
 			animation: alertInfo .15s linear 0s 6 alternate;
 		}
 
-		@include flashAlert(alertError, $warning-red);
-		@include flashAlert(alertInfo, $fontaine-blue);
+		@include flashAlert(alertError, var(--footer-alert-error-colour));
+		@include flashAlert(alertInfo, var(--footer-alert-info-colour));
 
 		span:first-child {
 			text-align: right;
@@ -50,7 +50,7 @@ footer {
 			margin-top: $footer-height * 3/20;
 			padding: 0;
 			height: $footer-height * 3/5;
-			border-left: 1px solid $dark-text;
+			border-left: 1px solid var(--footer-text-colour);
 		}
 
 		span:last-child {

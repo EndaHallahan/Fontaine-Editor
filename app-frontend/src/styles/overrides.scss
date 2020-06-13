@@ -7,17 +7,17 @@
 	}
 
 	&::-webkit-scrollbar-track {
-	    background: $dark;
+	    background: var(--scrollbar-track-colour);
 	}
 
 	&::-webkit-scrollbar-thumb {
-	    background: $dark-highlight;
+	    background: var(--scrollbar-thumb-colour);
 	    border-radius: 3px;
-	    border: 2px solid $dark;
+	    border: 2px solid var(--scrollbar-track-colour);
 	}
 
 	&::-webkit-scrollbar-corner {
-		background: $dark;
+		background: var(--scrollbar-track-colour);
 	}
 }
 
@@ -32,34 +32,33 @@ body {
 	font-family: #{$font-family-sans};
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background-color: $darker;
+	background-color: var(--primary-colour-shade);
 }
 
 button {
-	background-color: transparent;
+	background-color: var(--button-colour);
+	color: var(--button-text-colour);
 	border: none;
 	border-radius: 0;
 	cursor: pointer;
-	color: $dark-text;
 
 	&[disabled] {
-		color: $dark-highlight;
+		color: var(--input-disabled-colour);
 		cursor: default;
 
 		&:hover {
-			color: $dark-highlight;
+			color: var(--input-disabled-colour);
 		}
 	}
 
 	&:hover {
-		color: $fontaine-blue;
+		color: var(--button-accent-colour);
 	}
 
 	&.warning {
-
 		&:hover {
-			color: $warning-red;
-			border-color: $warning-red;
+			color: var(--button-warning-colour);
+			border-color: var(--button-warning-colour);
 		}
 	}
 }
@@ -68,10 +67,10 @@ button.border {
 	border: none;
 	border-radius: 0;
 	cursor: pointer;
-	color: $dark-text;
+	color: var(--button-text-colour);
 	padding: .3rem;
 	border-radius: 3px;
-	border: 1px solid $dark-text;
+	border: 1px solid var(--button-text-colour);
 	font-size: .9rem;
 
 	&[disabled] {
@@ -79,22 +78,21 @@ button.border {
 		opacity: .5;
 
 		&:hover {
-			color: $dark-text;
+			color: var(--button-text-colour);
 			background-color: inherit;
-			border-color: $dark-text;
+			border-color: var(--button-text-colour);
 		}
 	}
 
 	&:hover {
-		color: $fontaine-blue;
-		border: 1px solid $fontaine-blue;
+		color: var(--button-accent-colour);
+		border: 1px solid var(--button-accent-colour);
 	}
 
 	&.warning {
-
 		&:hover {
-			color: $warning-red;
-			border-color: $warning-red;
+			color: var(--button-warning-colour);
+			border-color: var(--button-warning-colour);
 		}
 	}
 }
@@ -103,11 +101,11 @@ input {
 	font-family: #{$font-family-sans};
 	text-overflow: ellipsis;
 	width: 100%;
-	background-color: transparent;
 	border: none;
 	border-radius: 0;
-	color: $dark-text;
-	border-bottom: 1px solid $fontaine-blue;
+	background-color: var(--input-colour);
+	color: var(--input-text-colour);
+	border-bottom: 1px solid var(--input-border-colour);
 }
 
 textarea {
@@ -117,13 +115,13 @@ textarea {
 	border: none;
 	font-family: $font-family-sans;
 	font-size: .9rem;
-	background-color: transparent;
+	background-color: var(--input-colour);
+	color: var(--input-text-colour);
 }
 
 select {
 	display: block;
 	font-size: .9rem;
-	color: $dark-text;
 	line-height: 1.3;
 	padding: .2rem .4rem;
 	width: 100%;
@@ -131,24 +129,25 @@ select {
 	box-sizing: border-box;
 	margin: 0;
 	appearance: none;
-	background-color: transparent;
-	border: 1px solid $dark-highlight;
+	background-color: var(--input-colour);
+	color: var(--input-text-colour);
+	border: 1px solid var(--select-border-colour);
 	border-radius: 3px;
 
 	&::-ms-expand {
 		display: none;
 	}
 	&:hover {
-		border: 1px solid $fontaine-blue;
+		border: 1px solid var(--input-accent-colour);
 	}
 	&:focus {
-		border: 1px solid $fontaine-blue;
+		border: 1px solid var(--input-accent-colour);
 		outline: none;
 	}
 	option {
 		appearance: none;
-		background-color: $darker;
-		color: $dark-text;
+		background-color: var(--select-background-colour);
+		color: var(--input-text-colour);
 
 		&:hover {
 			//Just doesn't seem to do anything! Yay!

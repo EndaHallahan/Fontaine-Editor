@@ -10,6 +10,7 @@
 		border-bottom: 1px solid var(--inspector-tabbar-border-colour);
 
 		.keyboard-focusable-button {
+			color: var(--inspector-tabbar-text-colour);
 			svg {
 				$dim: 1.1rem;
 				width: $dim;
@@ -175,16 +176,16 @@
 			position: absolute;
 			right: calc(100% + 5px);
 			top: 3rem;
-			background-color: $dark;
-			border: 1px solid $dark-lowlight;
+			background-color: var(--inspector-tag-search-colour);
+			border: 1px solid var(--inspector-tag-search-border-colour);
 			min-width: 12rem;
 			border-radius: 3px;
 			> div {
 
 				&:first-child {
 					text-align: center;
-					background-color: $darker;
-					border-bottom: 1px solid $dark-highlight;
+					background-color: var(--inspector-tag-search-header-colour);
+					border-bottom: 1px solid var(--inspector-tag-search-inner-border-colour);
 					padding: .2rem .5rem;
 				}
 
@@ -196,11 +197,11 @@
 						padding: .2rem .5rem;
 
 						&.selected {
-							background-color: $fontaine-blue;
+							background-color: var(--inspector-tag-search-accent-colour);
 						}
 
 						&:not(:last-child) {
-							border-bottom: 1px solid $dark-highlight;
+							border-bottom: 1px solid var(--inspector-tag-search-inner-border-colour);
 						}
 					}
 				}	
@@ -216,8 +217,8 @@
 			overflow-y: auto;
 
 			.tag {
-				background-color: $fontaine-blue;
-				color: black;
+				background-color: var(--inspector-tag-colour);
+				color: var(--inspector-tag-text-colour);
 				padding: .2rem .4rem;
 				border-radius: 3px;
 				margin-bottom: 5px;
@@ -228,13 +229,14 @@
 				button {
 					margin-left: .2rem;
 					font-size: 1rem;
+					color: var(--inspector-tag-x-colour);
 
 					svg {
 						vertical-align: text-bottom;
 					}
 
 					&:hover {
-						color: black;
+						color: var(--inspector-tag-x-hover-colour);
 					}
 
 				}

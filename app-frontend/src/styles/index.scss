@@ -1,5 +1,6 @@
 //@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital@0;1&display=swap');
 
+// Remove these eventually!
 $fontaine-blue: #ADD8E6;
 
 $dark: #444444;
@@ -21,7 +22,7 @@ $index-card-red: #EE0000;
 $font-family-sans: "Open Sans", sans-serif;
 
 :root {
-	--app-toolbar-active: 0;
+	--app-toolbar-active: 0; //Boolean
 
 	/* Global App Styles */
 	--accent-colour: #ADD8E6; // fontaine-blue
@@ -46,6 +47,12 @@ $font-family-sans: "Open Sans", sans-serif;
 	--appbar-text-colour: var(--primary-colour-contrast);
 	--appbar-accent-colour: var(--accent-colour);
 	--appbar-border-colour: var(--primary-colour-highlight);
+
+	--appbar-dropdown-colour: var(--primary-colour-shade);
+	--appbar-dropdown-text-colour: var(--primary-colour-contrast);
+	--appbar-dropdown-accent-colour: var(--accent-colour);
+	--appbar-dropdown-border-colour: var(--primary-colour-lowlight);
+	--appbar-dropdown-divider-colour: var(--primary-colour-highlight);
 
 	/* Navigator Styles */
 	--navigator-header-colour: var(--primary-colour-shade);
@@ -90,7 +97,12 @@ $font-family-sans: "Open Sans", sans-serif;
 
 	/* Corkboard Styles */
 	--corkboard-container-colour: #555555;
+	--corkboard-accent-colour: var(--accent-colour);
+
 	--corkboard-card-width: 15rem;
+	--corkboard-card-text-colour: black;
+	--corkboard-card-drag-icon-colour: #666666;
+	--corkboard-card-line: #EE0000;
 	//--corkboard-card-colour: white;
 
 	/* Thread Map Styles */
@@ -108,10 +120,9 @@ $font-family-sans: "Open Sans", sans-serif;
 	--distraction-free-paper-color: black;
 	--distraction-free-text-color: white;
 	--distraction-free-page-width: 60%;
-	--distraction-free-show-corners: 1;
+	--distraction-free-show-corners: 1; //Boolean
 
 	/* Inspector Styles */
-
 	--inspector-tabbar-colour: var(--primary-colour-shade);
 	--inspector-tabbar-text-colour: var(--primary-colour-contrast);
 	--inspector-tabbar-border-colour: var(--primary-colour-lowlight);
@@ -133,6 +144,59 @@ $font-family-sans: "Open Sans", sans-serif;
 	--inspector-metadata-colour: var(--primary-colour-shade);
 	--inspector-metadata-table-colour: var(--primary-colour-highlight);
 
+	--inspector-tag-colour: var(--accent-colour);
+	--inspector-tag-text-colour: var(--accent-colour-contrast);
+	--inspector-tag-x-colour: var(--primary-colour-contrast);
+	--inspector-tag-x-hover-colour: var(--accent-colour-contrast);
+
+	--inspector-tag-search-header-colour: var(--primary-colour-shade);
+	--inspector-tag-search-colour: var(--primary-colour);
+	--inspector-tag-search-border-colour: var(--primary-colour-lowlight);
+	--inspector-tag-search-inner-border-colour: var(--primary-colour-highlight);
+	--inspector-tag-search-text-colour: var(--primary-colour-contrast);
+	--inspector-tag-search-accent-colour: var(--accent-colour);
+
+	/* Footer Styles */
+	--footer-colour: var(--primary-colour-shade);
+	--footer-text-colour: var(--primary-colour-contrast);
+	--footer-border-colour: var(--primary-colour-lowlight);
+	--footer-alert-info-colour: var(--accent-colour);
+	--footer-alert-error-colour: var(--warning-colour);
+
+	/* Scrollbar Styles */
+	--scrollbar-track-colour: var(--primary-colour);
+	--scrollbar-thumb-colour: var(--primary-colour-highlight);
+	--scrollbar-corner-colour: var(--primary-colour-highlight);
+
+	/* Modal and Subwindow Styles */
+	--modal-header-colour: var(--primary-colour-shade);
+	--modal-header-text-colour: var(--primary-colour-contrast);
+	--modal-header-border-colour: var(--primary-colour-lowlight);
+	--modal-header-warning-colour: var(--warning-colour);
+
+	--modal-colour: var(--primary-colour);
+	--modal-text-colour: var(--primary-colour-contrast);
+	--modal-border-colour: var(--primary-colour-highlight);
+	--modal-accent-colour: var(--accent-colour);
+
+	--subwindow-border-colour: var(--primary-colour-lowlight);
+
+	/* Input Element Styles */
+	--input-colour: transparent;
+	--input-text-colour: var(--primary-colour-contrast);
+	--input-border-colour: var(--accent-colour);
+	--input-accent-colour: var(--accent-colour);
+	--input-disabled-colour: var(--primary-colour-highlight);
+
+	--select-border-colour: var(--primary-colour-highlight);
+	--select-background-colour: var(--primary-colour-shade);
+
+	--button-colour: transparent;
+	--button-text-colour: var(--primary-colour-contrast);
+	--button-accent-colour: var(--accent-colour);
+	--button-warning-colour: var(--warning-colour);
+
+	
 }
 
 @import "overrides";

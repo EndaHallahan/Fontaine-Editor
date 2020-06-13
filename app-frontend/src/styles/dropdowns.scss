@@ -24,16 +24,15 @@
 
 .appbar-dropdown {
 	min-width: 15rem;
-	background-color: $dark;
-	color: $dark-text;
-	border: 1px solid $dark-lowlight;
+	background-color: var(--appbar-dropdown-colour);
+	color: var(--appbar-dropdown-text-colour);
+	border: 1px solid var(--appbar-dropdown-border-colour);
 	padding: .4rem .4rem;
 	font-size: .9rem;
 
 	hr {
-		$col: $dark-highlight;
-		background-color: $col;
-		border: 1px solid $col;
+		background-color: var(--appbar-dropdown-divider-colour);
+		border: 1px solid var(--appbar-dropdown-divider-colour);
 		height: 1px;
 		width: 99%;
 	}
@@ -58,7 +57,7 @@
 		}
 		
 		&.highlighted {
-			background-color: $fontaine-blue;
+			background-color: var(--appbar-dropdown-accent-colour);
 		}
 	}
 }

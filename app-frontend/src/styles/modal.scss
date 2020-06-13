@@ -4,7 +4,7 @@
 	left: 0px; 
 	right: 0px;
 	bottom: 0px;
-	background-color: rgba($dark-lowlight, .75);
+	background-color: rgba(#111111, .75);
 	z-index: 1000000000;
 }
 
@@ -19,21 +19,22 @@
     border-radius: 3px;
     outline: none;
     margin: 0 auto;
-    background-color: $dark;
-    color: $dark-text;
-    border: 1px solid $dark-highlight;
+    background-color: var(--modal-colour);
+    color: var(--modal-text-colour);
+    border: 1px solid var(--modal-border-colour);
     display: grid;
     grid-template-rows: 2rem 1fr;
     overflow: hidden;
 
     .modal-header {
-    	background-color: $darker;
+        color: var(--modal-header-text-colour);
+    	background-color: var(--modal-header-colour);
     	font-size: .9rem;
     	height: 2rem;
     	line-height: 2rem;
     	display: inline-flex;
     	padding: 0 .5rem;
-    	border-bottom: 1px solid $dark-lowlight;
+    	border-bottom: 1px solid var(--modal-header-border-colour);
         user-select: none;
     	
     	.close-button {
@@ -46,7 +47,7 @@
 	    		width: $dim;
 
 	    		&:hover {
-					color: $warning-red;
+					color: var(--modal-header-warning-colour);
 				}
 	    	}
 	    }
@@ -71,6 +72,6 @@
 
 .subwindow {
     box-shadow: 2px 2px 8px black;
-    border: 1px solid $dark-lowlight;
+    border: 1px solid var(--subwindow-border-colour);
     margin: 0;
 }

@@ -27,6 +27,7 @@
 			width: var(--corkboard-card-width);
 			height: calc(.67 * var(--corkboard-card-width));
 			background-color: white;
+			color: var(--corkboard-card-text-colour);
 			margin: .5rem;
 			padding: .3rem;
 			border-radius: 3px;
@@ -45,7 +46,7 @@
 			}
 
 			&.inspected {
-				outline: 3px solid $fontaine-blue;
+				outline: 3px solid var(--corkboard-accent-colour);
 				outline-offset: 4px;
 			}
 
@@ -58,14 +59,14 @@
 				top: .3rem;
 				right: .3rem;
 				cursor: move;
-				color: $light-text;
+				color: var(--corkboard-card-drag-icon-colour);
 				opacity: .3;
 			}
 
 			h3 {
 				margin: 0;
 				width: 100%;
-				border-bottom: 1px solid $index-card-red;
+				border-bottom: 1px solid var(--corkboard-card-line);
 
 				input {
 					font-size: inherit;
@@ -84,6 +85,7 @@
 
 			textarea {
 				text-overflow: ellipsis;
+				color: inherit;
 			}
 
 			&[data-placeholder] {
