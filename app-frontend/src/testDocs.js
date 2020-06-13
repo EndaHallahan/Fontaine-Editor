@@ -84,13 +84,16 @@ let documentIndex = {
 	},
 }
 
-let themeIndex = ["LightTheme"];
+let themeIndex = ["Light"/*, "UltraDark", "Terminal", "BlackAndAmber"*/];
 
 let themes = {
-	LightTheme: {
-		name: "Light Theme",
+	Light: {
+		description: "Default light theme.",
+		author: "",
 		theme: {
-			"primary-colour": "white",
+			"primary-colour": "WhiteSmoke",
+			"primary-colour-contrast": "Black",
+			"primary-colour-shade": "Silver"
 		}
 	}
 }

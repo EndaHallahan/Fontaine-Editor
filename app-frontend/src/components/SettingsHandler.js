@@ -1,13 +1,24 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 const SettingsHandler = (props) => {
 	const settings = useSelector(state => state.settingsReducer.settings);
+	const theme = useSelector(state => state.settingsReducer.theme);
+
+	let root = document.documentElement;
+
+	useEffect(() => {
+		let themeKeys = Object.keys(theme);
+		root.style.cssText = "";
+		themeKeys.forEach(key => {
+			root.style.setProperty(`--${key}`, theme[key]);
+		});
+	}, [theme]);
+
+	
 	//console.log(JSON.stringify(settings));
 
-	/* CSSS Variables */
-	
-	let root = document.documentElement;
+	/* MOVE THESE TO THEME */
 
 	if (settings.editorBackgroundColour !== undefined) {
 		root.style.setProperty("--editor-background-colour", settings.editorBackgroundColour)

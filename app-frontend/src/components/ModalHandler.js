@@ -22,7 +22,13 @@ const ModalHandler = (props) => {
 
     if (modalType) {
     	const ModalComponent = modalComponents[modalType];
-        renderedModal = <ModalComponent onRequestClose={closeCurrentModal} {...modalProps}/>;
+        renderedModal = (
+            <ModalComponent 
+                onRequestClose={closeCurrentModal} 
+                documentInterface={props.documentInterface}
+                {...modalProps}
+            />
+        );
     }
 
     return <span>{renderedModal}</span>

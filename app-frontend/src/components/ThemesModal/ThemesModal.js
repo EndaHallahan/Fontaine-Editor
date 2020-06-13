@@ -11,6 +11,7 @@ import ColourPicker from "../ColourPicker";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 import CustomModal from "../CustomModal";
 
+import ThemeOptions from "./ThemeOptions";
 import EditorOptions from "./EditorOptions";
 
 const ThemesModal = (props) => {
@@ -26,6 +27,7 @@ const ThemesModal = (props) => {
 			updateSettings={updateSettings}
 			resetToDefaults={resetToDefaults}
 			onRequestClose={props.onRequestClose}
+			documentInterface={props.documentInterface}
 		/>
 	);
 }
@@ -47,12 +49,12 @@ class SettingsModalChild extends Component {
 	          	title="Themes and Customization"
 	        >
 	       		<TabularMenu
-	       			startTab={1}
+	       			startTab={0}
 	       			windows={[
 	       				{tabName:"Themes", render: () => 
-	       					<div>
-	       						Themes
-	       					</div>
+	       					<ThemeOptions 
+	       						{...this.props}
+	       					/>
 	       				},
 	       				{tabName:"Interface", render: () => 
 	       					<div>

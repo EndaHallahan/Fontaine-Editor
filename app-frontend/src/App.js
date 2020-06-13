@@ -18,7 +18,7 @@ class App extends Component {
 			<Provider store={store}>
 				<div className="App">
 					<SettingsHandler documentInterface={this.props.documentInterface} />
-					<ModalHandler />
+					<ModalHandler documentInterface={this.props.documentInterface} />
 					<ShortcutHandler documentInterface={this.props.documentInterface} />
 					<DistractionFree documentInterface={this.props.documentInterface} />
 					<AutoSaveHandler documentInterface={this.props.documentInterface} />
