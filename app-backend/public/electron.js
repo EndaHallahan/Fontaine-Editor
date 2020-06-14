@@ -34,6 +34,10 @@ function createWindow() {
 	electronLocalshortcut.register(mainWindow, 'Ctrl+Shift+I', () => {
         mainWindow.webContents.toggleDevTools();
     });
+    electronLocalshortcut.register(mainWindow, 'F11', () => {
+    	let isFull = mainWindow.isFullScreen();
+        mainWindow.setFullScreen(!isFull);
+    });
     mainWindow.webContents.on("will-navigate", function(e) {e.preventDefault();}); 
 	mainWindow.once('ready-to-show', () => {
 		mainWindow.show()
