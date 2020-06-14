@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const modalSlice = createSlice({
 	name: "modal",
 	initialState: {
-		curModal: null,//"ThemesModal",
+		curModal: "ThemesModal",
 		curModalProps: null,
 	},
 	reducers: {

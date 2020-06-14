@@ -14,6 +14,49 @@
 	}
 }
 
+.theme-preview {
+	background-color: black;
+	position: relative;
+	//margin: 2px;
+	border: 8px solid black;
+
+	display: grid;
+	grid-template-columns: 20% 1fr 20%;
+	grid-template-rows: 10% 1fr 5%;
+
+	.head {
+		width: 100%;
+		z-index: 10;
+		grid-column: 1 / span 3;
+		background-color: var(--appbar-colour);
+	}
+
+	.nav {
+		height: 100%;
+		background-color: var(--navigator-colour);
+	}
+
+	.edit {
+		height: 100%;
+		background-color: var(--editor-background-colour);
+		border: 4px solid var(--editor-container-colour);
+		border-right-width: 25px;
+		border-left-width: 25px;
+	}
+
+	.insp {
+		height: 100%;
+		background-color: var(--inspector-colour);
+	}
+
+	.foot {
+		width: 100%;
+		z-index: 10;
+		grid-column: 1 / span 3;
+		background-color: var(--footer-colour);
+	}
+}
+
 .options-list {
 	padding: .5rem;
 	height: 100%;
@@ -29,18 +72,20 @@
 		}
 	}
 }
+
 .confirm-wrapper {
-	padding: .3rem;
-	padding-right: .5rem;
+	background-color: var(--primary-colour-shade);
+	padding: 0  .5rem 1rem .5rem;
+	height: 100%;
 	border: none;
 	display: inline-flex;
 	width: 100%;
 	align-self: end;
 	button {
 		margin-left: .5rem;
-		height: 2.5rem;
+		//height: 2.5rem;
 		& > div {
-			height: 2.5rem
+			//height: 2.5rem
 		}
 	}
 
@@ -53,6 +98,37 @@
 .editor-settings-tab {
 	height: 100%;
 	display: grid;
-	grid-template-rows: 15rem 1fr 1fr;
-	padding-bottom: .5rem;
+	grid-template-rows: 15rem 1fr 2.3rem;
+	background-color: var(--primary-colour-shade);
+}
+
+.theming-tab {
+	height: 100%;
+	display: grid;
+	grid-template-rows: 15rem 1fr 2.3rem;
+	background-color: var(--primary-colour-shade);
+	//padding-bottom: .5rem;
+}
+
+.selection-list {
+	background-color: var(--primary-colour-shade);
+	padding: .5rem;
+	overflow-y: auto;
+
+	> div {
+		cursor: pointer;
+		border: 1px solid var(--primary-colour-shade);
+		border-bottom: 1px solid var(--primary-colour-highlight);
+		padding: 1px;
+		padding-left: .2rem;
+	}
+
+	.active {
+		background-color: var(--accent-colour);
+		color: var(--accent-colour-contrast);
+	}
+
+	.selected {
+		border: 1px dashed var(--accent-colour);
+	}
 }

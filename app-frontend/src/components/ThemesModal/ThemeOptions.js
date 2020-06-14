@@ -26,9 +26,9 @@ const ThemeOptions = (props) => {
 		if (themeName !== "Default") {
 			newTheme = await props.documentInterface.getTheme(themeName);
 		} else {
-			newTheme = {};
+			newTheme = {theme:{}};
 		}
-		setPreviewedTheme(newTheme);
+		setPreviewedTheme(newTheme.theme);
 		setPreviewedThemeName(themeName);
 	}
 
@@ -37,23 +37,51 @@ const ThemeOptions = (props) => {
 	}, []);
 
 	return (
-		<div className="theme-settings-tab">
+		<div className="theming-tab">
 			<div className="theme-preview">
+				{/* TODO: Add little blocks to represent text colour in preview. */}
 				<div 
-					className="editor-preview"
+					className="head"
 					style={{
-						backgroundColor: previewedTheme["primary-colour"]
+						backgroundColor: previewedTheme["appbar-colour"] || previewedTheme["primary-colour-shade"] || null,
+					}}
+				></div>
+				<div 
+					className="nav"
+					style={{
+						backgroundColor: previewedTheme["navigator-colour"] || previewedTheme["primary-colour"] || null,
+					}}
+				></div>
+				<div 
+					className="edit"
+					style={{
+						backgroundColor: previewedTheme["editor-background-colour"] || null,
+						borderColor: previewedTheme["editor-container-colour"] || null,
+					}}
+				></div>
+				<div 
+					className="insp"
+					style={{
+						backgroundColor: previewedTheme["inspector-colour"] || previewedTheme["primary-colour"] || null,
+					}}
+				></div>
+				<div 
+					className="foot"
+					style={{
+						backgroundColor: previewedTheme["footer-colour"] || previewedTheme["primary-colour-shade"] || null,
 					}}
 				></div>
 			</div>
-
-			<div className="theme-selector">
+			<div className="selection-list">
 				{
-
 					themeList.map((theme) => {
 						return (
 							<div
-								className={theme === currentTheme ? "active" : null}
+								className={
+									theme === currentTheme ? "active" : (
+										theme === previewedThemeName ? "selected" : null
+									)
+								}
 								onClick={() => {loadTheme(theme)}}
 							>{theme}</div>
 						);
@@ -62,9 +90,18 @@ const ThemeOptions = (props) => {
 			</div>
 
 			<span className="confirm-wrapper">
-				<button
-					onClick={setTheme}
-				>Set Theme</button>
+				<span>
+					<button
+						className="border"
+						//onClick={setTheme}
+					>Save Current Theme</button>
+				</span>
+				<span className="right">
+					<button
+						className="border"
+						onClick={setTheme}
+					>Set Theme</button>
+				</span>
 			</span>
 		</div>
 	);

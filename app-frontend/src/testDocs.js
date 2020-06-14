@@ -84,7 +84,7 @@ let documentIndex = {
 	},
 }
 
-let themeIndex = ["Light"/*, "UltraDark", "Terminal", "BlackAndAmber"*/];
+let themeIndex = ["Light", "Terminal"/*, "UltraDark", "Terminal", "BlackAndAmber"*/];
 
 let themes = {
 	Light: {
@@ -94,6 +94,18 @@ let themes = {
 			"primary-colour": "WhiteSmoke",
 			"primary-colour-contrast": "Black",
 			"primary-colour-shade": "Silver"
+		}
+	},
+	Terminal: {
+		description: "Yes, like in The Matrix.",
+		author: "",
+		theme: {
+			"primary-colour": "Black",
+			"primary-colour-contrast": "limegreen",
+			"primary-colour-shade": "Black",
+			"primary-colour-lowlight": "limegreen",
+			"primary-colour-highlight": "limegreen",
+			"accent-colour": "	chartreuse",
 		}
 	}
 }

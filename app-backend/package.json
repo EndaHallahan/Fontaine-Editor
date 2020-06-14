@@ -30,7 +30,10 @@
     "directories": {
       "buildResources": "build-assets",
       "output": "dist"
-    }
+    },
+    "extraFiles": [
+      "Resources"
+    ]
   },
   "main": "public/electron.js",
   "homepage": "./",
