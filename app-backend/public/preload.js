@@ -7,6 +7,10 @@ const ipcInterface = {
 		return await ipcRenderer.invoke("doc_api_location");
 	},
 
+	fetchAppLoc: async () => {
+		return await ipcRenderer.invoke("doc_api_app_location");
+	},
+
 	fetchDoc: async (path) => {
 		return await ipcRenderer.invoke(
 			"doc_api_fetch", 
@@ -39,6 +43,13 @@ const ipcInterface = {
 	importFile: async () => {
 		return await ipcRenderer.invoke(
 			"doc_api_import"
+		);
+	},
+
+	listFiles: async (path) => {
+		return await ipcRenderer.invoke(
+			"doc_api_list_files",
+			path
 		);
 	},
 }

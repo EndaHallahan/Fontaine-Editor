@@ -3,6 +3,7 @@ const ipcInterface  = window.ipcInterface;
 class Interface {
 	constructor() {
 		this.location = null;
+		this.appLocation = null;
 		this.getIndex = this.getIndex.bind(this);
 		this.getDocument = this.getDocument.bind(this);
 		this.saveIndex = this.saveIndex.bind(this);
@@ -12,6 +13,23 @@ class Interface {
 		try {
 			const fetchedLocation = await ipcInterface.fetchLoc();
 			this.location = fetchedLocation;
+			return fetchedLocation;
+		} catch(err) {
+			throw err;
+		}
+	}
+	async getAppLocation() {
+		console.log(`GETTING
+			APP
+			LOCATION`)
+		try {
+			if (this.appLocation) {
+				console.log("APPLOC", this.appLocation)
+				return this.appLocation;
+			}
+			const fetchedLocation = await ipcInterface.fetchAppLoc();
+			this.appLocation = fetchedLocation;
+			console.log("APPLOC", fetchedLocation)
 			return fetchedLocation;
 		} catch(err) {
 			throw err;
@@ -86,6 +104,28 @@ class Interface {
 				result = await ipcInterface.fetchDoc(path);
 			}
 			return result;
+		} catch(err) {
+			throw err;
+		}
+	}
+	async getThemeList() {
+		try {
+			const appLoc = await this.getAppLocation();
+			const themeList = await ipcInterface.listFiles(
+				appLoc + "\\Resources\\Themes"
+			);
+			return themeList;
+		} catch(err) {
+			throw err;
+		}
+	}
+	async getTheme(themeName) {
+		try {
+			const appLoc = await this.getAppLocation();
+			const fetchedTheme = await ipcInterface.fetchDoc(
+				appLoc + "\\Resources\\Themes\\" + themeName + ".json"
+			);
+			return JSON.parse(fetchedTheme);
 		} catch(err) {
 			throw err;
 		}

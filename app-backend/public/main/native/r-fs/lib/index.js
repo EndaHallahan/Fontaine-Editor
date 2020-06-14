@@ -7,4 +7,5 @@ module.exports = {
 	writeFile: addon.writeFile,
 	copyFile: addon.copyFile,
 	copyBase64: addon.copyBase64,
+	listFiles: addon.listFiles,
 }

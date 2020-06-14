@@ -74,7 +74,7 @@ const ThemeOptions = (props) => {
 			</div>
 			<div className="selection-list">
 				{
-					themeList.map((theme) => {
+					themeList.map((theme, i) => {
 						return (
 							<div
 								className={
@@ -83,6 +83,7 @@ const ThemeOptions = (props) => {
 									)
 								}
 								onClick={() => {loadTheme(theme)}}
+								key={i}
 							>{theme}</div>
 						);
 					})

@@ -1,4 +1,5 @@
 const { ipcMain, dialog } = require('electron');
+const app = require('electron').app;
 const isDev = require("electron-is-dev");
 const path = require("path");
 
@@ -12,8 +13,17 @@ function getLocation() {
 	}
 }
 
+function getAppLocation() {
+	console.log(app.getAppPath())
+	return app.getAppPath();
+}
+
 ipcMain.handle("doc_api_location", async (event, ...args) => {
 	return getLocation();
+});
+
+ipcMain.handle("doc_api_app_location", async (event, ...args) => {
+	return getAppLocation();
 });
 
 ipcMain.handle("doc_api_fetch", async (event, ...args) => {
@@ -50,4 +60,9 @@ ipcMain.handle("doc_api_import", async (event, ...args) => {
 	} catch(err) {
 		return {ok: false, error: err};
 	}
+});
+
+ipcMain.handle("doc_api_list_files", async (event, ...args) => {
+	let result = rfs.listFiles(args[0]);
+	return result;
 });

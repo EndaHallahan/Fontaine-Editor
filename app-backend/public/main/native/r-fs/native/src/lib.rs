@@ -159,12 +159,34 @@ fn copy_file(mut cx: FunctionContext) -> JsResult<JsString> {
 	}
 }
 
+fn file_lister(dir: String) -> Vec<String> {
+	let entries: Vec<_> = fs::read_dir(dir).unwrap().map(
+		|res| res.unwrap().path().file_name().unwrap().to_str().unwrap().to_string() //1!!!!!!!!!!!!!!!!!!!!!!!!!!
+	).collect();
+    return entries;
+}
+
+fn list_files(mut cx: FunctionContext) -> JsResult<JsArray> {
+	let dir = cx.argument::<JsString>(0)?.value();
+
+	let entries = file_lister(dir);
+	
+	let js_array = JsArray::new(&mut cx, entries.len() as u32);
+	for (i, obj) in entries.iter().enumerate() {
+        let js_string = cx.string(obj);
+        js_array.set(&mut cx, i as u32, js_string).unwrap(); //1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+
+    Ok(js_array)
+}
+
 register_module!(mut cx, {
     cx.export_function("getFile", get_file)?;
     cx.export_function("getAsBase64", get_as_base64)?;
     cx.export_function("getAsBin", get_as_bin)?;
     cx.export_function("writeFile", write_file)?;
     cx.export_function("copyFile", copy_file)?;
+    cx.export_function("listFiles", list_files)?;
     Ok(())
 });
 
@@ -180,5 +202,18 @@ mod tests {
 		).to_string();
 
 		assert_eq!(atomic_write(file_loc, file_cont), Ok(true));
+    }
+
+    #[test]
+    fn list_files_test() {
+
+        let file_loc = "./".to_string();
+
+        let out_vec = file_lister(file_loc);
+
+        println!("{:?}", out_vec);
+
+        panic!();
+
     }
 }
