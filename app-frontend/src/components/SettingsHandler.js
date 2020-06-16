@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { loadSettings } from "../store/slices/settingsSlice";
 
 const SettingsHandler = (props) => {
+	const dispatch = useDispatch();
 	const settings = useSelector(state => state.settingsReducer.settings);
 	const theme = useSelector(state => state.settingsReducer.theme);
 	const themeOverrides = useSelector(state => state.settingsReducer.themeOverrides);
@@ -9,6 +11,14 @@ const SettingsHandler = (props) => {
 	let root = document.documentElement;
 
 	let combinedTheme = {...theme, ...themeOverrides};
+
+	const initSettings = async () => {
+		await dispatch(loadSettings(props.documentInterface));
+	}
+
+	useEffect(() => {
+		initSettings();
+	}, []);
 
 	useEffect(() => {
 		let themeKeys = Object.keys(combinedTheme);

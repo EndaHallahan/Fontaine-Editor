@@ -13,6 +13,14 @@ const settingsSlice = createSlice({
 		themeChanged: false
 	},
 	reducers: {
+		setAll(state, action) {
+			let settingsFile = action.payload;
+			state.settings = settingsFile.settings || {};
+			state.theme = settingsFile.theme || {};
+			state.themeOverrides = settingsFile.themeOverrides || {};
+			state.currentTheme = settingsFile.currentTheme || "Default";
+			state.themeChanged = settingsFile.themeChanged || false;
+		},
 		/* Settings */
 		setSetting(state, action) {
 			let {setting, newValue} = action.payload;
@@ -60,6 +68,7 @@ const settingsSlice = createSlice({
 });
 
 export const { 
+	setAll,
 	setSetting,
 	setSettings,
 	resetDefaults,
@@ -74,9 +83,24 @@ export default settingsSlice.reducer;
 
 /* Thunks */
 
+export const loadSettings = (interfaceObj) => async (dispatch, getState) => {
+	try {
+		const settingsFile = await interfaceObj.getSettings();
+		if (settingsFile.currentTheme !== "Default") {
+			const themeData = await interfaceObj.getTheme(settingsFile.currentTheme);
+			settingsFile.theme = themeData.theme;
+		}
+		if (settingsFile !== null) {
+			dispatch(setAll(settingsFile));
+		}
+	} catch (err) {
+		console.error(err);
+		dispatch(sendMessage({message: "An error occurred: " + err, status: "error"}));
+	}
+}
+
 export const changeTheme = (themeName, interfaceObj) => async (dispatch, getState) => {
 	try {
-		console.log("NAME", themeName)
 		if (themeName === "Default") {
 			dispatch(setTheme({themeName, themeObj: {}}));
 		} else {

@@ -19,17 +19,12 @@ class Interface {
 		}
 	}
 	async getAppLocation() {
-		console.log(`GETTING
-			APP
-			LOCATION`)
 		try {
 			if (this.appLocation) {
-				console.log("APPLOC", this.appLocation)
 				return this.appLocation;
 			}
 			const fetchedLocation = await ipcInterface.fetchAppLoc();
 			this.appLocation = fetchedLocation;
-			console.log("APPLOC", fetchedLocation)
 			return fetchedLocation;
 		} catch(err) {
 			throw err;
@@ -125,8 +120,18 @@ class Interface {
 			const fetchedTheme = await ipcInterface.fetchDoc(
 				appLoc + "\\Resources\\Themes\\" + themeName //+ ".json"
 			);
-			console.log(fetchedTheme)
 			return JSON.parse(fetchedTheme);
+		} catch(err) {
+			throw err;
+		}
+	}
+	async getSettings() {
+		try {
+			const appLoc = await this.getAppLocation();
+			const fetchedSettings = await ipcInterface.fetchDoc(
+				appLoc + "\\settings.json"
+			);
+			return JSON.parse(fetchedSettings);
 		} catch(err) {
 			throw err;
 		}
