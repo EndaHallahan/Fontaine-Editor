@@ -4,7 +4,7 @@
   <img src="https://raw.githubusercontent.com/EndaHallahan/Fontaine-Editor/master/assets/Fontaine-Icon.svg" width="200px" height="200px">
 </p>
 <p align="center">
-  <a href="https://github.com/EndaHallahan/Fontaine-Editor">Website Coming Soon!</a>
+  <a href="https://fontaineeditor.com/">Website</a>
   |
   <a href="https://docs.google.com/spreadsheets/d/1GTWAjLHLYGKWDISHGuxgt9Kis45DEAMI0161KG0S4yY/edit?usp=sharing">Progress Tracker</a>
 </p>
