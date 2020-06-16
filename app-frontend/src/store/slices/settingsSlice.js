@@ -8,10 +8,12 @@ const settingsSlice = createSlice({
 	initialState: {
 		settings: {},
 		theme: {},
+		themeOverrides: {},
 		currentTheme: "Default",
 		themeChanged: false
 	},
 	reducers: {
+		/* Settings */
 		setSetting(state, action) {
 			let {setting, newValue} = action.payload;
 			state.settings[setting] = newValue;
@@ -24,6 +26,7 @@ const settingsSlice = createSlice({
 			console.log("Resetting!")
 			state.settings = {};
 		},
+		/* Themes & Theming */
 		setTheme(state, action) {
 			let {themeName, themeObj} = action.payload;
 			state.currentTheme = themeName;
@@ -32,12 +35,19 @@ const settingsSlice = createSlice({
 		},
 		setThemeSetting(state, action) {
 			let {setting, newValue} = action.payload;
-			state.themes[setting] = newValue;
+			state.themeOverrides[setting] = newValue;
 			state.themeChanged = true;
 		},
 		setThemeSettings(state, action) {
 			let {settingsObj} = action.payload;
-			_.merge(state.theme, settingsObj);
+			_.merge(state.themeOverrides, settingsObj);
+			state.themeChanged = true;
+		},
+		resetSpecificThemeSettings(state, action) {
+			let {settingsList} = action.payload;
+			settingsList.forEach(setting => {
+				delete state.themeOverrides[setting];
+			});
 			state.themeChanged = true;
 		},
 		resetThemeDefaults(state, action) {
@@ -56,6 +66,7 @@ export const {
 	setTheme,
 	setThemeSetting,
 	setThemeSettings,
+	resetSpecificThemeSettings,
 	resetThemeDefaults,
 } = settingsSlice.actions;
 

@@ -15,17 +15,8 @@ import ThemeOptions from "./ThemeOptions";
 import EditorOptions from "./EditorOptions";
 
 const ThemesModal = (props) => {
-	const dispatch = useDispatch();
-	const currentSettings = useSelector(state => state.settingsReducer.settings);
-	const updateSetting = (setting, newValue) => {dispatch(setSetting({setting, newValue}));}
-	const updateSettings = (settingsObj) => {dispatch(setSettings({settingsObj}));}
-	const resetToDefaults = (settingsObj) => {dispatch(resetDefaults());}
 	return (
 		<SettingsModalChild
-			currentSettings={currentSettings}
-			updateSetting={updateSetting}
-			updateSettings={updateSettings}
-			resetToDefaults={resetToDefaults}
 			onRequestClose={props.onRequestClose}
 			documentInterface={props.documentInterface}
 		/>

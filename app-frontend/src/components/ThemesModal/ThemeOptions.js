@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Modal from 'react-modal';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { changeTheme } from "../../store/slices/settingsSlice";
@@ -39,7 +38,7 @@ const ThemeOptions = (props) => {
 	return (
 		<div className="theming-tab">
 			<div className="theme-preview">
-				{/* TODO: Add little blocks to represent text colour in preview. */}
+				{/* TODO: Add little blocks to represent text colour and other elements in preview. */}
 				<div 
 					className="head"
 					style={{

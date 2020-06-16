@@ -11,8 +11,6 @@ import ColourPicker from "../ColourPicker";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 import CustomModal from "../CustomModal";
 
-import EditorOptions from "./EditorOptions";
-
 const SettingsModal = (props) => {
 	const dispatch = useDispatch();
 	const currentSettings = useSelector(state => state.settingsReducer.settings);
@@ -47,17 +45,12 @@ class SettingsModalChild extends Component {
 	          	title="Settings and Customization"
 	        >
 	       		<TabularMenu
-	       			startTab={1}
+	       			startTab={0}
 	       			windows={[
 	       				{tabName:"General", render: () => 
 	       					<div>
 	       						General Tab 
 	       					</div>
-	       				},
-	       				{tabName:"Editor", render: () => 
-	       					<EditorOptions 
-	       						{...this.props}
-	       					/>
 	       				},
 	       			]}
 	       		/>
