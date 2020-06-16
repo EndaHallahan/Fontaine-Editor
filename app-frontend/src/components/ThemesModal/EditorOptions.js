@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setThemeSettings, resetSpecificThemeSettings } from "../../store/slices/settingsSlice";
+import { setThemeSettings, resetSpecificThemeSettings, saveSettings } from "../../store/slices/settingsSlice";
 
 import ColourPicker from "../ColourPicker"; 
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
@@ -14,8 +14,14 @@ const EditorOptions = (props) => {
 	
 	let [pendingChanges, setPendingChanges] = useState({});
 	let [areChanges, setAreChanges] = useState(false);
-	const setThemeChanges = (settingsObj) => {dispatch(setThemeSettings({settingsObj}))};
-	const resetThemeChanges = (settingsList) => {dispatch(resetSpecificThemeSettings({settingsList}))};
+	const setThemeChanges = async (settingsObj) => {
+		await dispatch(setThemeSettings({settingsObj}));
+		dispatch(saveSettings(props.documentInterface));
+	};
+	const resetThemeChanges = async (settingsList) => {
+		await dispatch(resetSpecificThemeSettings({settingsList}));
+		dispatch(saveSettings(props.documentInterface));
+	};
 
 	const getCurSettingVal = (setting) => {
 		return pendingChanges[setting]

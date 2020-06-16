@@ -112,3 +112,20 @@ export const changeTheme = (themeName, interfaceObj) => async (dispatch, getStat
 		dispatch(sendMessage({message: "An error occurred: " + err, status: "error"}));
 	}
 }
+
+export const saveSettings = (interfaceObj) => async (dispatch, getState) => {
+	try {
+		const state = getState().settingsReducer;
+		let outFile = {
+			settings: state.settings,
+			currentTheme: state.currentTheme,
+			themeOverrides: state.themeOverrides,
+			themeChanged: state.themeChanged,
+		} 
+		const result = await interfaceObj.saveSettings(outFile);
+		console.log(result);
+	} catch (err) {
+		console.error(err);
+		dispatch(sendMessage({message: "An error occurred: " + err, status: "error"}));
+	}
+}

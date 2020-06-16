@@ -136,6 +136,18 @@ class Interface {
 			throw err;
 		}
 	}
+	async saveSettings(contents) {
+		try {
+			const appLoc = await this.getAppLocation();
+			const result = await ipcInterface.writeDoc(
+				appLoc + "\\settings.json",
+				contents
+			);
+			return result;
+		} catch(err) {
+			throw err;
+		}
+	}
 }
 
 export default new Interface();

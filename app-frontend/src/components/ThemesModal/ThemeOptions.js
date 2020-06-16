@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { changeTheme } from "../../store/slices/settingsSlice";
+import { changeTheme, saveSettings } from "../../store/slices/settingsSlice";
 
 import ColourPicker from "../ColourPicker"; 
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
@@ -14,7 +14,10 @@ const ThemeOptions = (props) => {
 	let [previewedThemeName, setPreviewedThemeName] = useState(currentTheme);
 	let [previewedTheme, setPreviewedTheme] = useState({});
 
-	const setTheme = () => {dispatch(changeTheme(previewedThemeName, props.documentInterface))};
+	const setTheme = async () => {
+		await dispatch(changeTheme(previewedThemeName, props.documentInterface));
+		dispatch(saveSettings(props.documentInterface));
+	};
 
 	const loadThemeList = async () => {
 		let localThemes = await props.documentInterface.getThemeList();

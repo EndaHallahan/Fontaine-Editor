@@ -16,6 +16,10 @@ const SettingsHandler = (props) => {
 		await dispatch(loadSettings(props.documentInterface));
 	}
 
+	const saveSettings = async () => {
+		await dispatch(loadSettings(props.documentInterface));
+	}
+
 	useEffect(() => {
 		initSettings();
 	}, []);
