@@ -84,7 +84,7 @@ const ThemeOptions = (props) => {
 								}
 								onClick={() => {loadTheme(theme)}}
 								key={i}
-							>{theme}</div>
+							>{theme.replace(".json", "")}</div>
 						);
 					})
 				}
@@ -92,102 +92,20 @@ const ThemeOptions = (props) => {
 
 			<span className="confirm-wrapper">
 				<span>
-					<button
+					<KeyboardFocusableButton
 						className="border"
 						//onClick={setTheme}
-					>Save Current Theme</button>
+					>Save Current Theme</KeyboardFocusableButton>
 				</span>
 				<span className="right">
-					<button
+					<KeyboardFocusableButton
 						className="border"
 						onClick={setTheme}
-					>Set Theme</button>
+					>Set Theme</KeyboardFocusableButton>
 				</span>
 			</span>
 		</div>
 	);
 }
-
-/*class ThemeOptions extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			pendingChanges: {},
-			areChanges: false,
-			themeList: props.documentInterface.getThemeList(),
-		}
-		this.changeSetting = this.changeSetting.bind(this);
-		this.setChanges = this.setChanges.bind(this);
-		this.resetChanges = this.resetChanges.bind(this);
-		this.resetToDefaults = this.resetToDefaults.bind(this);
-	}
-	changeSetting(setting, value) {
-		this.setState({
-			...this.state,
-			areChanges: true,
-			pendingChanges: {
-				...this.state.pendingChanges,
-				[setting]: value
-			}
-		})
-	}
-	setChanges() {
-		this.props.updateSettings(this.state.pendingChanges);
-		this.setState({
-			...this.state,
-			areChanges: false,
-			pendingChanges: {}
-		})
-	}
-	resetChanges() {
-		this.setState({
-			...this.state,
-			areChanges: false,
-			pendingChanges: {}
-		})
-	}
-	resetToDefaults() {
-		this.props.resetToDefaults();
-		this.resetChanges();
-	}
-	render() {
-		console.log("THEMELIST", this.state.themeList)
-		//console.log(this.state.pendingChanges)
-		return (
-			<div className="theme-settings-tab">
-				<div className="theme-preview">
-				</div>
-
-				<div className="theme-selector">
-					{
-
-						this.state.themeList.map((theme) => {return (<div>{theme}</div>)})
-					}
-				</div>
-
-				<span className="confirm-wrapper">
-					<span>
-						<KeyboardFocusableButton 
-							onClick={this.resetToDefaults}
-							className="defaults-button border warning"
-						>Reset Defaults</KeyboardFocusableButton>
-					</span>
-					<span className="right"> 
-						<KeyboardFocusableButton 
-							disabled={!this.state.areChanges}
-							onClick={this.resetChanges}
-							className="reset-button border"
-						>Clear Changes</KeyboardFocusableButton>
-						<KeyboardFocusableButton 
-							disabled={!this.state.areChanges}
-							onClick={this.setChanges}
-							className="confirm-button border"
-						>Confirm</KeyboardFocusableButton>
-					</span>
-				</span>
-			</div>
-		);
-	}
-}*/
 
 export default ThemeOptions;

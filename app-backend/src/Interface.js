@@ -123,8 +123,9 @@ class Interface {
 		try {
 			const appLoc = await this.getAppLocation();
 			const fetchedTheme = await ipcInterface.fetchDoc(
-				appLoc + "\\Resources\\Themes\\" + themeName + ".json"
+				appLoc + "\\Resources\\Themes\\" + themeName //+ ".json"
 			);
+			console.log(fetchedTheme)
 			return JSON.parse(fetchedTheme);
 		} catch(err) {
 			throw err;

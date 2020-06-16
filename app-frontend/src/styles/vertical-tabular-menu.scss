@@ -1,8 +1,8 @@
 .tabular-menu {
 
 	.tab-bar {
-		background-color: $darker;
-		border-right: 1px solid $dark-lowlight;
+		background-color: var(--primary-colour-shade);
+		border-right: 1px solid var(--primary-colour-lowlight);
 
 		.keyboard-focusable-button {
 			font-size: 1rem;
@@ -10,8 +10,8 @@
 			.tab {
 
 				&.active {
-					background-color: $fontaine-blue;
-					color: black;
+					background-color: var(--accent-colour);
+					color: var(--accent-colour-contrast);
 				}
 			}
 		}
@@ -28,9 +28,8 @@
 
 		.tab-bar {
 			height: 100%;
-			background-color: $darker;
-			border-right: 1px solid $dark-lowlight;
-
+			background-color: var(--primary-colour-shade);
+			border-right: 1px solid var(--primary-colour-lowlight);
 
 			.keyboard-focusable-button {
 				display: block;
@@ -41,11 +40,11 @@
 					width: 100%;
 					height: 2rem;
 					line-height: 2rem;
-					border-bottom: 1px solid $dark-highlight;
+					border-bottom: 1px solid var(--primary-colour-highlight);
 
 					&.active {
-						background-color: $fontaine-blue;
-						color: black;
+						background-color: var(--accent-colour);
+						color: var(--accent-colour-contrast);
 					}
 				}
 			}
@@ -53,13 +52,15 @@
 	}
 
 	&.horizontal {
+		
 		.tab-bar {
-			background-color: $darker;
-			border-bottom: 1px solid $dark-lowlight;
+			background-color: var(--primary-colour-shade);
+			border-right: 1px solid var(--primary-colour-lowlight);
 
 			.keyboard-focusable-button {
 				font-size: 1rem;
 				width: 2rem;
+
 				> div {
 					width: 2rem;
 				}
@@ -69,15 +70,14 @@
 				}
 
 				.tab {
-					border-right: 1px solid $dark-highlight;
+					border-bottom: 1px solid var(--primary-colour-highlight);
 
 					&.active {
-						background-color: $fontaine-blue;
-						color: black;
+						background-color: var(--accent-colour);
+						color: var(--accent-colour-contrast);
 					}
 				}
 			}
 		}
-	}
-	
+	}	
 }
