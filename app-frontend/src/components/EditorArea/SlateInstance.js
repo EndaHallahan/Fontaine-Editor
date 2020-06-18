@@ -1,14 +1,10 @@
-import React, { Component, Fragment, useEffect, useMemo, useState, useCallback } from 'react';
-import { createEditor } from 'slate'
-import { Slate, Editable, withReact } from 'slate-react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useMemo, useCallback } from 'react';
+import { createEditor } from 'slate';
+import { Slate, Editable, withReact } from 'slate-react';
 import { HotKeys } from 'react-hotkeys';
 
-import { queueDocumentChanges, updateWorkingDoc } from "../../store/slices/workspaceSlice";
 import { Element, Leaf } from "../../utils/editor/renderElement";
 import Helpers from "../../utils/editor/Helpers";
-import EditorToolbar from "./EditorToolbar";
-import EditorFooter from "./EditorFooter";
 
 const keyMap = {
   	

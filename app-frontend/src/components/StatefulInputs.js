@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 
 /*import ReactTagInput from "@pathofdev/react-tag-input";
 import "@pathofdev/react-tag-input/build/index.css";*/
@@ -132,12 +132,13 @@ class Select extends Component {
 				ref={this.input}
 				onChange={this.handleChange}
 				onBlur={this.props.onChange}
+				defaultValue={this.state.selected}
 			>
 				{
 					this.props.options.map((opt, i) => 
 						<option
 							value={opt.value}
-							selected={opt.value === this.state.selected}
+							key={i}
 						>{opt.name || opt.value}</option>
 					)
 				}

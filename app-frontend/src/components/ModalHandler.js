@@ -1,4 +1,4 @@
-import React, {Component, useState} from "react";
+import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 
 import { closeModal } from "../store/slices/modalSlice";

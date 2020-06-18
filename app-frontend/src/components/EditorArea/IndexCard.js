@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, InlineIcon } from '@iconify/react';
+import { Icon } from '@iconify/react';
 import gridIcon from '@iconify/icons-feather/grid';
 
 import { Input, TextArea } from "../StatefulInputs";

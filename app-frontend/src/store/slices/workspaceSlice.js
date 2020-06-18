@@ -55,8 +55,49 @@ async function getListRowFor(docId, docList, docRow, docTree, docCache, getDoc) 
 	return [outList, outRow, outCache];
 }
 
-function saveDocument(id, changes) {
+function newNodeUnderTarget(node, destination, treeData) {
+	treeData = addNodeUnderParent({
+		treeData,
+		newNode: node,
+		parentKey: destination.path[destination.path.length - 1],
+		getNodeKey: ({treeIndex}) => {return treeIndex;},
+		ignoreCollapsed: true,
+		expandParent: true,
+	}).treeData;
+	return treeData;
+}
 
+function extToMime(ext) {
+	switch(ext) {
+		case "pdf":
+			return {mimeType: "application/pdf", importType: "pdf"};
+		case "png":
+		case "jpg":
+		case "jpeg":
+		case "jfif":
+		case "pjpeg":
+		case "pjp":
+		case "svg":
+		case "tif":
+		case "tiff":
+		case "webp":
+		case "gif":
+		case "bmp":
+		case "apng":
+		case "ico":
+		case "cur":
+			return {mimeType: "image/" + ext, importType: "image"};
+		case "mp4":
+		case "webm":
+		case "ogg":
+			return {mimeType:"video/" + ext, importType: "video"};
+		case "mp3":
+			return {mimeType:"audio/mpeg", importType: "audio"};
+		case "wav":
+			return {mimeType:"audio/" + ext, importType: "audio"};
+		default:
+			return {importType: "raw"};
+	}
 }
 
 function getMetadataFields(tagList) {
@@ -160,7 +201,7 @@ async function loadInitialState(docIndex, getDoc) {
 const initialState = {
 	loaded: false,
 	docIndex: {},
-	docTree: {},
+	docTree: [],
 	curDocId: null,
 	splitDocId: null,
 	docCache: {},
@@ -315,7 +356,6 @@ export const {
 	switchSplitDocumentComplete, 
 	inspectDocument,
 	createNewDocument,
-	queueDocumentChanges, 
 	updateWorkingDoc,
 	updateDocTreeComplete,
 	addProjectTag,
@@ -447,8 +487,6 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 	try {
 		const state = getState().workspaceReducer;
 		const docCache = state.docCache;
-		const docIndex = state.docIndex;
-		const docTree = state.docTree;
 		let changedFiles = Object.assign({}, state.changedFiles);
 		let changedFilesList = Object.keys(state.changedFiles);
 		let totalTasks = changedFilesList.length;
@@ -474,7 +512,7 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 				if (!err) {
 					delete changedFiles[key];
 				} else {
-					throw "Failed to save document " + key + ": " + err;
+					throw new Error("Failed to save document " + key + ": " + err);
 				}
 				completeTasks++;
 				dispatch(sendMessage({message: `Saved ${completeTasks}/${totalTasks}`, status: "loading"}));
@@ -486,7 +524,7 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 			if (completeTasks !== totalTasks) {
 				console.log("Waiting...")
 				if (tries > 15) {
-					throw "Tasks did not complete within limit!";
+					throw new Error("Tasks did not complete within limit!");
 				}
 				tries++;
 				setTimeout(() => waitForTasks(tries + 1), 500);
@@ -506,7 +544,7 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 		
 	} catch (err) {
 		console.error(err);
-		dispatch(sendMessage({message: "An error occurred: " + err, status: "error"}));
+		dispatch(sendMessage({message: "An error occurred: " + err.message, status: "error"}));
 	}
 }
 
@@ -514,9 +552,6 @@ export const saveSingleDocument = (key, interfaceObj) => async (dispatch, getSta
 	try {
 		const state = getState().workspaceReducer;
 		const docCache = state.docCache;
-		const docIndex = state.docIndex;
-		const docTree = state.docTree;
-		let changedFiles = Object.assign({}, state.changedFiles);
 		let err = "";
 		dispatch(sendMessage({message: "Autosaving...", status: "loading"}));
 		if (key === "index") {
@@ -536,57 +571,11 @@ export const saveSingleDocument = (key, interfaceObj) => async (dispatch, getSta
 			dispatch(sendMessage({message: "Autosave complete!", status: "okay"}));
 		} else {
 			dispatch(unlockChangedFile({key}));
-			throw "Failed to save document " + key + ": " + err;
+			throw new Error("Failed to save document " + key + ": " + err);
 		}	
 	} catch (err) {
 		console.error(err);
-		dispatch(sendMessage({message: "An error occurred: " + err, status: "error"}));
-	}
-}
-
-function newNodeUnderTarget(node, destination, treeData) {
-	treeData = addNodeUnderParent({
-		treeData,
-		newNode: node,
-		parentKey: destination.path[destination.path.length - 1],
-		getNodeKey: ({treeIndex}) => {return treeIndex;},
-		ignoreCollapsed: true,
-		expandParent: true,
-	}).treeData;
-	return treeData;
-}
-
-function extToMime(ext) {
-	switch(ext) {
-		case "pdf":
-			return {mimeType: "application/pdf", importType: "pdf"};
-		case "png":
-		case "jpg":
-		case "jpeg":
-		case "jfif":
-		case "pjpeg":
-		case "pjp":
-		case "svg":
-		case "tif":
-		case "tiff":
-		case "webp":
-		case "gif":
-		case "bmp":
-		case "apng":
-		case "ico":
-		case "cur":
-			return {mimeType: "image/" + ext, importType: "image"};
-		case "mp4":
-		case "webm":
-		case "ogg":
-			return {mimeType:"video/" + ext, importType: "video"};
-		case "mp3":
-			return {mimeType:"audio/mpeg", importType: "audio"};
-		case "wav":
-		case "ogg":
-			return {mimeType:"audio/" + ext, importType: "audio"};
-		default:
-			return {importType: "raw"};
+		dispatch(sendMessage({message: "An error occurred: " + err.message, status: "error"}));
 	}
 }
 
@@ -598,7 +587,7 @@ export const importFiles = (interfaceObj) => async (dispatch, getState) => {
 		const result = await interfaceObj.importFile();
 		console.log("result", result);
 		if (!result.ok) {
-			throw result.error;
+			throw new Error(result.error);
 		}
 		let fileNames = result.fileNames;
 		const fileboxNode = find({
@@ -617,6 +606,6 @@ export const importFiles = (interfaceObj) => async (dispatch, getState) => {
 		dispatch(sendMessage({message: "Import complete!", status: "okay"}));
 	} catch (err) {
 		console.error(err);
-		dispatch(sendMessage({message: "An error occurred: " + err, status: "error"}));
+		dispatch(sendMessage({message: "An error occurred: " + err.message, status: "error"}));
 	}
 }

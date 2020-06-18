@@ -1,14 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import Fullscreen from "react-full-screen";
 
-import { 
-	queueDocumentChanges,
+import {
 	updateWorkingDoc,
-	inspectDocument,
-	switchDocument, 
-	createNewDocument, 
-	updateDocTree 
 } from "../../store/slices/workspaceSlice";
 
 import { setDistractionFree } from "../../store/slices/uiSlice";
@@ -21,25 +16,9 @@ const DistractionFree = (props) => {
 
 	const docCache = useSelector(state => state.workspaceReducer.docCache);
 	const curDocList = useSelector(state => state.workspaceReducer.curDocList);
-
-	const docTree = useSelector(state => state.workspaceReducer.docTree);
 	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
-	const inspDocRow = useSelector(state => state.workspaceReducer.inspectedDocRow)
-	const curDocRow = useSelector(state => state.workspaceReducer.curDocRow);
-	const lastTreeUpdate = useSelector(state => state.workspaceReducer.docTreeLastUpdate);
 
-	const getDoc = (node, path, treeIndex) => {
-		if (node.node.id !== undefined) {
-			dispatch(switchDocument(node.node.id, props.documentInterface));
-		}
-	}
-	const newDoc = (id) => {
-		dispatch(createNewDocument({id}));
-	}
-
-	const queueDocChanges = (id, changes) => dispatch(queueDocumentChanges({docId: id, changes: changes}));
 	const updateDoc = (id, newDoc) => {dispatch(updateWorkingDoc({id, newDoc}))};
-	const inspectDoc = (id) => {dispatch(inspectDocument({id: id}))}
 
 	return (
 		<Fullscreen
@@ -55,11 +34,9 @@ const DistractionFree = (props) => {
 							docList = {curDocList}
 							docId = {curDocId}
 							updateDoc = {updateDoc}
-							inspectDoc={inspectDoc}
-							queueDocChanges = {queueDocChanges}
 						/>
 					</div>
-				) : null
+				) : (<div />)
 			
 			}
 		</Fullscreen>

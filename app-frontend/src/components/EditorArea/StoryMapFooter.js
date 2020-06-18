@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { setSetting, setSettings, resetDefaults } from "../../store/slices/settingsSlice";
-import { Icon, InlineIcon } from '@iconify/react';
+import { setSetting } from "../../store/slices/settingsSlice";
+import { Icon } from '@iconify/react';
 import zoomOut from '@iconify/icons-feather/zoom-out';
 import zoomIn from '@iconify/icons-feather/zoom-in';
 

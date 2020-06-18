@@ -1,5 +1,5 @@
 import React, { Component, Fragment} from "react";
-import { Icon, InlineIcon } from '@iconify/react';
+import { Icon } from '@iconify/react';
 import xIcon from '@iconify/icons-feather/x';
 import plusSquare from '@iconify/icons-feather/plus-square';
 
@@ -87,7 +87,9 @@ class TagInput extends Component {
 						activeSuggestions: [],
 						highlightedSuggestion: 0
 					});
-			    	break;		
+			    	break;	
+			    default: 
+			    	break;	
 			}
 		} else {
 			if (e.keyCode === 13){

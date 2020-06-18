@@ -1,9 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import SortableTree, { 
-	changeNodeAtPath, 
-	find,
-} from 'react-sortable-tree';
+import { changeNodeAtPath } from 'react-sortable-tree';
 import { v4 as uuidv4 } from "uuid";
 import { Icon, InlineIcon } from '@iconify/react';
 import tagIcon from '@iconify/icons-feather/tag';
@@ -12,7 +9,6 @@ import gitCommit from '@iconify/icons-feather/git-commit';
 import editIcon from '@iconify/icons-feather/edit';
 
 import { 
-	inspectDocument, 
 	updateDocTree,
 	addProjectTag,
 	addProjectThread,
@@ -21,7 +17,7 @@ import {
 	setInspectorTab,
 } from "../../store/slices/uiSlice";
 import { openModal } from "../../store/slices/modalSlice";
-import { Input, TextArea, Select } from "../StatefulInputs";
+import { TextArea, Select } from "../StatefulInputs";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 import CollapsableDiv from "../CollapsableDiv";
 import TabularMenu from "../TabularMenu";
@@ -114,7 +110,6 @@ class InspectorChild extends Component {
 									openHeight={null}
 									defaultOpen={true}
 									title="Notes"
-									defaultOpen={true}
 								>
 									<TextArea
 										placeholder="Make a note..."

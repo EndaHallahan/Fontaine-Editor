@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { MenuItem } from "react-menu-list";
 
-import { Icon, InlineIcon } from '@iconify/react';
+import { Icon } from '@iconify/react';
 
 const LI = (props) => {
   	return (

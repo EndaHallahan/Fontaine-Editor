@@ -1,6 +1,6 @@
-import React, { Component, Fragment, useEffect, useMemo, useState, useCallback } from 'react';
+import React, { Fragment } from 'react';
 import { ReactEditor } from 'slate-react'
-import { Icon, InlineIcon } from '@iconify/react';
+import { Icon } from '@iconify/react';
 
 import formatBold from '@iconify/icons-mdi/format-bold';
 import formatItalic from '@iconify/icons-mdi/format-italic';
@@ -10,7 +10,6 @@ import formatStrikethrough from '@iconify/icons-mdi/format-strikethrough';
 import formatListNumbered from '@iconify/icons-mdi/format-list-numbered';
 import formatListBulleted from '@iconify/icons-mdi/format-list-bulleted';
 
-import formatAlignLeft from '@iconify/icons-mdi/format-align-left';
 import formatAlignRight from '@iconify/icons-mdi/format-align-right';
 import formatAlignCenter from '@iconify/icons-mdi/format-align-center';
 import formatAlignJustify from '@iconify/icons-mdi/format-align-justify';

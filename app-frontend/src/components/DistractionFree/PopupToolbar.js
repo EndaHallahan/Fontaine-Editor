@@ -1,7 +1,7 @@
-import React, { Component, Fragment, useEffect, useMemo, useState, useCallback, useRef } from 'react';
-import { ReactEditor, useEditor, useSlate } from 'slate-react'
-import { Editor, Transforms, Text, Range, createEditor } from 'slate'
-import { Icon, InlineIcon } from '@iconify/react';
+import React, { useEffect, useRef } from 'react';
+import { ReactEditor, useSlate } from 'slate-react'
+import { Editor, Range } from 'slate'
+import { Icon } from '@iconify/react';
 
 import formatBold from '@iconify/icons-mdi/format-bold';
 import formatItalic from '@iconify/icons-mdi/format-italic';

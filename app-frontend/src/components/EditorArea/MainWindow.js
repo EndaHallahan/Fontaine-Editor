@@ -1,33 +1,15 @@
-import React, { Component, Fragment, useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Resizable } from "re-resizable";
 
-import Reorder, {
-	reorder,
-	reorderImmutable,
-	reorderFromTo,
-	reorderFromToImmutable
-} from 'react-reorder';
-import SortableTree, { 
-	changeNodeAtPath, 
-	find,
-} from 'react-sortable-tree';
+import { changeNodeAtPath } from 'react-sortable-tree';
 
-import { 
-	queueDocumentChanges,
+import {
 	updateWorkingDoc,
 	inspectDocument,
 	switchDocument, 
 	createNewDocument, 
 	updateDocTree 
 } from "../../store/slices/workspaceSlice";
-import { toggleSplitEditor } from "../../store/slices/uiSlice";
-
-import MultiDocSlate from "./MultiDocSlate";
-import Corkboard from "./Corkboard";
-import Overview from "./Overview";
-import StoryMap from "./StoryMap";
-import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
 import EditorDisplay from "./EditorDisplay";
 
@@ -42,7 +24,6 @@ const MainWindow = (props) => {
 	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
 	const inspDocRow = useSelector(state => state.workspaceReducer.inspectedDocRow)
 	const curDocRow = useSelector(state => state.workspaceReducer.curDocRow);
-	const lastTreeUpdate = useSelector(state => state.workspaceReducer.docTreeLastUpdate);
 
 	const metadataFields = useSelector(state => state.workspaceReducer.metadataFields);
 
@@ -68,12 +49,7 @@ const MainWindow = (props) => {
 		});
 		updateTree(reorderedTree);
 	}
-	const onReorder = (newOrder) => {
-		let reorderedNode = {...curDocRow.node, expanded: true, children: [...newOrder]}
-		replaceCurRow(reorderedNode);
-	}
 
-	const queueDocChanges = (id, changes) => dispatch(queueDocumentChanges({docId: id, changes: changes}));
 	const updateDoc = (id, newDoc) => {dispatch(updateWorkingDoc({id, newDoc}))};
 	const inspectDoc = (id) => {dispatch(inspectDocument({id: id}))}
 
@@ -100,8 +76,6 @@ const MainWindow = (props) => {
 					replaceCurRow={replaceCurRow}
 					mdFields={metadataFields}
 					updateDoc = {updateDoc}
-					inspectDoc={inspectDoc}
-					queueDocChanges={queueDocChanges}
 					threads={threads}
 					documentInterface = {props.documentInterface}
 				/>

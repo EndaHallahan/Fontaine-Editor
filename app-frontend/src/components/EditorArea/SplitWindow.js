@@ -1,27 +1,14 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Resizable } from "re-resizable";
+import { changeNodeAtPath } from 'react-sortable-tree';
 
-import Reorder, {
-	reorder,
-	reorderImmutable,
-	reorderFromTo,
-	reorderFromToImmutable
-} from 'react-reorder';
-import SortableTree, { 
-	changeNodeAtPath, 
-	find,
-} from 'react-sortable-tree';
-
-import { Icon, InlineIcon } from '@iconify/react';
+import { Icon } from '@iconify/react';
 import xCircle from '@iconify/icons-feather/x-circle';
 import layoutIcon from '@iconify/icons-feather/layout';
 
 import { 
-	queueDocumentChanges,
 	updateWorkingDoc,
 	inspectDocument,
-	switchDocument, 
 	switchSplitDocument,
 	createNewDocument, 
 	updateDocTree 
@@ -30,10 +17,6 @@ import {
 	setSplitEditorOpen,
 	toggleSplitOrientation,
 } from "../../store/slices/uiSlice";
-import MultiDocSlate from "./MultiDocSlate";
-import Corkboard from "./Corkboard";
-import Overview from "./Overview";
-import StoryMap from "./StoryMap";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
 import EditorDisplay from "./EditorDisplay";
@@ -41,7 +24,6 @@ import EditorDisplay from "./EditorDisplay";
 const SplitWindow = (props) => {
 	const dispatch = useDispatch();
 	const editorMode = useSelector(state => state.uiReducer.splitEditorMode);
-	const splitOrientation = useSelector(state => state.uiReducer.splitOrientation);
 
 	const docCache = useSelector(state => state.workspaceReducer.docCache);
 	const curDocList = useSelector(state => state.workspaceReducer.splitDocList);
@@ -50,7 +32,6 @@ const SplitWindow = (props) => {
 	const curDocId = useSelector(state => state.workspaceReducer.splitDocId);
 	const inspDocRow = useSelector(state => state.workspaceReducer.inspectedDocRow)
 	const curDocRow = useSelector(state => state.workspaceReducer.splitDocRow);
-	const lastTreeUpdate = useSelector(state => state.workspaceReducer.docTreeLastUpdate);
 
 	const metadataFields = useSelector(state => state.workspaceReducer.metadataFields);
 
@@ -76,12 +57,11 @@ const SplitWindow = (props) => {
 		});
 		updateTree(reorderedTree);
 	}
-	const onReorder = (newOrder) => {
+	/*const onReorder = (newOrder) => {
 		let reorderedNode = {...curDocRow.node, expanded: true, children: [...newOrder]}
 		replaceCurRow(reorderedNode);
-	}
+	}*/
 
-	const queueDocChanges = (id, changes) => dispatch(queueDocumentChanges({docId: id, changes: changes}));
 	const updateDoc = (id, newDoc) => {
 		dispatch(updateWorkingDoc({id, newDoc}))
 	};
@@ -128,8 +108,6 @@ const SplitWindow = (props) => {
 					replaceCurRow={replaceCurRow}
 					mdFields={metadataFields}
 					updateDoc = {updateDoc}
-					inspectDoc={inspectDoc}
-					queueDocChanges = {queueDocChanges}
 					threads={threads}
 					documentInterface = {props.documentInterface}
 					split={true}

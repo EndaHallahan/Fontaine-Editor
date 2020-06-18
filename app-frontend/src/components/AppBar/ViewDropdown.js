@@ -1,6 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux'; 
-import { Icon, InlineIcon } from '@iconify/react';
+import { useSelector, useDispatch } from 'react-redux';
 import check from '@iconify/icons-feather/check';
 import layoutIcon from '@iconify/icons-feather/layout';
 import maximizeIcon from '@iconify/icons-feather/maximize';
@@ -12,7 +11,6 @@ import {
 	toggleSplitOrientation,
 	setDistractionFree,
 } from "../../store/slices/uiSlice";
-import KeyboardFocusableButton from "../KeyboardFocusableButton";
 import CustomDropdown from "../CustomDropdown";
 import LI from "./LI";
 

@@ -1,27 +1,9 @@
-import React, { Component, Fragment, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { v4 as uuidv4 } from "uuid";
-import _ from "lodash";
-import Reorder, {
-	reorder,
-	reorderImmutable,
-	reorderFromTo,
-	reorderFromToImmutable
-} from 'react-reorder';
-import SortableTree, { 
-	changeNodeAtPath, 
+import React, { Component } from 'react';
+import { 
 	find,
-	getFlatDataFromTree,
 	walk,
 } from 'react-sortable-tree';
 
-import { 
-	switchDocument, 
-	inspectDocument,
-	queueDocumentChanges, 
-	createNewDocument, 
-	updateDocTree 
-} from "../../store/slices/workspaceSlice";
 import StoryMapFooter from "./StoryMapFooter";
 
 class StoryMap extends Component {
@@ -69,15 +51,14 @@ class StoryMap extends Component {
 						<div className="thread-wrapper">
 						{
 							flatTree.map((doc, i) => (
-								
 									<div 
 										className={
 											this.props.inspectedDoc === doc.id ? "title-wrapper selected" : "title-wrapper"
 										}
+										key={i}
 									>
 										<div className="empty">{doc.title}</div>
 									</div>
-								
 							))
 						}
 						</div>
@@ -119,7 +100,7 @@ const MapThread = (props) => {
 	let knots = [];
 	let rope = [];
 	let onThread = false;
-	props.flatTree.map((doc, i) => {
+	props.flatTree.forEach((doc, i) => {
 		if (doc.threads && doc.threads[props.threadId]) {
 			knots.push({
 				id: doc.id,
@@ -128,7 +109,7 @@ const MapThread = (props) => {
 			});
 		}
 	})
-	props.flatTree.map((doc, i) => {
+	props.flatTree.forEach((doc, i) => {
 		let knot = null;
 		let start = false;
 		let end = false;

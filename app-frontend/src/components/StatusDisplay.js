@@ -1,6 +1,6 @@
 import React from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import { Icon, InlineIcon } from '@iconify/react';
+import { useSelector } from 'react-redux';
+import { Icon } from '@iconify/react';
 import loaderIcon from '@iconify/icons-feather/loader';
 import alertOctagon from '@iconify/icons-feather/alert-octagon';
 import checkIcon from '@iconify/icons-feather/check';
@@ -8,7 +8,6 @@ import alertCircle from '@iconify/icons-feather/alert-circle';
 
 const StatusDisplay = (props) => {
 	const messages = useSelector(state => state.statusReducer.messages);
-	const status = useSelector(state => state.statusReducer.status);
 
 	return (
 		<div 

@@ -1,13 +1,7 @@
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import SortableTree, { 
-	changeNodeAtPath, 
-	addNodeUnderParent, 
-	find, 
-	removeNodeAtPath
-} from 'react-sortable-tree';
 
-import { switchDocument, loadState } from "../store/slices/workspaceSlice";
+import { loadState } from "../store/slices/workspaceSlice";
 
 import EditorArea from "./EditorArea";
 import LeftPanel from "./LeftPanel";
@@ -21,6 +15,7 @@ const Workspace = (props) => {
 	const loadProject = () => dispatch(loadState(props.documentInterface));
 	useEffect(() => {
 		if (!isLoaded) {loadProject()}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (
 		<div id="workspace">

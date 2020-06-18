@@ -25,7 +25,7 @@ class ColourPicker extends Component {
     	})
   	}
   	componentWillReceiveProps(nextProps) {
-		if(this.props != nextProps) {
+		if(this.props !== nextProps) {
 			this.setState({
 				...this.state,
 			  	selectedColour: nextProps.colour || "#ffffff"

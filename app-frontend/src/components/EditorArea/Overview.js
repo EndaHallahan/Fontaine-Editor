@@ -1,25 +1,9 @@
-import React, { Component, Fragment, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { v4 as uuidv4 } from "uuid";
-import _ from "lodash";
+import React, { Component } from 'react';
 import Reorder, {
 	reorder,
-	reorderImmutable,
-	reorderFromTo,
-	reorderFromToImmutable
 } from 'react-reorder';
-import SortableTree, { 
-	changeNodeAtPath, 
-	find,
-} from 'react-sortable-tree';
 
-import { 
-	switchDocument, 
-	inspectDocument,
-	queueDocumentChanges, 
-	createNewDocument, 
-	updateDocTree 
-} from "../../store/slices/workspaceSlice";
+//import { updateDocTree } from "../../store/slices/workspaceSlice";
 import OverviewItem from "./OverviewItem";
 import CorkboardFooter from "./CorkboardFooter";
 

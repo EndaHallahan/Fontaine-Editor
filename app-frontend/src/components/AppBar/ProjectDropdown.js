@@ -1,11 +1,9 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux'; 
-import { Icon, InlineIcon } from '@iconify/react';
+import { useDispatch } from 'react-redux';
 import gitCommit from '@iconify/icons-feather/git-commit';
 
 
 import { openModal } from "../../store/slices/modalSlice";
-import KeyboardFocusableButton from "../KeyboardFocusableButton";
 import CustomDropdown from "../CustomDropdown";
 import LI from "./LI";
 

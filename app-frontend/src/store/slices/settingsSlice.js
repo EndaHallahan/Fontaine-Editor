@@ -123,9 +123,11 @@ export const saveSettings = (interfaceObj) => async (dispatch, getState) => {
 			themeChanged: state.themeChanged,
 		} 
 		const result = await interfaceObj.saveSettings(outFile);
-		console.log(result);
+		if (!result.ok) {
+			throw new Error(result.error);
+		}
 	} catch (err) {
 		console.error(err);
-		dispatch(sendMessage({message: "An error occurred: " + err, status: "error"}));
+		dispatch(sendMessage({message: "An error occurred: " + err.message, status: "error"}));
 	}
 }

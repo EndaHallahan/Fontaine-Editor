@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 
-import { Icon, InlineIcon } from '@iconify/react';
-import xCircle from '@iconify/icons-feather/x-circle';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { setSetting, setSettings, resetDefaults } from "../../store/slices/settingsSlice";
-
 import TabularMenu from "../TabularMenu";
-import ColourPicker from "../ColourPicker"; 
-import KeyboardFocusableButton from "../KeyboardFocusableButton";
 import CustomModal from "../CustomModal";
 
 import ThemeOptions from "./ThemeOptions";

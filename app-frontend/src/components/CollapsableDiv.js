@@ -15,6 +15,7 @@ class CollapsableDiv extends Component {
 		})
 	}
 	render() {
+		const {defaultOpen, openHeight, title, ...childProps} = this.props;
 		return (
 			<div className="collapsable-div">
 				<div 
@@ -28,7 +29,7 @@ class CollapsableDiv extends Component {
 					style={{height: this.state.open ? (
 						this.props.openHeight !== null ? this.props.openHeight || "auto" : null
 					) : 0}}
-					{...this.props}
+					{...childProps}
 				>
 					{this.props.children}
 				</div>

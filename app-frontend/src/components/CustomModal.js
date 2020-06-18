@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 
-import { Icon, InlineIcon } from '@iconify/react';
+import { Icon } from '@iconify/react';
 import xCircle from '@iconify/icons-feather/x-circle';
 
 import KeyboardFocusableButton from "./KeyboardFocusableButton";

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import _ from "lodash";
 import SortableTree, { 
 	changeNodeAtPath, 
 	addNodeUnderParent, 
@@ -11,7 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import { GlobalHotKeys } from "react-hotkeys";
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Icon, InlineIcon } from '@iconify/react';
+import { Icon } from '@iconify/react';
 import bookOpen from '@iconify/icons-feather/book-open';
 import file from '@iconify/icons-feather/file';
 import filePlus from '@iconify/icons-feather/file-plus';
@@ -24,7 +23,6 @@ import archiveIcon from '@iconify/icons-feather/archive';
 import { 
 	switchDocument, 
 	switchSplitDocument,
-	queueDocumentChanges, 
 	createNewDocument, 
 	updateDocTree 
 } from "../../store/slices/workspaceSlice";
@@ -179,11 +177,6 @@ class FolderTreeChild extends Component {
 			          	getNodeKey={this.getNodeKey}
 			          	onChange={
 			          		treeData => {
-			          			const selRow = find({
-									getNodeKey: this.getNodeKey,
-									treeData,
-									searchMethod: (rowData) => {return(rowData.node.id === this.props.curDoc)}
-								});
 								this.props.onTreeChange(treeData);
 			          		}
 			          	}
@@ -247,7 +240,6 @@ const FolderTree = (props) => {
 	const curDocRow = useSelector(state => state.workspaceReducer.curDocRow);
 	const splitOpen = useSelector(state => state.uiReducer.splitEditorOpen);
 	const splitDocId = useSelector(state => state.workspaceReducer.splitDocId);
-	const lastTreeUpdate = useSelector(state => state.workspaceReducer.docTreeLastUpdater);
 	const dispatch = useDispatch();
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {

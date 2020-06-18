@@ -1,12 +1,6 @@
-import React, { Component, Fragment, useEffect, useMemo, useState, useCallback} from 'react';
-import { createEditor } from 'slate'
-import { Slate, Editable, withReact } from 'slate-react'
-import { useSelector, useDispatch } from 'react-redux'
-import { HotKeys } from 'react-hotkeys';
+import React, { Component } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { queueDocumentChanges, updateWorkingDoc } from "../../store/slices/workspaceSlice";
-import { Element, Leaf } from "../../utils/editor/renderElement";
 import SlateInstance from "./SlateInstance";
 
 class MultiDocSlate extends Component {

@@ -1,11 +1,10 @@
-import React, { Component, Fragment, useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { Fragment, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import MultiDocSlate from "./MultiDocSlate";
 import Corkboard from "./Corkboard";
 import Overview from "./Overview";
 import StoryMap from "./StoryMap";
-import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
 import { sendMessage } from "../../store/slices/statusSlice";
 
@@ -102,13 +101,14 @@ const ImportDisplay = (props) => {
 	useEffect(() => {
 		URL.revokeObjectURL(imported.cont);
 		getImportFile();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.nodeIn])
 	if (imported.cont && imported.name === props.nodeIn.title) {
 		return (
 			<div className="import-area">
 				{{
 					"image": (
-						<img src={imported.cont} />
+						<img src={imported.cont} alt={imported.name}/>
 					),
 					"video": (
 						<video controls>
@@ -123,7 +123,7 @@ const ImportDisplay = (props) => {
 						</audio>
 					),
 					"pdf": (
-						<iframe src={imported.cont} sandbox></iframe>
+						<iframe src={imported.cont} title={imported.name} sandbox></iframe>
 					),
 					"raw": (
 						<div class="raw-text">{imported.cont}</div>

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from "uuid";
-import { Icon, InlineIcon } from '@iconify/react';
-import xCircle from '@iconify/icons-feather/x-circle';
+import { Icon } from '@iconify/react';
 import plusSquare from '@iconify/icons-feather/plus-square';
 import minusSquare from '@iconify/icons-feather/minus-square';
 

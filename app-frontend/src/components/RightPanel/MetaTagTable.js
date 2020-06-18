@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 const MetaTagTable = (props) => {
 	return (
@@ -10,7 +10,7 @@ const MetaTagTable = (props) => {
 						let splitTag = tag.split(":");
 						if (splitTag.length === 2) {
 							return (
-								<tr>
+								<tr key={i}>
 									<td>{splitTag[0]}</td>
 									<td>{splitTag[1]}</td>
 								</tr>

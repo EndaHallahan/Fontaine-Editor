@@ -1,4 +1,4 @@
-import { Editor, Transforms, Text } from "slate";
+import { Editor, Transforms } from "slate";
 
 const LIST_TYPES = ['numbered-list', 'bulleted-list'];
 const ALIGN_TYPES = ["align-left", "align-right", "align-center", "align-justify"]

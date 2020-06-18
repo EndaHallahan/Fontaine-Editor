@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeTheme, saveSettings } from "../../store/slices/settingsSlice";
 
-import ColourPicker from "../ColourPicker"; 
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
 const ThemeOptions = (props) => {
@@ -36,6 +35,7 @@ const ThemeOptions = (props) => {
 
 	useEffect(() => {
 		loadThemeList();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

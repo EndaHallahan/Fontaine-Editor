@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import {MenuList, MenuItem, MenuButton, Dropdown, SubMenuItem} from "react-menu-list";
+import React from 'react';
+import {MenuList, MenuButton } from "react-menu-list";
 
 import KeyboardFocusableButton from "./KeyboardFocusableButton";
 

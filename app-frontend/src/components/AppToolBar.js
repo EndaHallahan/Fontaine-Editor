@@ -1,10 +1,11 @@
-import React, { Component, Fragment } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-
-import KeyboardFocusableButton from "./KeyboardFocusableButton";
+import React from 'react';
 
 const AppToolbar = (props) => {
-	const dispatch = useDispatch();
+	return (<div id="app-toolbar" />);
+}
+
+/*const AppToolbar = (props) => {
+	//const dispatch = useDispatch();
 	return(
 		<AppToolbarChild 
 			
@@ -36,6 +37,6 @@ class AppToolbarChild extends Component {
 			</div>
 		);
 	}
-}
+}*/
 
 export default AppToolbar;

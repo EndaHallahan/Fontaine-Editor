@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { MenuItem } from "react-menu-list";
-import { Icon, InlineIcon } from '@iconify/react';
+//import { MenuItem } from "react-menu-list";
+import { Icon } from '@iconify/react';
 import gridIcon from '@iconify/icons-feather/grid';
 import edit3 from '@iconify/icons-feather/edit-3';
 import serverIcon from '@iconify/icons-feather/server';
@@ -9,7 +9,7 @@ import mapIcon from '@iconify/icons-feather/map';
 
 
 
-import CustomDropdown from "../CustomDropdown";
+//import CustomDropdown from "../CustomDropdown";
 import { setEditorMode, setSplitEditorMode } from "../../store/slices/uiSlice";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
@@ -32,7 +32,7 @@ const ModeSelector = (props) => {
 		 changeEditorMode = changeSplitEditorMode;
 	}
 	
-	let curModeIcon; 
+	/*let curModeIcon; 
 	switch(editorMode) {
 		case "editor":
 			curModeIcon = (<Icon icon={edit3} />);
@@ -48,7 +48,7 @@ const ModeSelector = (props) => {
 			break;
 		default:
 			curModeIcon = (<Icon icon={edit3} />);
-	}
+	}*/
 	
 	return(
 		/*<CustomDropdown
