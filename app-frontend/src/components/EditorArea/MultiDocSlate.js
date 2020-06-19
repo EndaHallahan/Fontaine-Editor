@@ -62,6 +62,8 @@ class MultiDocSlate extends Component {
 									setActive={this.setActiveEditor}
 									split={this.props.split}
 									touchToolbar={this.touchToolbar}
+									history={this.props.history}
+									updateHistory={this.props.updateHistory}
 								/>
 							);
 						})

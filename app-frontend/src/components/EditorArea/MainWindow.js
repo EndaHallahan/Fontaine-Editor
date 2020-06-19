@@ -10,6 +10,7 @@ import {
 	createNewDocument, 
 	updateDocTree 
 } from "../../store/slices/workspaceSlice";
+import { updateHistory } from "../../store/slices/historySlice";
 
 import EditorDisplay from "./EditorDisplay";
 
@@ -28,6 +29,8 @@ const MainWindow = (props) => {
 	const metadataFields = useSelector(state => state.workspaceReducer.metadataFields);
 
 	const threads = useSelector(state => state.workspaceReducer.threads);
+
+	const history = useSelector(state => state.historyReducer.histories);
 
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {
@@ -53,6 +56,8 @@ const MainWindow = (props) => {
 	const updateDoc = (id, newDoc) => {dispatch(updateWorkingDoc({id, newDoc}))};
 	const inspectDoc = (id) => {dispatch(inspectDocument({id: id}))}
 
+	const updateHist = (id, hist) => {dispatch(updateHistory({docId: id, history: hist}))}
+
 	return(
 		<div className="editor-window main-window">
 			<div className="info-bar">
@@ -77,6 +82,8 @@ const MainWindow = (props) => {
 					mdFields={metadataFields}
 					updateDoc = {updateDoc}
 					threads={threads}
+					history={history}
+					updateHistory={updateHist}
 					documentInterface = {props.documentInterface}
 				/>
 			</div>	

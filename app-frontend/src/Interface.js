@@ -8,6 +8,12 @@ const Interface = {
 		const doc = documents[id];
 		return doc;
 	},
+	saveIndex: async () => {
+		return false;
+	},
+	saveDocument: async () => {
+		return false;
+	},
 	getThemeList: async () => {
 		return themeIndex;
 	},

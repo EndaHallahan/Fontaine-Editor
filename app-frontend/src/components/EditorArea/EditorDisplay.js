@@ -28,7 +28,8 @@ const EditorDisplay = (props) => {
 							docId = {props.curDocId}
 							updateDoc = {props.updateDoc}
 							inspectDoc={props.inspectDoc}
-							queueDocChanges = {props.queueDocChanges}
+							history={props.history}
+							updateHistory={props.updateHistory}
 							split={props.split || false}
 						/>
 		          	),

@@ -1,7 +1,9 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useEffect } from 'react';
 import { createEditor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
+import { withHistory } from 'slate-history';
 import { HotKeys } from 'react-hotkeys';
+import _ from "lodash";
 
 import { Element, Leaf } from "../../utils/editor/renderElement";
 import Helpers from "../../utils/editor/Helpers";
@@ -11,7 +13,7 @@ const keyMap = {
 };
 
 const SlateInstance = React.memo((props) => {
-	const editor = useMemo(() => withReact(createEditor()), []);
+	const editor = useMemo(() => withReact(withHistory(createEditor())), []);
 	props.createHoistedEditor(props.docId, editor);
 	const defaultContents = [{
 	  	type: 'paragraph',
@@ -27,9 +29,19 @@ const SlateInstance = React.memo((props) => {
   	const renderElement = useCallback(props => <Element {...props} />, []);
   	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 
+  	useEffect(() => {
+  		if (props.history[props.docId]) {
+			editor.history = _.cloneDeep(props.history[props.docId]);
+		}
+  		return () => {
+  			props.updateHistory(props.docId, editor.history);
+  		}
+  	}, [])
+
   	const handlers = {
   		
   	}
+  	
   	return (
   		<HotKeys keyMap={keyMap} handlers={handlers}>
 	  		<div 
