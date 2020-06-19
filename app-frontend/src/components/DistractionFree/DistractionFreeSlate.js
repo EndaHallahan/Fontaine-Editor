@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import SlateInstance from "./SlateInstance";
+import SlateInstance from "../SlateInstance";
+import PopupToolbar from "./PopupToolbar";
 
 class MultiDocSlate extends Component {
 	constructor(props) {
@@ -19,7 +20,6 @@ class MultiDocSlate extends Component {
 			...this.state,
 			activeEditor: id
 		});
-		this.props.inspectDoc(id);
 	}
 	createHoistedEditor(id, editor) {
 		this.editors[id] = editor;
@@ -59,7 +59,9 @@ class MultiDocSlate extends Component {
 										value={this.props.docSet[id]}
 										active={id === this.state.activeEditor}
 										setActive={this.setActiveEditor}
-										split={this.props.split}
+										history={this.props.history}
+										updateHistory={this.props.updateHistory}
+										toolbarComponent={PopupToolbar}
 									/>
 								);
 							})

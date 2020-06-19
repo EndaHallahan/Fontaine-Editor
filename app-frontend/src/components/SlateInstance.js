@@ -5,8 +5,8 @@ import { withHistory } from 'slate-history';
 import { HotKeys } from 'react-hotkeys';
 import _ from "lodash";
 
-import { Element, Leaf } from "../../utils/editor/renderElement";
-import Helpers from "../../utils/editor/Helpers";
+import { Element, Leaf } from "../utils/editor/renderElement";
+import Helpers from "../utils/editor/Helpers";
 
 const keyMap = {
   	
@@ -24,7 +24,9 @@ const SlateInstance = React.memo((props) => {
   		if (inValue !== value) {
   			props.updateDoc(props.docId, inValue);
   		}
-  		props.touchToolbar();
+  		if (props.touchToolbar) {
+  			props.touchToolbar();
+  		}
   	}
   	const renderElement = useCallback(props => <Element {...props} />, []);
   	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
@@ -53,6 +55,7 @@ const SlateInstance = React.memo((props) => {
 		    		value={value} 
 		    		onChange={updateDocument}
 		    	>
+		    	{props.toolbarComponent ? <props.toolbarComponent /> : null}
 		      		<Editable 
 		      			renderElement={renderElement}
 	        			renderLeaf={renderLeaf}

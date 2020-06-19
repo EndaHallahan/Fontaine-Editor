@@ -5,6 +5,7 @@ import Fullscreen from "react-full-screen";
 import {
 	updateWorkingDoc,
 } from "../../store/slices/workspaceSlice";
+import { updateHistory } from "../../store/slices/historySlice";
 
 import { setDistractionFree } from "../../store/slices/uiSlice";
 import DistractionFreeSlate from "./DistractionFreeSlate";
@@ -18,7 +19,11 @@ const DistractionFree = (props) => {
 	const curDocList = useSelector(state => state.workspaceReducer.curDocList);
 	const curDocId = useSelector(state => state.workspaceReducer.curDocId);
 
+	const history = useSelector(state => state.historyReducer.histories);
+
 	const updateDoc = (id, newDoc) => {dispatch(updateWorkingDoc({id, newDoc}))};
+	const updateHist = (id, hist) => {dispatch(updateHistory({docId: id, history: hist}))}
+
 
 	return (
 		<Fullscreen
@@ -34,6 +39,8 @@ const DistractionFree = (props) => {
 							docList = {curDocList}
 							docId = {curDocId}
 							updateDoc = {updateDoc}
+							history={history}
+							updateHistory={updateHist}
 						/>
 					</div>
 				) : (<div />)

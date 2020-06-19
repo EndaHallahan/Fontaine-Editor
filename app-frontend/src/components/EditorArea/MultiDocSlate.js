@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import EditorToolbar from "./EditorToolbar";
 import EditorFooter from "./EditorFooter";
-import SlateInstance from "./SlateInstance";
+import SlateInstance from "../SlateInstance";
 
 class MultiDocSlate extends Component {
 	constructor(props) {
