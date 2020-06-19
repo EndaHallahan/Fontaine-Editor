@@ -3,7 +3,7 @@ import { createEditor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
 import { HotKeys } from 'react-hotkeys';
-import _ from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 
 import { Element, Leaf } from "../utils/editor/renderElement";
 import Helpers from "../utils/editor/Helpers";
@@ -33,7 +33,7 @@ const SlateInstance = React.memo((props) => {
 
   	useEffect(() => {
   		if (props.history[props.docId]) {
-			editor.history = _.cloneDeep(props.history[props.docId]);
+			editor.history = cloneDeep(props.history[props.docId]);
 		}
   		return () => {
   			props.updateHistory(props.docId, editor.history);

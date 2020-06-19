@@ -17,7 +17,7 @@ const uiSlice = createSlice({
 		editorMode: "editor",
 
 		splitEditorOpen: false,
-		splitEditorMode: "corkboard",
+		splitEditorMode: "editor",
 		splitOrientation: "vertical",
 
 		distractionFreeOpen: false,

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import _ from "lodash";
+import merge from "lodash/merge";
 
 import { sendMessage } from "./statusSlice";
 
@@ -28,7 +28,7 @@ const settingsSlice = createSlice({
 		},
 		setSettings(state, action) {
 			let {settingsObj} = action.payload;
-			_.merge(state.settings, settingsObj);
+			merge(state.settings, settingsObj);
 		},
 		resetDefaults(state, action) {
 			console.log("Resetting!")
@@ -48,7 +48,7 @@ const settingsSlice = createSlice({
 		},
 		setThemeSettings(state, action) {
 			let {settingsObj} = action.payload;
-			_.merge(state.themeOverrides, settingsObj);
+			merge(state.themeOverrides, settingsObj);
 			state.themeChanged = true;
 		},
 		resetSpecificThemeSettings(state, action) {

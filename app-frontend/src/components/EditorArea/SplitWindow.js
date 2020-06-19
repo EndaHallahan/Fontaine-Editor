@@ -13,10 +13,12 @@ import {
 	createNewDocument, 
 	updateDocTree 
 } from "../../store/slices/workspaceSlice";
+import { updateHistory } from "../../store/slices/historySlice";
 import { 
 	setSplitEditorOpen,
 	toggleSplitOrientation,
 } from "../../store/slices/uiSlice";
+
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
 
 import EditorDisplay from "./EditorDisplay";
@@ -36,6 +38,8 @@ const SplitWindow = (props) => {
 	const metadataFields = useSelector(state => state.workspaceReducer.metadataFields);
 
 	const threads = useSelector(state => state.workspaceReducer.threads);
+
+	const history = useSelector(state => state.historyReducer.histories);
 
 	const getDoc = (node, path, treeIndex) => {
 		if (node.node.id !== undefined) {
@@ -57,15 +61,13 @@ const SplitWindow = (props) => {
 		});
 		updateTree(reorderedTree);
 	}
-	/*const onReorder = (newOrder) => {
-		let reorderedNode = {...curDocRow.node, expanded: true, children: [...newOrder]}
-		replaceCurRow(reorderedNode);
-	}*/
 
 	const updateDoc = (id, newDoc) => {
 		dispatch(updateWorkingDoc({id, newDoc}))
 	};
 	const inspectDoc = (id) => {dispatch(inspectDocument({id: id}))}
+
+	const updateHist = (id, hist) => {dispatch(updateHistory({docId: id, history: hist}))}
 
 	const closeSplitEditor = () => {
 		dispatch(setSplitEditorOpen({open: false}));
@@ -109,6 +111,8 @@ const SplitWindow = (props) => {
 					mdFields={metadataFields}
 					updateDoc = {updateDoc}
 					threads={threads}
+					history={history}
+					updateHistory={updateHist}
 					documentInterface = {props.documentInterface}
 					split={true}
 				/>

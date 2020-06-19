@@ -8,9 +8,7 @@ const historySlice = createSlice({
 	reducers: {
 		updateHistory(state, action) {
 			const {docId, history} = action.payload;
-			const {undos, redos} = history;
-			console.log("UPDATING HISTORY")
-			state.histories[docId] = {undos, redos};
+			state.histories[docId] = history;
 		}
 	}
 });
