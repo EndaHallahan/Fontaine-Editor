@@ -1,5 +1,6 @@
 #left-panel {
 	resize: horizontal;
+	border-right: 1px solid var(--navigator-border-colour);
 
 	.file-tree {
 		height: 100%;

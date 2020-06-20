@@ -8,6 +8,7 @@
 		background-color: var(--inspector-tabbar-colour);
 		color: var(--inspector-tabbar-text-colour);
 		border-bottom: 1px solid var(--inspector-tabbar-border-colour);
+		border-right: none;
 
 		.keyboard-focusable-button {
 			color: var(--inspector-tabbar-text-colour);

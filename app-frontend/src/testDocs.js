@@ -84,28 +84,101 @@ let documentIndex = {
 	},
 }
 
-let themeIndex = ["Light", "Terminal"/*, "UltraDark", "Terminal", "BlackAndAmber"*/];
+let themeIndex = ["Light", "Warm", "Terminal", "AmberTerminal", "WhiteTerminal",];
 
 let themes = {
 	Light: {
 		description: "Default light theme.",
 		author: "",
 		theme: {
-			"primary-colour": "WhiteSmoke",
+			"accent-colour": "#1E90FF",
+			"accent-colour-contrast": "#FFFFFF",
+			"primary-colour": "#fcfcfc",
 			"primary-colour-contrast": "Black",
-			"primary-colour-shade": "Silver"
+			"primary-colour-shade": "#E6E6EA",
+			"primary-colour-highlight": "#999999",
+			"primary-colour-lowlight": "#888888",
+		}
+	},
+	Warm: {
+		description: "Default warm theme.",
+		author: "",
+		theme: {
+			"accent-colour": "#1E90FF",
+			"accent-colour-contrast": "#FFFFFF",
+			"primary-colour": "#FFFFE9",
+			"primary-colour-contrast": "Black",
+			"primary-colour-shade": "#FDECAA",
+			"primary-colour-highlight": "#999900",
+			"primary-colour-lowlight": "#888800",
+			"appbar-colour": "#FDDC88",
+			"footer-colour": "#FDDC88",
 		}
 	},
 	Terminal: {
 		description: "Yes, like in The Matrix.",
 		author: "",
 		theme: {
-			"primary-colour": "Black",
+			"primary-colour": "#1F1F1F",
 			"primary-colour-contrast": "limegreen",
-			"primary-colour-shade": "Black",
+			"primary-colour-shade": "#1F1F1F",
 			"primary-colour-lowlight": "limegreen",
 			"primary-colour-highlight": "limegreen",
-			"accent-colour": "	chartreuse",
+			"secondary-colour": "#1F1F1F",
+			"secondary-colour-contrast": "limegreen",
+			"secondary-colour-shade": "limegreen",
+			"accent-colour": "white",
+			"accent-colour-contrast": "#1F1F1F",
+			"editor-container-colour": "#1F1F1F",
+			"editor-background-colour": "#1F1F1F",
+			"editor-text-colour": "limegreen",
+			"editor-drop-shadow": "none",
+			"editor-border-colour": "limegreen",
+			"dropdown-colour": "limegreen",
+		}
+	},
+	AmberTerminal: {
+		description: "Creator's choice.",
+		author: "",
+		theme: {
+			"primary-colour": "#1F1F1F",
+			"primary-colour-contrast": "#FCB831",
+			"primary-colour-shade": "#1F1F1F",
+			"primary-colour-lowlight": "#FCB831",
+			"primary-colour-highlight": "#FCB831",
+			"secondary-colour": "#1F1F1F",
+			"secondary-colour-contrast": "#FCB831",
+			"secondary-colour-shade": "#FCB831",
+			"accent-colour": "white",
+			"accent-colour-contrast": "#1F1F1F",
+			"editor-container-colour": "#1F1F1F",
+			"editor-background-colour": "#1F1F1F",
+			"editor-text-colour": "#FCB831",
+			"editor-drop-shadow": "none",
+			"editor-border-colour": "#FCB831",
+			"dropdown-colour": "#FCB831",
+		}
+	},
+	WhiteTerminal: {
+		description: "Ultra dark.",
+		author: "",
+		theme: {
+			"primary-colour": "#1F1F1F",
+			"primary-colour-contrast": "#FFFFFF",
+			"primary-colour-shade": "#1F1F1F",
+			"primary-colour-lowlight": "#FFFFFF",
+			"primary-colour-highlight": "#FFFFFF",
+			"secondary-colour": "#1F1F1F",
+			"secondary-colour-contrast": "#FFFFFF",
+			"secondary-colour-shade": "#FFFFFF",
+			//"accent-colour": "white",
+			"accent-colour-contrast": "#1F1F1F",
+			"editor-container-colour": "#1F1F1F",
+			"editor-background-colour": "#1F1F1F",
+			"editor-text-colour": "#FFFFFF",
+			"editor-drop-shadow": "none",
+			"editor-border-colour": "#FFFFFF",
+			"dropdown-colour": "#FFFFFF",
 		}
 	}
 }

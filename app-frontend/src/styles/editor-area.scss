@@ -26,7 +26,7 @@
 			height: $dim;
 			width: $dim;
 			color: inherit;
-			border: 1px solid $light;
+			border: 1px solid var(--editor-toolbar-colour);
 			border-radius: 2px;
 			padding: 0;
 			box-sizing: content-box;
@@ -51,7 +51,7 @@
 			height: 1.4rem;
 			margin: 0 .3rem;
 			width: 1px;
-			background-color: $light-higherlight;
+			background-color: var(--editor-toolbar-divider-colour);
 		}
 	}
 
@@ -68,6 +68,7 @@
 			caret-color: var(--editor-text-colour);
 			background-color: var(--editor-background-colour);
 			box-shadow: var(--editor-drop-shadow);
+			border: 1px solid var(--editor-border-colour);
 			width: 90%;
 			max-width: var(--editor-page-width);
 			margin: .5rem auto 0 auto;

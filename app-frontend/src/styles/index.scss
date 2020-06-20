@@ -63,6 +63,7 @@ $font-family-sans: "Open Sans", sans-serif;
 
 	--navigator-colour: var(--primary-colour);
 	--navigator-text-colour: var(--primary-colour-contrast);
+	--navigator-border-colour: var(--primary-colour-lowlight);
 	--navigator-hover-colour: var(--primary-colour-shade);
 	--navigator-accent-colour: var(--accent-colour);
 	--navigator-accent-colour-contrast: var(--accent-colour-contrast);
@@ -85,12 +86,14 @@ $font-family-sans: "Open Sans", sans-serif;
 	--editor-toolbar-colour: var(--secondary-colour);
 	--editor-toolbar-text-colour: var(--secondary-colour-contrast);
 	--editor-toolbar-border-colour: var(--primary-colour-lowlight);
+	--editor-toolbar-divider-colour: var(--secondary-colour-shade);
 	--editor-toolbar-selection-colour: var(--secondary-colour-highlight);
 	--editor-toolbar-selection-border-colour: var(--secondary-colour-shade);
 
 	--editor-container-colour: #555555;
 	--editor-text-colour: black;
 	--editor-background-colour: white;
+	--editor-border-colour: none;
 	--editor-drop-shadow: 10px 10px 8px black;
 	--editor-page-width: 900px;
 	--editor-default-font-size: 16px;
