@@ -3,6 +3,7 @@ import { find, walk, addNodeUnderParent } from 'react-sortable-tree';
 import { v4 as uuidv4 } from "uuid";
 
 import { sendMessage } from "./statusSlice";
+import Helpers from "../../utils/editor/Helpers";
 
 async function getFullChildContents(docList, docCache, getDoc) {
 	const fullContents = {}
@@ -115,12 +116,13 @@ function getMetadataFields(tagList) {
 	return fields;
 }
 
-function regenIndex(docIndex, documents, projectTags, threads, lastDocument) {
+function regenIndex(docIndex, documents, projectTags, threads, wordcounts, lastDocument) {
 	let newIndex = {
 		...docIndex,
 		documents,
 		projectTags,
 		threads,
+		wordcounts,
 		lastDocument
 	};
 	return newIndex;
@@ -144,6 +146,7 @@ async function loadInitialState(docIndex, getDoc) {
 	});
 	let metadataFields = getMetadataFields(projectTags);
 	let threads = docIndex.threads || {};
+	let wordcounts = docIndex.wordcounts || {};
 	if (curDocId !== null) {
 		[
 			curDocList,
@@ -194,6 +197,7 @@ async function loadInitialState(docIndex, getDoc) {
 		projectTags,
 		metadataFields,
 		threads,
+		wordcounts,
 		loaded: true
 	};
 }
@@ -213,6 +217,7 @@ const initialState = {
 	projectTags: [],
 	metadataFields: [],
 	threads: [],
+	wordcounts: {},
 	changedFiles: {},
 	autoSaving: true,
 }
@@ -235,6 +240,7 @@ const workspaceSlice = createSlice({
 			state.projectTags = newState.projectTags;
 			state.metadataFields = newState.metadataFields;
 			state.threads = newState.threads;
+			state.wordcounts = newState.wordcounts;
 			state.loaded = newState.loaded;
 		},
 		switchDocumentComplete(state, action) {
@@ -264,7 +270,7 @@ const workspaceSlice = createSlice({
 			}).matches[0];
 			state.inspectedDocRow = selRow;
 		},
-		updateWorkingDoc(state, action) {
+		setWorkingDoc(state, action) {
 			const {id, newDoc} = action.payload;
 			state.docCache[id] = {ops:newDoc};
 			state.changedFiles[id] = {lastModified: Date.now(), locked: false};
@@ -347,6 +353,10 @@ const workspaceSlice = createSlice({
 				[key]: {...state.changedFiles[key], locked: false}
 			};
 		},
+		setWordcount(state, action) {
+			const {id, wordcount} = action.payload;
+			state.wordcounts[id] = wordcount;
+		},
 	}
 });
 
@@ -356,7 +366,7 @@ export const {
 	switchSplitDocumentComplete, 
 	inspectDocument,
 	createNewDocument,
-	updateWorkingDoc,
+	setWorkingDoc,
 	updateDocTreeComplete,
 	addProjectTag,
 	updateProjectThreads,
@@ -365,6 +375,7 @@ export const {
 	removeChangedFile,
 	lockChangedFile,
 	unlockChangedFile,
+	setWordcount,
  } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;
@@ -503,6 +514,7 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 						state.docTree, 
 						state.projectTags, 
 						state.threads, 
+						state.wordcounts,
 						state.curDocId
 					);
 					err = await interfaceObj.saveIndex(newIndex);
@@ -560,6 +572,7 @@ export const saveSingleDocument = (key, interfaceObj) => async (dispatch, getSta
 				state.docTree, 
 				state.projectTags, 
 				state.threads, 
+				state.wordcounts,
 				state.curDocId
 			);
 			err = await interfaceObj.saveIndex(newIndex);
@@ -604,6 +617,30 @@ export const importFiles = (interfaceObj) => async (dispatch, getState) => {
 		}
 		dispatch(updateDocTree(docTree, interfaceObj));
 		dispatch(sendMessage({message: "Import complete!", status: "okay"}));
+	} catch (err) {
+		console.error(err);
+		dispatch(sendMessage({message: "An error occurred: " + err.message, status: "error"}));
+	}
+}
+
+//Might regret this one later...
+export const updateWorkingDoc = (id, newDoc) => async (dispatch, getState) => {
+	try {
+		dispatch(setWorkingDoc({id, newDoc}));
+	} catch (err) {
+		console.error(err);
+		dispatch(sendMessage({message: "An error occurred: " + err.message, status: "error"}));
+	}
+}
+
+export const updateWordcount = (id, newDoc) => async (dispatch, getState) => {
+	const countWords = async (doc) => {
+		return doc.match(/(?:(?:\w-\w)|[\wÀ-ÿ'’])+/g).length;
+	}
+	try {
+		let pt = await Helpers.toPlainText(newDoc);
+		let wordcount = await countWords(pt);
+		dispatch(setWordcount({id, wordcount}));
 	} catch (err) {
 		console.error(err);
 		dispatch(sendMessage({message: "An error occurred: " + err.message, status: "error"}));

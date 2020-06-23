@@ -69,7 +69,10 @@ class MultiDocSlate extends Component {
 						})
 					}
 				</div>
-				<EditorFooter split={this.props.split}/>
+				<EditorFooter 
+					split={this.props.split}
+					docList={this.props.docList}
+				/>
 			</div>
 		);
 	}

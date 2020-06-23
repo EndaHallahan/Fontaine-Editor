@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useEffect } from 'react';
+import React, { useMemo, useCallback, useEffect, useRef } from 'react';
 import { createEditor } from 'slate';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
@@ -13,6 +13,7 @@ const keyMap = {
 };
 
 const SlateInstance = React.memo((props) => {
+	console.log("rendering", props.docId)
 	const editor = useMemo(() => withReact(withHistory(createEditor())), []);
 	props.createHoistedEditor(props.docId, editor);
 	const defaultContents = [{
@@ -55,7 +56,7 @@ const SlateInstance = React.memo((props) => {
 		    		value={value} 
 		    		onChange={updateDocument}
 		    	>
-		    	{props.toolbarComponent ? <props.toolbarComponent /> : null}
+		    		{props.toolbarComponent ? <props.toolbarComponent /> : null}
 		      		<Editable 
 		      			renderElement={renderElement}
 	        			renderLeaf={renderLeaf}

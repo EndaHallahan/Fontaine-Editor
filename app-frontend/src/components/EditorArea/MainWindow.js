@@ -8,11 +8,13 @@ import {
 	inspectDocument,
 	switchDocument, 
 	createNewDocument, 
-	updateDocTree 
+	updateDocTree,
+	updateWordcount,
 } from "../../store/slices/workspaceSlice";
 import { updateHistory } from "../../store/slices/historySlice";
 
 import EditorDisplay from "./EditorDisplay";
+import Helpers from "../../utils/editor/Helpers";
 
 const MainWindow = (props) => {
 	const dispatch = useDispatch();
@@ -52,8 +54,10 @@ const MainWindow = (props) => {
 		});
 		updateTree(reorderedTree);
 	}
-
-	const updateDoc = (id, newDoc) => {dispatch(updateWorkingDoc({id, newDoc}))};
+	const updateDoc = (id, newDoc) => {
+		dispatch(updateWorkingDoc(id, newDoc));
+		dispatch(updateWordcount(id, newDoc));
+	};
 	const inspectDoc = (id) => {dispatch(inspectDocument({id: id}))}
 
 	const updateHist = (id, hist) => {dispatch(updateHistory({docId: id, history: hist}))}

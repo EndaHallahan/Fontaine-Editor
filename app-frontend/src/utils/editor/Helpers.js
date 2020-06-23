@@ -1,9 +1,13 @@
-import { Editor, Transforms } from "slate";
+import { Editor, Transforms, Node } from "slate";
 
 const LIST_TYPES = ['numbered-list', 'bulleted-list'];
 const ALIGN_TYPES = ["align-left", "align-right", "align-center", "align-justify"]
 
 const Helpers = {
+	async toPlainText(nodes) {
+		return nodes.map(n => Node.string(n)).join('\n')
+	},
+
 	isBlockActive(editor, format) {
 		const [match] = Editor.nodes(editor, {
 		    match: n => n.type === format,
