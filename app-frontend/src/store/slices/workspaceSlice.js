@@ -270,7 +270,7 @@ const workspaceSlice = createSlice({
 			}).matches[0];
 			state.inspectedDocRow = selRow;
 		},
-		setWorkingDoc(state, action) {
+		updateWorkingDoc(state, action) {
 			const {id, newDoc} = action.payload;
 			state.docCache[id] = {ops:newDoc};
 			state.changedFiles[id] = {lastModified: Date.now(), locked: false};
@@ -366,7 +366,7 @@ export const {
 	switchSplitDocumentComplete, 
 	inspectDocument,
 	createNewDocument,
-	setWorkingDoc,
+	updateWorkingDoc,
 	updateDocTreeComplete,
 	addProjectTag,
 	updateProjectThreads,
@@ -617,16 +617,6 @@ export const importFiles = (interfaceObj) => async (dispatch, getState) => {
 		}
 		dispatch(updateDocTree(docTree, interfaceObj));
 		dispatch(sendMessage({message: "Import complete!", status: "okay"}));
-	} catch (err) {
-		console.error(err);
-		dispatch(sendMessage({message: "An error occurred: " + err.message, status: "error"}));
-	}
-}
-
-//Might regret this one later...
-export const updateWorkingDoc = (id, newDoc) => async (dispatch, getState) => {
-	try {
-		dispatch(setWorkingDoc({id, newDoc}));
 	} catch (err) {
 		console.error(err);
 		dispatch(sendMessage({message: "An error occurred: " + err.message, status: "error"}));
