@@ -22,7 +22,7 @@ const EditorDisplay = (props) => {
 				{{
 		          	"editor": (
 		          		<MultiDocSlate 
-							doc = {props.docCache[props.curDocId]}
+							//doc = {props.docCache[props.curDocId]}
 							docSet = {props.docCache}
 							docList = {props.curDocList}
 							docId = {props.curDocId}

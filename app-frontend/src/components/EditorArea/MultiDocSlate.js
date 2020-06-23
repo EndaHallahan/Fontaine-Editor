@@ -17,11 +17,13 @@ class MultiDocSlate extends Component {
 		this.touchToolbar = this.touchToolbar.bind(this);
 	}
 	setActiveEditor(id) {
-		this.setState({
-			...this.state,
-			activeEditor: id
-		});
-		this.props.inspectDoc(id);
+		if (id !== this.state.activeEditor) {
+			this.setState({
+				...this.state,
+				activeEditor: id
+			});
+			this.props.inspectDoc(id);
+		}
 	}
 	createHoistedEditor(id, editor) {
 		this.editors[id] = editor;
@@ -52,11 +54,10 @@ class MultiDocSlate extends Component {
 						this.props.docList.map((id, i) => {
 							return(
 								<SlateInstance
-									createHoistedEditor = {this.createHoistedEditor}
+									createHoistedEditor={this.createHoistedEditor}
 									key = {id}
 									docId = {id}
 									updateDoc = {this.props.updateDoc}
-									queueDocChanges = {this.props.queueDocChanges}
 									value={this.props.docSet[id]}
 									active={id === this.state.activeEditor}
 									setActive={this.setActiveEditor}
