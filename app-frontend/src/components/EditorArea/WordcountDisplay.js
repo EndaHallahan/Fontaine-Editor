@@ -22,7 +22,7 @@ const WordcountDisplay = (props) => {
 	return (
 		<KeyboardFocusableButton
 			onClick={openWordcountsModal}
-			title="Open Document Goals"
+			title="Wordcount Goals"
 		>
 			<span className="wordcount-display">
 				{new Intl.NumberFormat().format(countTotal)}{

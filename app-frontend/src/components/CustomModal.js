@@ -19,9 +19,9 @@ const CustomModal = (props) => {
 	    	<div className="modal-header">
 	    		{props.title}
 	    		<span className="close-button" >
-	      		<KeyboardFocusableButton 
-	       			onClick={props.onRequestClose}
-	       		>
+		      		<KeyboardFocusableButton 
+		       			onClick={props.onRequestClose}
+		       		>
 	       			<Icon icon={xCircle} />
 	     			</KeyboardFocusableButton>
 	     		</span>

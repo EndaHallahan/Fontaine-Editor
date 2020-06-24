@@ -116,15 +116,16 @@ function getMetadataFields(tagList) {
 	return fields;
 }
 
-function regenIndex(docIndex, documents, projectTags, threads, wordcounts, manuscriptGoal, lastDocument) {
+function regenIndex(state) {
 	let newIndex = {
-		...docIndex,
-		documents,
-		projectTags,
-		threads,
-		wordcounts,
-		manuscriptGoal,
-		lastDocument
+		...state.docIndex,
+		documents: state.docTree,
+		projectTags: state.projectTags,
+		threads: state.threads,
+		wordcounts: state.wordcounts,
+		manuscriptGoal: state.manuscriptGoal,
+		sessionGoal: state.sessionGoal,
+		lastDocument: state.curDocId,
 	};
 	return newIndex;
 }
@@ -149,6 +150,18 @@ async function loadInitialState(docIndex, getDoc) {
 	let threads = docIndex.threads || {};
 	let wordcounts = docIndex.wordcounts || {};
 	let manuscriptGoal = docIndex.manuscriptGoal || 0;
+	let sessionGoal = {};
+	if (docIndex.sessionGoal) {
+		sessionGoal = {
+			start: docIndex.sessionGoal.start || Object.values(wordcounts).reduce((a, b) => a + b, 0) || 0,
+			goal: docIndex.sessionGoal.goal || 0,
+		}
+	} else {
+		sessionGoal = {
+			start: 0,
+			goal: 0,
+		}
+	}
 	if (curDocId !== null) {
 		[
 			curDocList,
@@ -201,6 +214,7 @@ async function loadInitialState(docIndex, getDoc) {
 		threads,
 		wordcounts,
 		manuscriptGoal,
+		sessionGoal,
 		loaded: true
 	};
 }
@@ -223,6 +237,7 @@ const initialState = {
 	wordcounts: {},
 	changedFiles: {},
 	manuscriptGoal: 0,
+	sessionGoal: {},
 	autoSaving: true,
 }
 
@@ -246,6 +261,7 @@ const workspaceSlice = createSlice({
 			state.threads = newState.threads;
 			state.wordcounts = newState.wordcounts;
 			state.manuscriptGoal = newState.manuscriptGoal;
+			state.sessionGoal = newState.sessionGoal;
 			state.loaded = newState.loaded;
 		},
 		switchDocumentComplete(state, action) {
@@ -367,7 +383,17 @@ const workspaceSlice = createSlice({
 			const {wordcount} = action.payload;
 			state.manuscriptGoal = wordcount;
 			state.changedFiles.index = {lastModified: Date.now(), locked: false};
-		}
+		},
+		setSessionGoal(state, action) {
+			const {wordcount} = action.payload;
+			state.sessionGoal.goal = wordcount;
+			state.changedFiles.index = {lastModified: Date.now(), locked: false};
+		},
+		resetSessionGoal(state, action) {
+			const {totalcount} = action.payload;
+			state.sessionGoal.start = totalcount;
+			state.changedFiles.index = {lastModified: Date.now(), locked: false};
+		},
 	}
 });
 
@@ -388,6 +414,8 @@ export const {
 	unlockChangedFile,
 	setWordcount,
 	setManuscriptGoal,
+	setSessionGoal,
+	resetSessionGoal,
  } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;
@@ -521,15 +549,7 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 					return;
 				}
 				if (key === "index") {
-					let newIndex = regenIndex(
-						state.docIndex, 
-						state.docTree, 
-						state.projectTags, 
-						state.threads, 
-						state.wordcounts,
-						state.manuscriptGoal,
-						state.curDocId
-					);
+					let newIndex = regenIndex(state);
 					err = await interfaceObj.saveIndex(newIndex);
 				} else {
 					err = await interfaceObj.saveDocument(key, docCache[key]);
@@ -580,15 +600,7 @@ export const saveSingleDocument = (key, interfaceObj) => async (dispatch, getSta
 		let err = "";
 		dispatch(sendMessage({message: "Autosaving...", status: "loading"}));
 		if (key === "index") {
-			let newIndex = regenIndex(
-				state.docIndex, 
-				state.docTree, 
-				state.projectTags, 
-				state.threads, 
-				state.wordcounts,
-				state.manuscriptGoal,
-				state.curDocId
-			);
+			let newIndex = regenIndex(state);
 			err = await interfaceObj.saveIndex(newIndex);
 		} else {
 			err = await interfaceObj.saveDocument(key, docCache[key]);

@@ -5,6 +5,8 @@ import { changeNodeAtPath } from 'react-sortable-tree';
 import { 
 	updateDocTree,
 	setManuscriptGoal,
+	setSessionGoal,
+	resetSessionGoal,
 } from "../../store/slices/workspaceSlice";
 import { Input } from "../StatefulInputs"; 
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
@@ -17,6 +19,7 @@ const WordcountsModal = (props) => {
 	const curDocRow = useSelector(state => state.workspaceReducer.curDocRow);
 	const wordcounts = useSelector(state => state.workspaceReducer.wordcounts);
 	const manuscriptGoal = useSelector(state => state.workspaceReducer.manuscriptGoal);
+	const sessionGoal = useSelector(state => state.workspaceReducer.sessionGoal);
 
 	let countTotal = 0;
 	curDocList.forEach(docId => {
@@ -24,11 +27,7 @@ const WordcountsModal = (props) => {
 		countTotal += wc;
 	});
 
-	let manuscriptTotal = 0;
-	Object.keys(wordcounts).forEach(docId => {
-		const wc = wordcounts[docId] || 0;
-		manuscriptTotal += wc;
-	});
+	let manuscriptTotal = Object.values(wordcounts).reduce((a, b) => a + b, 0);
 
 	const updateTree = (treeData) => {
 		dispatch(updateDocTree(treeData, props.documentInterface));
@@ -36,6 +35,14 @@ const WordcountsModal = (props) => {
 
 	const updateManuscriptGoal = (wordcount) => {
 		dispatch(setManuscriptGoal({wordcount}));
+	}
+
+	const updateSessionGoal = (wordcount) => {
+		dispatch(setSessionGoal({wordcount}));
+	}
+
+	const resetSession = () => {
+		dispatch(resetSessionGoal({totalcount: manuscriptTotal}));
 	}
 
 	const replaceCurRow = (newRow) => {
@@ -66,18 +73,23 @@ const WordcountsModal = (props) => {
 	        		Session:
 		        		<Input
 		        			type="number"
-							value={curDocRow.node.wordcountGoal || 0}
+							value={sessionGoal.goal || 0}
 							onChange={(e) => {
 								let val = e.target.value;
-								console.log(val)
 								if (val >= 0) {
-									let newRow = {...curDocRow.node, wordcountGoal: val};
-									replaceCurRow(newRow);
+									updateSessionGoal(val);
 								}
 							}}
 						/>
 					</label>
-					<progress /*value={countTotal / curDocRow.node.wordcountGoal}*/ />
+					<KeyboardFocusableButton 
+		       			onClick={resetSession}
+		       		>Reset</KeyboardFocusableButton>
+					<progress value={
+						sessionGoal.goal
+						? (manuscriptTotal - sessionGoal.start) / sessionGoal.goal
+						: 0
+					} />
 				</div>
 	        	<div>
 	        		<label className="inline">
@@ -87,7 +99,6 @@ const WordcountsModal = (props) => {
 							value={curDocRow.node.wordcountGoal || 0}
 							onChange={(e) => {
 								let val = e.target.value;
-								console.log(val)
 								if (val >= 0) {
 									let newRow = {...curDocRow.node, wordcountGoal: val};
 									replaceCurRow(newRow);
@@ -95,7 +106,11 @@ const WordcountsModal = (props) => {
 							}}
 						/>
 					</label>
-					<progress value={countTotal / curDocRow.node.wordcountGoal} />
+					<progress value={
+						curDocRow.node.wordcountGoal
+						? countTotal / curDocRow.node.wordcountGoal
+						: 0
+					} />
 				</div>
 				<div>
 	        		<label className="inline">
@@ -111,7 +126,11 @@ const WordcountsModal = (props) => {
 							}}
 						/>
 					</label>
-					<progress value={manuscriptTotal / manuscriptGoal} />
+					<progress value={
+						manuscriptGoal
+						? manuscriptTotal / manuscriptGoal
+						: 0
+					} />
 				</div>
         	</div>
         </CustomSubwindow>
