@@ -5,11 +5,13 @@ import { closeModal } from "../store/slices/modalSlice";
 import SettingsModal from "./SettingsModal";
 import ThemesModal from "./ThemesModal";
 import ThreadsModal from "./ThreadsModal";
+import WordcountsModal from "./WordcountsModal";
 
 const modalComponents = {
     SettingsModal,
     ThemesModal,
-    ThreadsModal
+    ThreadsModal,
+    WordcountsModal,
 };
 
 const ModalHandler = (props) => {

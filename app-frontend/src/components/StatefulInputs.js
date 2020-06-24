@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
 
-/*import ReactTagInput from "@pathofdev/react-tag-input";
-import "@pathofdev/react-tag-input/build/index.css";*/
-
-
-//import 'react-tagsinput/react-tagsinput.css'
-
 class Input extends Component {
 	constructor(props) {
 		super(props);

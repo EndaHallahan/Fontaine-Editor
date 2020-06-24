@@ -26,6 +26,7 @@ const EditorDisplay = (props) => {
 							docSet = {props.docCache}
 							docList = {props.curDocList}
 							docId = {props.curDocId}
+							curDocRow={props.curDocRow}
 							updateDoc = {props.updateDoc}
 							inspectDoc={props.inspectDoc}
 							history={props.history}

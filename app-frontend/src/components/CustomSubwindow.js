@@ -42,6 +42,7 @@ const styleOverrides = {
 };
 
 const CustomSubwindow = (props) => {
+	const {title, contentLabel, modalClass, onRequestClose, onAfterOpen, children, ...childProps} = props;
 	return(
 		<Modal
 			isOpen={true}
@@ -53,23 +54,23 @@ const CustomSubwindow = (props) => {
 	    		bounds="body"
 	    	>
 	    	<div 
-	    		className={"subwindow " + props.modalClass || null} 
-	    		{...props}
+	    		className={"subwindow " + modalClass || null} 
+	    		{...childProps}
 	    		
 	    	>
 	    	<div className="modal-header">
-	    		{props.title}
+	    		{title}
 	    		<span className="close-button" >
 	      		<KeyboardFocusableButton 
-	       			onClick={props.onRequestClose}
+	       			onClick={onRequestClose}
 	       		>
 	       			<Icon icon={xCircle} />
 	     			</KeyboardFocusableButton>
 	     		</span>
 	    	</div>
-	    	<div class="modal-body">
-	   			{props.children}
-	   		</div>
+		    	<div className="modal-body">
+		   			{children}
+		   		</div>
 	   		</div>
 	   		</Draggable>
 	    </Modal>
