@@ -4,6 +4,7 @@ import { changeNodeAtPath } from 'react-sortable-tree';
 
 import { 
 	updateDocTree,
+	setManuscriptGoal,
 } from "../../store/slices/workspaceSlice";
 import { Input } from "../StatefulInputs"; 
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
@@ -15,6 +16,7 @@ const WordcountsModal = (props) => {
 	const docTree = useSelector(state => state.workspaceReducer.docTree);
 	const curDocRow = useSelector(state => state.workspaceReducer.curDocRow);
 	const wordcounts = useSelector(state => state.workspaceReducer.wordcounts);
+	const manuscriptGoal = useSelector(state => state.workspaceReducer.manuscriptGoal);
 
 	let countTotal = 0;
 	curDocList.forEach(docId => {
@@ -22,12 +24,21 @@ const WordcountsModal = (props) => {
 		countTotal += wc;
 	});
 
+	let manuscriptTotal = 0;
+	Object.keys(wordcounts).forEach(docId => {
+		const wc = wordcounts[docId] || 0;
+		manuscriptTotal += wc;
+	});
+
 	const updateTree = (treeData) => {
 		dispatch(updateDocTree(treeData, props.documentInterface));
 	}
 
+	const updateManuscriptGoal = (wordcount) => {
+		dispatch(setManuscriptGoal({wordcount}));
+	}
+
 	const replaceCurRow = (newRow) => {
-		console.log("CHANGING 1")
 		let modifiedTree = changeNodeAtPath({
 			treeData: docTree,
 			path: curDocRow.path,
@@ -55,7 +66,7 @@ const WordcountsModal = (props) => {
 	        		Session:
 		        		<Input
 		        			type="number"
-							/*value={curDocRow.node.wordcountGoal || 0}
+							value={curDocRow.node.wordcountGoal || 0}
 							onChange={(e) => {
 								let val = e.target.value;
 								console.log(val)
@@ -63,7 +74,7 @@ const WordcountsModal = (props) => {
 									let newRow = {...curDocRow.node, wordcountGoal: val};
 									replaceCurRow(newRow);
 								}
-							}}*/
+							}}
 						/>
 					</label>
 					<progress /*value={countTotal / curDocRow.node.wordcountGoal}*/ />
@@ -91,18 +102,16 @@ const WordcountsModal = (props) => {
 	        		Manuscript:
 		        		<Input
 		        			type="number"
-							/*value={curDocRow.node.wordcountGoal || 0}
+							value={manuscriptGoal || 0}
 							onChange={(e) => {
 								let val = e.target.value;
-								console.log(val)
 								if (val >= 0) {
-									let newRow = {...curDocRow.node, wordcountGoal: val};
-									replaceCurRow(newRow);
+									updateManuscriptGoal(val);
 								}
-							}}*/
+							}}
 						/>
 					</label>
-					<progress /*value={countTotal / curDocRow.node.wordcountGoal}*/ />
+					<progress value={manuscriptTotal / manuscriptGoal} />
 				</div>
         	</div>
         </CustomSubwindow>

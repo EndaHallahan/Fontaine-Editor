@@ -116,13 +116,14 @@ function getMetadataFields(tagList) {
 	return fields;
 }
 
-function regenIndex(docIndex, documents, projectTags, threads, wordcounts, lastDocument) {
+function regenIndex(docIndex, documents, projectTags, threads, wordcounts, manuscriptGoal, lastDocument) {
 	let newIndex = {
 		...docIndex,
 		documents,
 		projectTags,
 		threads,
 		wordcounts,
+		manuscriptGoal,
 		lastDocument
 	};
 	return newIndex;
@@ -147,6 +148,7 @@ async function loadInitialState(docIndex, getDoc) {
 	let metadataFields = getMetadataFields(projectTags);
 	let threads = docIndex.threads || {};
 	let wordcounts = docIndex.wordcounts || {};
+	let manuscriptGoal = docIndex.manuscriptGoal || 0;
 	if (curDocId !== null) {
 		[
 			curDocList,
@@ -198,6 +200,7 @@ async function loadInitialState(docIndex, getDoc) {
 		metadataFields,
 		threads,
 		wordcounts,
+		manuscriptGoal,
 		loaded: true
 	};
 }
@@ -219,6 +222,7 @@ const initialState = {
 	threads: [],
 	wordcounts: {},
 	changedFiles: {},
+	manuscriptGoal: 0,
 	autoSaving: true,
 }
 
@@ -241,6 +245,7 @@ const workspaceSlice = createSlice({
 			state.metadataFields = newState.metadataFields;
 			state.threads = newState.threads;
 			state.wordcounts = newState.wordcounts;
+			state.manuscriptGoal = newState.manuscriptGoal;
 			state.loaded = newState.loaded;
 		},
 		switchDocumentComplete(state, action) {
@@ -356,7 +361,13 @@ const workspaceSlice = createSlice({
 		setWordcount(state, action) {
 			const {id, wordcount} = action.payload;
 			state.wordcounts[id] = wordcount;
+			state.changedFiles.index = {lastModified: Date.now(), locked: false};
 		},
+		setManuscriptGoal(state, action) {
+			const {wordcount} = action.payload;
+			state.manuscriptGoal = wordcount;
+			state.changedFiles.index = {lastModified: Date.now(), locked: false};
+		}
 	}
 });
 
@@ -376,6 +387,7 @@ export const {
 	lockChangedFile,
 	unlockChangedFile,
 	setWordcount,
+	setManuscriptGoal,
  } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;
@@ -515,6 +527,7 @@ export const saveAllChanges = (interfaceObj) => async (dispatch, getState) => {
 						state.projectTags, 
 						state.threads, 
 						state.wordcounts,
+						state.manuscriptGoal,
 						state.curDocId
 					);
 					err = await interfaceObj.saveIndex(newIndex);
@@ -573,6 +586,7 @@ export const saveSingleDocument = (key, interfaceObj) => async (dispatch, getSta
 				state.projectTags, 
 				state.threads, 
 				state.wordcounts,
+				state.manuscriptGoal,
 				state.curDocId
 			);
 			err = await interfaceObj.saveIndex(newIndex);
