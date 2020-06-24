@@ -11,7 +11,8 @@ import {
 	inspectDocument,
 	switchSplitDocument,
 	createNewDocument, 
-	updateDocTree 
+	updateDocTree,
+	updateWordcount,
 } from "../../store/slices/workspaceSlice";
 import { updateHistory } from "../../store/slices/historySlice";
 import { 
@@ -63,7 +64,8 @@ const SplitWindow = (props) => {
 	}
 
 	const updateDoc = (id, newDoc) => {
-		dispatch(updateWorkingDoc({id, newDoc}))
+		dispatch(updateWorkingDoc({id, newDoc}));
+		dispatch(updateWordcount(id, newDoc));
 	};
 	const inspectDoc = (id) => {dispatch(inspectDocument({id: id}))}
 

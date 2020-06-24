@@ -7,8 +7,8 @@ const EditorFooter = (props) => {
 	return(
 		<div className="editor-area-footer editor-footer">
 			<span></span>
-			<span><WordcountDisplay docList={props.docList}/></span>
-			<span><ModeSelector split={props.split}/></span>
+			<span><WordcountDisplay docList={props.docList} split={props.split} /></span>
+			<span><ModeSelector split={props.split} /></span>
 		</div>
 	);
 }

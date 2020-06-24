@@ -7,7 +7,9 @@ import KeyboardFocusableButton from "../KeyboardFocusableButton";
 const WordcountDisplay = (props) => {
 	const dispatch = useDispatch();
 	const wordcounts = useSelector(state => state.workspaceReducer.wordcounts);
-	const curDocRow = useSelector(state => state.workspaceReducer.curDocRow);
+	const curDocRow = props.split 
+		? useSelector(state => state.workspaceReducer.splitDocRow)
+		: useSelector(state => state.workspaceReducer.curDocRow);
 
 	const openWordcountsModal = () => {
 		dispatch(openModal({modalType: "WordcountsModal", modalProps: null}));
