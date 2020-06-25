@@ -52,15 +52,14 @@ const DocumentGoalModal = (props) => {
           	contentLabel="Document Goal Popup"
           	title="Document Goal"
           	style={{
-          		width: "20rem",
-          		height: "auto",
+          		width: "15rem",
+          		height: "5rem",
           	}}
         >
         	<div class="wordcounts-modal">
 	        	<div>
-	        		<label className="inline">
-	        			{selRow.node.title}:
-		        		<Input
+        			<div>
+	        			<Input
 		        			type="number"
 							value={selRow.node.wordcountGoal || 0}
 							onChange={(e) => {
@@ -70,13 +69,8 @@ const DocumentGoalModal = (props) => {
 									replaceCurRow(newRow);
 								}
 							}}
-						/>
-					</label>
-					{/*<progress value={
-						curDocRow.node.wordcountGoal
-						? countTotal / curDocRow.node.wordcountGoal
-						: 0
-					} />*/}
+						/> words
+					</div>
 				</div>
         	</div>
         </CustomSubwindow>

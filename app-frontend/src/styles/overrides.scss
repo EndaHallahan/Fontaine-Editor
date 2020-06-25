@@ -154,3 +154,25 @@ select {
 		}
 	}
 }
+
+progress {
+   appearance: none;
+   height: .5rem;
+   vertical-align: middle;
+   border: none;
+}
+
+progress[value]::-webkit-progress-bar {
+	background-color: var(--dropdown-colour);
+	border-radius: 30px;
+}
+
+progress[value]::-webkit-progress-value {
+	background-color: var(--accent-colour);
+	border-radius: 30px;
+}
+
+progress[value]::-moz-progress-bar {
+	background-color: var(--accent-colour);
+	border-radius: 30px;
+}

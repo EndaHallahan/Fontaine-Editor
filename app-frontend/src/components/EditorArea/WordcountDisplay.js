@@ -39,7 +39,7 @@ const WordcountDisplay = (props) => {
 			>
 				<span>
 					{new Intl.NumberFormat().format(countTotal)}{
-						docGoal ? " / " + Intl.NumberFormat().format(docGoal) : null
+						docGoal && docGoal !== "0" ? " / " + Intl.NumberFormat().format(docGoal) : null
 					} words
 				</span>
 			</KeyboardFocusableButton>

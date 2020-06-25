@@ -1,0 +1,22 @@
+.wordcounts-modal {
+	padding:  0 .5rem;
+	height: 10rem;
+
+	& > div {
+		margin: .5rem 0;
+
+		button {
+			float: right;
+			margin-top: .3rem;
+		}
+
+		input {
+			display: inline;
+			width: auto;
+		}
+
+		progress {
+			width: 100%;
+		}
+	}
+}

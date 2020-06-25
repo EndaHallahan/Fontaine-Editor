@@ -33,44 +33,21 @@ const WordcountsModal = (props) => {
 	
 	return (
 		<CustomSubwindow
-			modalClass="small"
+			//modalClass="small"
 			onRequestClose={props.onRequestClose}
           	onAfterOpen={props.afterOpenModal}
           	contentLabel="Wordcount Goals Popup"
           	title="Wordcount Goals"
           	style={{
           		width: "20rem",
-          		height: "auto",
+          		height: "14rem",
           	}}
         >
         	<div class="wordcounts-modal">
         		<div>
-	        		<label className="inline">
-	        		Session:
-		        		<Input
-		        			type="number"
-							value={sessionGoal.goal || 0}
-							onChange={(e) => {
-								let val = e.target.value;
-								if (val >= 0) {
-									updateSessionGoal(val);
-								}
-							}}
-						/>
-					</label>
-					<KeyboardFocusableButton 
-		       			onClick={resetSession}
-		       		>Reset</KeyboardFocusableButton>
-					<progress value={
-						sessionGoal.goal
-						? (manuscriptTotal - sessionGoal.start) / sessionGoal.goal
-						: 0
-					} />
-				</div>
-				<div>
-	        		<label className="inline">
 	        		Manuscript:
-		        		<Input
+	        		<div>
+		        		{manuscriptTotal} of <Input
 		        			type="number"
 							value={manuscriptGoal || 0}
 							onChange={(e) => {
@@ -79,13 +56,37 @@ const WordcountsModal = (props) => {
 									updateManuscriptGoal(val);
 								}
 							}}
-						/>
-					</label>
+						/> words
+					</div>
 					<progress value={
 						manuscriptGoal
 						? manuscriptTotal / manuscriptGoal
 						: 0
 					} />
+				</div>
+        		<div>
+	        		Session:
+		       		<div>
+		        		{manuscriptTotal - sessionGoal.start} of <Input
+		        			type="number"
+							value={sessionGoal.goal || 0}
+							onChange={(e) => {
+								let val = e.target.value;
+								if (val >= 0) {
+									updateSessionGoal(val);
+								}
+							}}
+						/> words
+					</div>
+					<progress value={
+						sessionGoal.goal
+						? (manuscriptTotal - sessionGoal.start) / sessionGoal.goal
+						: 0
+					} />
+					<KeyboardFocusableButton 
+		       			onClick={resetSession}
+		       			className="border"
+		       		>Reset Session</KeyboardFocusableButton>
 				</div>
         	</div>
         </CustomSubwindow>
