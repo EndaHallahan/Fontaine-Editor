@@ -53,4 +53,20 @@
 			color: var(--editor-footer-accent-colour);
 		}
 	}
+
+	span.wordcount-display {
+		button {
+			font-size: .7rem;
+		}
+
+		button:last-child {
+			margin-left: .3rem;
+		}
+
+		svg {
+			$dim: .9rem;
+			height: $dim;
+			width: $dim;
+		}
+	}
 }

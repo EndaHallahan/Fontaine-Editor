@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { changeNodeAtPath } from 'react-sortable-tree';
 
 import { 
 	updateDocTree,
@@ -14,24 +13,11 @@ import CustomSubwindow from "../CustomSubwindow";
 
 const WordcountsModal = (props) => {
 	const dispatch = useDispatch();
-	const curDocList = useSelector(state => state.workspaceReducer.curDocList);
-	const docTree = useSelector(state => state.workspaceReducer.docTree);
-	const curDocRow = useSelector(state => state.workspaceReducer.curDocRow);
 	const wordcounts = useSelector(state => state.workspaceReducer.wordcounts);
 	const manuscriptGoal = useSelector(state => state.workspaceReducer.manuscriptGoal);
 	const sessionGoal = useSelector(state => state.workspaceReducer.sessionGoal);
 
-	let countTotal = 0;
-	curDocList.forEach(docId => {
-		const wc = wordcounts[docId] || 0;
-		countTotal += wc;
-	});
-
 	let manuscriptTotal = Object.values(wordcounts).reduce((a, b) => a + b, 0);
-
-	const updateTree = (treeData) => {
-		dispatch(updateDocTree(treeData, props.documentInterface));
-	}
 
 	const updateManuscriptGoal = (wordcount) => {
 		dispatch(setManuscriptGoal({wordcount}));
@@ -44,24 +30,14 @@ const WordcountsModal = (props) => {
 	const resetSession = () => {
 		dispatch(resetSessionGoal({totalcount: manuscriptTotal}));
 	}
-
-	const replaceCurRow = (newRow) => {
-		let modifiedTree = changeNodeAtPath({
-			treeData: docTree,
-			path: curDocRow.path,
-			getNodeKey: ({treeIndex}) => {return treeIndex;},
-			newNode: newRow
-		});
-		updateTree(modifiedTree);
-	}
 	
 	return (
 		<CustomSubwindow
 			modalClass="small"
 			onRequestClose={props.onRequestClose}
           	onAfterOpen={props.afterOpenModal}
-          	contentLabel="Wordcount Goals Popup"
-          	title="Goals"
+          	contentLabel="Project Goals Popup"
+          	title="Project Goals"
           	style={{
           		width: "20rem",
           		height: "auto",
@@ -88,27 +64,6 @@ const WordcountsModal = (props) => {
 					<progress value={
 						sessionGoal.goal
 						? (manuscriptTotal - sessionGoal.start) / sessionGoal.goal
-						: 0
-					} />
-				</div>
-	        	<div>
-	        		<label className="inline">
-	        		Document:
-		        		<Input
-		        			type="number"
-							value={curDocRow.node.wordcountGoal || 0}
-							onChange={(e) => {
-								let val = e.target.value;
-								if (val >= 0) {
-									let newRow = {...curDocRow.node, wordcountGoal: val};
-									replaceCurRow(newRow);
-								}
-							}}
-						/>
-					</label>
-					<progress value={
-						curDocRow.node.wordcountGoal
-						? countTotal / curDocRow.node.wordcountGoal
 						: 0
 					} />
 				</div>

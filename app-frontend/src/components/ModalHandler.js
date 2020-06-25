@@ -6,12 +6,14 @@ import SettingsModal from "./SettingsModal";
 import ThemesModal from "./ThemesModal";
 import ThreadsModal from "./ThreadsModal";
 import WordcountsModal from "./WordcountsModal";
+import DocumentGoalModal from "./DocumentGoalModal";
 
 const modalComponents = {
     SettingsModal,
     ThemesModal,
     ThreadsModal,
     WordcountsModal,
+    DocumentGoalModal,
 };
 
 const ModalHandler = (props) => {

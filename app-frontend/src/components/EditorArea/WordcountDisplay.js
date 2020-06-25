@@ -1,5 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Icon } from '@iconify/react';
+import targetIcon from '@iconify/icons-feather/target';
+
 
 import { openModal } from "../../store/slices/modalSlice";
 import KeyboardFocusableButton from "../KeyboardFocusableButton";
@@ -7,12 +10,14 @@ import KeyboardFocusableButton from "../KeyboardFocusableButton";
 const WordcountDisplay = (props) => {
 	const dispatch = useDispatch();
 	const wordcounts = useSelector(state => state.workspaceReducer.wordcounts);
-	const curDocRow = props.split 
-		? useSelector(state => state.workspaceReducer.splitDocRow)
-		: useSelector(state => state.workspaceReducer.curDocRow);
+	const curDocRow = props.curDocRow;
+	//useSelector(state => props.split ? state.workspaceReducer.splitDocRow : state.workspaceReducer.curDocRow)
 
 	const openWordcountsModal = () => {
 		dispatch(openModal({modalType: "WordcountsModal", modalProps: null}));
+	}
+	const openDocumentGoalModal = () => {
+		dispatch(openModal({modalType: "DocumentGoalModal", modalProps: {docId: curDocRow.node.id}}));
 	}
 
 	const docGoal = curDocRow ? curDocRow.node.wordcountGoal : null;
@@ -22,17 +27,24 @@ const WordcountDisplay = (props) => {
 		countTotal += wc;
 	});
 	return (
-		<KeyboardFocusableButton
-			onClick={openWordcountsModal}
-			title="Wordcount Goals"
-		>
-			<span className="wordcount-display">
-				{new Intl.NumberFormat().format(countTotal)}{
-					docGoal ? " / " + Intl.NumberFormat().format(docGoal) : null
-				} words
-			</span>
-		</KeyboardFocusableButton>
-		
+		<span className="wordcount-display">
+			<KeyboardFocusableButton
+				onClick={openWordcountsModal}
+				title="Project Goals"
+			>
+				<Icon icon={targetIcon} />
+			</KeyboardFocusableButton>
+			<KeyboardFocusableButton
+				onClick={openDocumentGoalModal}
+				title="Document Goal"
+			>
+				<span>
+					{new Intl.NumberFormat().format(countTotal)}{
+						docGoal ? " / " + Intl.NumberFormat().format(docGoal) : null
+					} words
+				</span>
+			</KeyboardFocusableButton>
+		</span>
 	);
 }
 
