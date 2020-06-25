@@ -36,8 +36,8 @@ const WordcountsModal = (props) => {
 			modalClass="small"
 			onRequestClose={props.onRequestClose}
           	onAfterOpen={props.afterOpenModal}
-          	contentLabel="Project Goals Popup"
-          	title="Project Goals"
+          	contentLabel="Wordcount Goals Popup"
+          	title="Wordcount Goals"
           	style={{
           		width: "20rem",
           		height: "auto",

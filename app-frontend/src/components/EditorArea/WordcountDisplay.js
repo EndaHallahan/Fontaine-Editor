@@ -11,7 +11,6 @@ const WordcountDisplay = (props) => {
 	const dispatch = useDispatch();
 	const wordcounts = useSelector(state => state.workspaceReducer.wordcounts);
 	const curDocRow = props.curDocRow;
-	//useSelector(state => props.split ? state.workspaceReducer.splitDocRow : state.workspaceReducer.curDocRow)
 
 	const openWordcountsModal = () => {
 		dispatch(openModal({modalType: "WordcountsModal", modalProps: null}));
@@ -30,7 +29,7 @@ const WordcountDisplay = (props) => {
 		<span className="wordcount-display">
 			<KeyboardFocusableButton
 				onClick={openWordcountsModal}
-				title="Project Goals"
+				title="Wordcount Goals"
 			>
 				<Icon icon={targetIcon} />
 			</KeyboardFocusableButton>
