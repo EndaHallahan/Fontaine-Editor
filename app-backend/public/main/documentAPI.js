@@ -3,6 +3,9 @@ const app = require('electron').app;
 const isDev = require("electron-is-dev");
 const path = require("path");
 
+const runPlugin = require("./pluginVM").runPlugin;
+//console.log(plugin.runPluginScript("compilers/multimarkdown"))
+
 const rfs = require("./native/r-fs");
 
 function getLocation() {
