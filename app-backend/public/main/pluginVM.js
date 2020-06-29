@@ -12,10 +12,10 @@ So, for now, we're using plain ol' vm with the intention to FIX THIS LATER.
 */
 
 async function runPlugin(pluginPath, pluginArgs) {
-	let context = {...pluginArgs, require, result: undefined}
+	let context = {pluginArgs, require, result: undefined}
 	const code = `
 		const plugin = require('../../resources/${pluginPath}')
-		result = plugin.execute();
+		result = plugin.execute(pluginArgs);
 	`;
 	vm.createContext(context);
 	vm.runInContext(code, context);
