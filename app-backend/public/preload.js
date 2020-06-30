@@ -52,6 +52,14 @@ const ipcInterface = {
 			path
 		);
 	},
+
+	runPlugin: async (path, args) => {
+		return await ipcRenderer.invoke(
+			"plugin_api_run",
+			path,
+			args
+		);
+	},
 }
 
 contextBridge.exposeInMainWorld('ipcInterface', ipcInterface);

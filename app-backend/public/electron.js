@@ -6,6 +6,7 @@ const path = require("path");
 const isDev = require("electron-is-dev");
 
 require("./main/documentAPI");
+require("./main/pluginAPI");
 
 let mainWindow;
 

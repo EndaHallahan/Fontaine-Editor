@@ -5,7 +5,7 @@ function execute(args) {
 function compile(docList, options) {
 	let output = "";
 	docList.forEach(doc => {
-		output += docToMMD(doc);
+		output += docToMMD(doc.ops);
 	});
 	return output;
 }

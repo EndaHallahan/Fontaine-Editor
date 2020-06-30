@@ -148,6 +148,29 @@ class Interface {
 			throw err;
 		}
 	}
+	async getCompilerList() {
+		try {
+			const appLoc = await this.getAppLocation();
+			const compilerList = await ipcInterface.listFiles(
+				appLoc + "\\Resources\\Compilers"
+			);
+			return compilerList;
+		} catch(err) {
+			throw err;
+		}
+	}
+	async runCompiler(compilerName, docList, options) {
+		try {
+			const appLoc = await this.getAppLocation();
+			const result = await ipcInterface.runPlugin(
+				appLoc + "\\Resources\\Compilers\\" + compilerName,
+				{docList, options}
+			);
+			return result;
+		} catch(err) {
+			throw err;
+		}
+	}
 }
 
 export default new Interface();

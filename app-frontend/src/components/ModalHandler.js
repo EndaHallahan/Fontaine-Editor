@@ -7,6 +7,7 @@ import ThemesModal from "./ThemesModal";
 import ThreadsModal from "./ThreadsModal";
 import WordcountsModal from "./WordcountsModal";
 import DocumentGoalModal from "./DocumentGoalModal";
+import CompileModal from "./CompileModal";
 
 const modalComponents = {
     SettingsModal,
@@ -14,6 +15,7 @@ const modalComponents = {
     ThreadsModal,
     WordcountsModal,
     DocumentGoalModal,
+    CompileModal,
 };
 
 const ModalHandler = (props) => {

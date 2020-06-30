@@ -121,6 +121,7 @@ class Select extends Component {
 		}
 	}
 	render() {
+		console.log("SELECT RENDERING", this.props.options)
 		return (
 			<select 
 				ref={this.input}
