@@ -162,7 +162,7 @@ class Interface {
 	async runCompiler(compilerName, docList, options) {
 		try {
 			const appLoc = await this.getAppLocation();
-			const result = await ipcInterface.runPlugin(
+			const result = await ipcInterface.runCompile(
 				appLoc + "\\Resources\\Compilers\\" + compilerName,
 				{docList, options}
 			);

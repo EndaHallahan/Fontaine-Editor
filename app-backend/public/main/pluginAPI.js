@@ -4,9 +4,9 @@ const isDev = require("electron-is-dev");
 const path = require("path");
 
 const runPlugin = require("./pluginVM").runPlugin;
-//console.log(runPlugin("compilers/multimarkdown", {docList: testDocs, options: null}))
+const rfs = require("./native/r-fs");
 
-/*function getLocation() {
+function getLocation() {
 	if (!isDev) {
 		return process.argv[1].replace("\\index.ftne", "");
 	} else {
@@ -16,9 +16,31 @@ const runPlugin = require("./pluginVM").runPlugin;
 
 function getAppLocation() {
 	return app.getAppPath();
-}*/
+}
 
 //Args: location, arguments
 ipcMain.handle("plugin_api_run", async (event, ...args) => {
 	return await runPlugin(args[0], args[1])
+});
+
+ipcMain.handle("plugin_api_run_compile", async (event, ...args) => {
+	try {
+		const files = await dialog.showOpenDialog({
+			defaultPath: getLocation(),
+			properties: [
+				"openDirectory",
+				"createDirectory"
+			],
+			buttonLabel: "Compile"
+		});
+		if (!files.canceled) {
+			let dir = files.filePaths[0];
+			const {doc, ext} = await runPlugin(args[0], args[1]);
+			console.log("Compiled to: " + dir + "\\" + "compiled" + ext)
+			let result = rfs.writeFileDirect(dir + "\\" + "compiled" + ext, doc);
+		} 
+		return {ok: true};
+	} catch(err) {
+		return {ok: false, error: err};
+	}
 });

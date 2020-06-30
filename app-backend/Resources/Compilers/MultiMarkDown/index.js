@@ -7,7 +7,7 @@ function compile(docList, options) {
 	docList.forEach(doc => {
 		output += docToMMD(doc.ops);
 	});
-	return output;
+	return {doc: output, ext: ".md"};
 }
 
 function docToMMD(doc) {

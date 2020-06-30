@@ -140,13 +140,25 @@ fn atomic_write(file_loc: String, file_cont: String) -> Result<bool, &'static st
 		Err(_) => Err("Failed to overwrite existing file."),
 	}
 }
-
+//Writes files atomically. JSON ONLY.
 fn write_file(mut cx: FunctionContext) -> JsResult<JsString> {
 	let file_loc = cx.argument::<JsString>(0)?.value();
 	let file_cont = cx.argument::<JsString>(1)?.value();
 	return match atomic_write(file_loc, file_cont) {
 		Ok(_) => Ok(cx.string("")),
 		Err(err) => Ok(cx.string(err))
+	}
+}
+// Directly (un-atomically) writes a file.
+fn write_file_direct(mut cx: FunctionContext) -> JsResult<JsString> {
+	let file_loc = cx.argument::<JsString>(0)?.value();
+	let file_cont = cx.argument::<JsString>(1)?.value();
+	match fs::File::create(file_loc) {
+		Ok(mut file) => match file.write_all(&file_cont.as_bytes()) {
+			Ok(_) => return Ok(cx.string("")),
+			Err(_err) => return Ok(cx.string("Failed to write file."))
+		},
+		Err(_err) => Ok(cx.string("Failed to create file."))
 	}
 }
 
@@ -185,6 +197,7 @@ register_module!(mut cx, {
     cx.export_function("getAsBase64", get_as_base64)?;
     cx.export_function("getAsBin", get_as_bin)?;
     cx.export_function("writeFile", write_file)?;
+    cx.export_function("writeFileDirect", write_file_direct)?;
     cx.export_function("copyFile", copy_file)?;
     cx.export_function("listFiles", list_files)?;
     Ok(())
