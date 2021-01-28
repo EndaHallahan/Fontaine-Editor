@@ -1983,8 +1983,37 @@
     global-tunnel-ng "^2.7.1"
 
 "@fontaine/app-frontend@link:../app-frontend":
-  version "0.0.0"
-  uid ""
+  version "0.1.0"
+  dependencies:
+    "@iconify/icons-feather" "^1.0.9"
+    "@iconify/icons-mdi" "^1.0.103"
+    "@iconify/react" "^1.1.3"
+    "@reduxjs/toolkit" "^1.1.0"
+    "@testing-library/jest-dom" "^4.2.4"
+    "@testing-library/react" "^9.3.2"
+    "@testing-library/user-event" "^7.1.2"
+    lodash "^4.17.15"
+    node-sass "^4.14.1"
+    re-resizable "^6.3.2"
+    react "^16.13.1"
+    react-color "2.17.3"
+    react-custom-scrollbars "^4.2.1"
+    react-dom "^16.13.1"
+    react-draggable "^4.4.2"
+    react-full-screen "^0.2.4"
+    react-hotkeys "^2.0.0"
+    react-menu-list "^6.1.0"
+    react-modal "^3.11.2"
+    react-redux "^7.1.3"
+    react-reorder "^3.0.0-alpha.7"
+    react-scripts "3.4.1"
+    react-sortable-tree "^2.7.1"
+    react-sortable-tree-theme-file-explorer "^2.0.0"
+    react-splitter-layout "^4.0.0"
+    slate "^0.58.0"
+    slate-history "^0.58.3"
+    slate-react "^0.58.1"
+    uuid "^8.0.0"
 
 "@hapi/address@2.x.x":
   version "2.1.4"
@@ -5637,10 +5666,10 @@ electron-to-chromium@^1.3.378, electron-to-chromium@^1.3.413:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.455.tgz#fd65a3f5db6ffa83eb7c84f16ea9b1b7396f537d"
   integrity sha512-4lwnxp+ArqOX9hiLwLpwhfqvwzUHFuDgLz4NTiU3lhygUzWtocIJ/5Vix+mWVNE2HQ9aI1k2ncGe5H/0OktMvA==
 
-electron@9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-9.0.0.tgz#335cd426a8a542ad8d4c96c0c40a8668ab5527b8"
-  integrity sha512-JsaSQNPh+XDYkLj8APtVKTtvpb86KIG57W5OOss4TNrn8L3isC9LsCITwfnVmGIXHhvX6oY/weCtN5hAAytjVg==
+electron@9.4.0:
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-9.4.0.tgz#c3c607e3598226ddbaaff8babcdffa8bb2210936"
+  integrity sha512-hOC4q0jkb+UDYZRy8vrZ1IANnq+jznZnbkD62OEo06nU+hIbp2IrwDRBNuSLmQ3cwZMVir0WSIA1qEVK0PkzGA==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
@@ -12056,7 +12085,6 @@ react@^16.13.1, react@^16.3.0:
 
 "react@link:../app-frontend/node_modules/react":
   version "0.0.0"
-  uid ""
 
 reactcss@^1.2.0:
   version "1.2.3"
@@ -13102,6 +13130,14 @@ slash@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
+
+slate-history@^0.58.3:
+  version "0.58.4"
+  resolved "https://registry.yarnpkg.com/slate-history/-/slate-history-0.58.4.tgz#f24f4745f192e8eb16975037536bdc22f6d1c03b"
+  integrity sha512-QWmVvB02R+Z+I8sC7Hb+27Zqtm1vDt9kulHjmqRk8ixPp7052S04q4WEjNsk0StrgmEOEd+POvzNGfOYELXitw==
+  dependencies:
+    immer "^5.0.0"
+    is-plain-object "^3.0.0"
 
 slate-react@^0.58.1:
   version "0.58.2"
